@@ -1,0 +1,27 @@
+export default defineNuxtConfig({
+  devtools: { enabled: false },
+
+  modules: [
+    "@nuxt/ui",
+    "@nuxt/eslint",
+    "@nuxtjs/google-fonts",
+    "@vueuse/nuxt",
+    "@vueuse/motion/nuxt",
+    "motion-v/nuxt",
+  ],
+
+  colorMode: {
+    preference: "light",
+  },
+
+  googleFonts: {
+    download: true,
+    families: {
+      "Public Sans": [100, 200, 300, 400, 500, 600, 700, 800, 900],
+    },
+  },
+
+  css: ["~/assets/css/main.css"],
+
+  compatibilityDate: "2025-02-28",
+});
