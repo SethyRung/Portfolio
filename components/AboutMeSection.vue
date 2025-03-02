@@ -144,7 +144,7 @@ const skills: {
 
 const downloadFile = async () => {
   try {
-    const response = await $fetch<Blob>("/api/download");
+    const response = await $fetch<Blob>("/files/cv.pdf");
     const url = window.URL.createObjectURL(response);
     const link = document.createElement("a");
     link.href = url;
