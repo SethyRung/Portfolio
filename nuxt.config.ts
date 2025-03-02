@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@vueuse/motion/nuxt",
     "motion-v/nuxt",
+    "@nuxt/image",
   ],
 
   colorMode: {
