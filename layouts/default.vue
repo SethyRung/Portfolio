@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="w-screen min-h-screen max-h-screen overflow-x-hidden overflow-y-auto relative text-neutral-950 font-public-sans"
-  >
+  <div class="text-neutral-950 font-public-sans">
     <HeaderBar />
     <main>
       <slot></slot>

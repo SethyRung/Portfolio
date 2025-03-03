@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="container"
     :class="
       cn(
         'relative grid w-full max-w-full items-center',
@@ -20,7 +21,6 @@
     <div
       v-for="(item, index) in props.logos"
       :key="index"
-      ref="card"
       class="aspect-square p-3 flex justify-center items-center rounded border border-transparent transition-all duration-200 shadow-[2px_2px_5px_rgba(217,251,232,0.5),_3px_3px_10px_rgba(217,251,232,0.5),_6px_6px_20px_rgba(217,251,232,0.1)] dark:shadow-[2px_2px_5px_rgba(31,41,55,0.2),_3px_3px_10px_rgba(31,41,55,0.2),_6px_6px_20px_rgba(31,41,55,0.1)] dark:hover:shadow-[3px_3px_5px_rgba(31,41,55,1),_5px_5px_10px_rgba(31,41,55,1),_10px_10px_20px_rgba(31,41,55,1)] [&>svg]:opacity-75 hover:[&>svg]:opacity-100 [&>svg]:duration-200 [&>svg]:[shape-rendering:geometricPrecision]"
     >
       <slot name="logo" :logo="item" :index="index"></slot>
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-const card = templateRef("card");
+const container = templateRef("container");
 
 type Props = {
   class?: string;
@@ -51,14 +51,17 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 onMounted(() => {
-  card.value?.forEach((el) => {
-    const { isOutside } = useMouseInElement(el);
+  const cards = Array.from(container.value.children) as HTMLDivElement[];
+  cards.forEach((el) => {
+    const { isOutside, sourceType } = useMouseInElement(el);
 
     watch(isOutside, (isOutside) => {
-      if (!isOutside) {
-        el.classList.add("card-raised-big");
-      } else {
-        el.classList.remove("card-raised-big");
+      if (sourceType.value === "mouse") {
+        if (!isOutside) {
+          el.classList.add("card-raised-big");
+        } else {
+          el.classList.remove("card-raised-big");
+        }
       }
     });
   });

@@ -1,10 +1,10 @@
 <template>
-  <section id="about-me" class="@container/wrapper p-4 md:p-12 lg:p-20">
+  <section id="about-me" class="@container/wrapper px-4 md:px-12 lg:px-20">
     <h2
       v-motion-slide-visible-once-left
       class="font-bold text-base text-emerald-500"
     >
-      ../About me
+      ./About me
     </h2>
     <p
       v-motion-fade-visible-once
@@ -144,7 +144,7 @@ const skills: {
 
 const downloadFile = async () => {
   try {
-    const response = await $fetch<Blob>("/api/download");
+    const response = await $fetch<Blob>("/files/cv.pdf");
     const url = window.URL.createObjectURL(response);
     const link = document.createElement("a");
     link.href = url;

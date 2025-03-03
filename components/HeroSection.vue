@@ -1,5 +1,8 @@
 <template>
-  <section class="w-full mx-auto py-24 p-4 md:p-12 lg:p-20 relative">
+  <section
+    id="hero-section"
+    class="w-full mx-auto py-24 p-4 md:p-12 lg:p-20 relative"
+  >
     <div v-motion-slide-bottom class="flex flex-col items-center">
       <h2
         class="my-6 text-[48px] tablet:text-[56px] computer:text-[96px] font-semibold text-center leading-[1.15]"

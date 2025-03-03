@@ -1,75 +1,34 @@
-# Nuxt UI v3 Starter
+# Rung Sethy's Portfolio 🚀
 
-Look at [Nuxt docs](https://nuxt.com/docs/getting-started/introduction) and [Nuxt UI docs](https://ui3.nuxt.dev) to learn more.
+Welcome to my personal portfolio website, built with **Nuxt.js**.  
+This website showcases my skills, projects, and experience as a full-stack developer.
 
-## Setup
+🔗 **Live Website:** [sethyrung.vercel.app](https://sethyrung.vercel.app/)
 
-Make sure to install the dependencies:
+---
 
-```bash
-# npm
-npm install
+## 📌 Features
 
-# pnpm
-pnpm install
+- **Modern UI/UX** – Clean and minimal design for a great user experience.
+- **Responsive Design** – Fully optimized for desktop, tablet, and mobile devices.
+- **Projects Showcase** – Displays my portfolio of work with descriptions and links.
 
-# yarn
-yarn install
+---
 
-# bun
-bun install
-```
+## ⚙️ Tech Stack
 
-## Development Server
+- **Frontend:** Nuxt.js (Vue.js 3)
+- **Styling:** Tailwind CSS, Nuxt UI, Inspira-UI
+- **Deployment:** Vercel
+- **Other Tools:** Git, Figma (for design), etc.
 
-Start the development server on `http://localhost:3000`:
+---
 
-```bash
-# npm
-npm run dev
+## 📬 Contact Me
 
-# pnpm
-pnpm run dev
+If you’d like to connect or collaborate, feel free to reach out:
 
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- **Website:** [sethyrung.vercel.app](https://sethyrung.vercel.app)
+- **Email:** [rungsethyhk@gmail.com](mailto:rungsethyhk@gmail.com)
+- **Telegram:** [https://t.me/sethyrung](https://t.me/sethyrung)
+- **GitHub:** [https://github.com/SethyRung](https://github.com/SethyRung)
