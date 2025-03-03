@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="space-y-8">
     <HeroSection />
     <AboutMeSection />
   </div>

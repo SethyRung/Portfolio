@@ -2,6 +2,15 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+body {
+  width: 100vw;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+}
+
 ::-webkit-scrollbar {
   background-color: transparent;
   height: 0.3em;
