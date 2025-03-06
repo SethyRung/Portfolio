@@ -30,80 +30,15 @@
 <script lang="ts" setup>
 import type { NavigationMenuItem } from "@nuxt/ui";
 
-const headerRef = templateRef("header");
-const { height } = useElementSize(headerRef);
-const { y } = useWindowScroll({
-  behavior: "smooth",
-});
-
-const findOffsetTop = (element: HTMLElement) => {
-  return element.offsetTop - (height.value + 16);
-};
-
-const handleNavigationSelect = (e: CustomEvent) => {
-  isOpen.value = false;
-  items.forEach((item) => {
-    if (item.label === e.detail.originalEvent.srcElement.textContent) {
-      if (!item.value) {
-        y.value = 0;
-        return;
-      }
-      const element = document.getElementById(item.value);
-      if (element) {
-        y.value = findOffsetTop(element);
-      }
-    }
-  });
-};
-
 const isOpen = ref<boolean>(false);
 const items = reactive<NavigationMenuItem[]>([
   {
     label: "Home",
-    value: "hero-section",
-    onSelect: handleNavigationSelect,
+    to: "/",
   },
   {
     label: "About me",
-    value: "about-me",
-    onSelect: handleNavigationSelect,
-  },
-  {
-    label: "Skills",
-    value: "skills",
-    onSelect: handleNavigationSelect,
-  },
-  {
-    label: "Projects",
-    value: "projects",
-    onSelect: handleNavigationSelect,
+    to: "/about-me",
   },
 ]);
-
-onMounted(() => {
-  const elementList = items.map((item, index) => {
-    const element = item.value ? document.getElementById(item.value) : null;
-    const startOfElement = element ? findOffsetTop(element) : undefined;
-    const endOfElement = element ? element.offsetHeight : undefined;
-    return {
-      index: index,
-      startOfElement: startOfElement,
-      endOfElement: endOfElement,
-    };
-  });
-
-  const handleActiveLink = (value: number) => {
-    value = Math.ceil(value);
-    items.forEach((item, index) => {
-      const currentElement = elementList[index];
-      item.active =
-        currentElement.startOfElement !== undefined &&
-        currentElement.endOfElement !== undefined &&
-        currentElement.startOfElement <= value &&
-        value <= currentElement.endOfElement;
-    });
-  };
-
-  watch(y, handleActiveLink, { immediate: true });
-});
 </script>

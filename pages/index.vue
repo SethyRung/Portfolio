@@ -1,10 +1,10 @@
 <template>
   <div class="space-y-8">
     <HeroSection />
-    <AboutMeSection />
+    <SkillSection />
   </div>
 </template>
 <script setup lang="ts">
 import HeroSection from "~/components/HeroSection.vue";
-import AboutMeSection from "~/components/AboutMeSection.vue";
+import SkillSection from "~/components/SkillSection.vue";
 </script>

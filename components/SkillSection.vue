@@ -1,25 +1,18 @@
 <template>
-  <section id="about-me" class="@container/wrapper px-4 md:px-12 lg:px-20">
-    <h2
-      v-motion-slide-visible-once-left
-      class="font-bold text-base text-emerald-500"
+  <section class="@container/wrapper px-4 md:px-12 lg:px-20">
+    <div
+      v-motion-fade-visible-once
+      class="w-fit mx-auto px-2 py-1 text-emerald-400 rounded-full border border-gray-300 flex items-center justify-center gap-2"
     >
-      ./About me
-    </h2>
+      <UIcon name="i-lucide-library" />
+      <h2 class="font-bold bg-gradient-to-r">Skills</h2>
+    </div>
     <p
       v-motion-fade-visible-once
       :delay="300"
-      class="my-4 tablet:my-8 text-center @3xl/wrapper:text-left computer:my-14 @3xl/wrapper:max-w-[488px] tablet:text-xl text-neutral-950"
+      class="mx-auto my-6 text-center computer:my-14 @3xl/wrapper:max-w-[488px] tablet:text-xl text-neutral-950"
     >
-      Hello I’m Sethy. I’m a
-      <TextHighlight
-        :delay="1500"
-        class="bg-gradient-to-r from-emerald-400 to-emerald-400"
-        text-end-color="var(--color-white)"
-      >
-        full-stack web developer
-      </TextHighlight>
-      More than
+      Hello I’m Sethy. I’m a full-stack web developer More than
       <TextHighlight
         :delay="1500"
         class="bg-gradient-to-r from-emerald-400 to-emerald-400"
