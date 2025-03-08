@@ -1,77 +1,100 @@
 <template>
-  <section class="@container/wrapper px-4 md:px-12 lg:px-20">
-    <div
-      v-motion-fade-visible-once
-      class="w-fit mx-auto px-2 py-1 text-emerald-400 rounded-full border border-gray-300 flex items-center justify-center gap-2"
-    >
-      <UIcon name="i-lucide-library" />
-      <h2 class="font-bold bg-gradient-to-r">Skills</h2>
-    </div>
-    <p
-      v-motion-fade-visible-once
-      :delay="300"
-      class="mx-auto my-6 text-center computer:my-14 @3xl/wrapper:max-w-[488px] tablet:text-xl text-neutral-950"
-    >
-      Hello I’m Sethy. I’m a full-stack web developer More than
-      <TextHighlight
-        :delay="1500"
-        class="bg-gradient-to-r from-emerald-400 to-emerald-400"
-        text-end-color="var(--color-white)"
-      >
-        2 years
-      </TextHighlight>
-      experience.
-    </p>
-    <div
-      v-motion-fade-visible-once
-      :delay="300"
-      class="my-6 flex justify-between items-center gap-6 flex-col @3xl/wrapper:flex-row-reverse @3xl/wrapper:items-start relative"
-    >
+  <section class="@container/wrapper">
+    <div class="px-4 md:px-12 lg:px-20">
       <div
-        class="@3xl/wrapper:sticky @3xl/wrapper:top-16 max-w-sm p-4 border border-gray-200 rounded-2xl shadow-sm space-y-2"
+        v-motion-fade-visible-once
+        class="w-fit mx-auto px-2 py-1 text-emerald-400 rounded-full border border-gray-300 flex items-center justify-center gap-2"
       >
-        <NuxtImg
-          src="/images/sethy-profile.jpg"
-          class="w-full max-h-80 @3xl/wrapper:max-h-auto object-cover rounded-xl"
-          loading="lazy"
-        />
-        <ShimmerButton
-          class="w-full mt-4 shadow-2xl"
-          shimmer-size="2px"
-          @click="downloadFile"
-        >
-          <span
-            class="whitespace-pre-wrap flex items-center gap-2 text-sm leading-none tracking-tight text-white"
-          >
-            <UIcon name="i-lucide-download" size="20" />
-            My Resume
-          </span>
-        </ShimmerButton>
+        <UIcon name="i-lucide-library" />
+        <h2 class="font-bold bg-gradient-to-r">Skills</h2>
       </div>
+      <p
+        v-motion-fade-visible-once
+        :delay="300"
+        class="mx-auto my-6 text-center computer:my-14 @3xl/wrapper:max-w-[488px] tablet:text-xl text-neutral-950"
+      >
+        Hello I’m Sethy. I’m a full-stack web developer More than
+        <TextHighlight
+          :delay="1500"
+          class="bg-gradient-to-r from-emerald-400 to-emerald-400"
+          text-end-color="var(--color-white)"
+        >
+          2 years
+        </TextHighlight>
+        experience.
+      </p>
       <div
-        class="grow w-full @3xl/wrapper:max-w-[640px] @5xl/wrapper:max-w-[720px] space-y-8"
+        v-motion-fade-visible-once
+        :delay="300"
+        class="my-6 flex justify-between items-center gap-6 flex-col @3xl/wrapper:flex-row-reverse @3xl/wrapper:items-start relative"
       >
         <div
-          v-for="(skill, index) in skills"
-          :key="skill.title + index"
-          class="w-full space-y-2"
+          class="@3xl/wrapper:sticky @3xl/wrapper:top-16 max-w-sm p-4 border border-gray-200 rounded-2xl shadow-sm space-y-2"
         >
-          <h3 class="font-bold">
-            {{ skill.title }}
-          </h3>
-          <AnimateGrid
-            :logos="skill.icons"
-            class="grid-cols-4 @xl/wrapper:grid-cols-5 @5xl/wrapper:grid-cols-6"
+          <NuxtImg
+            src="/images/sethy-profile.jpg"
+            class="w-full max-h-80 @3xl/wrapper:max-h-auto object-cover rounded-xl"
+            loading="lazy"
+          />
+          <ShimmerButton
+            class="w-full mt-4 shadow-2xl"
+            shimmer-size="2px"
+            @click="downloadFile"
           >
-            <template #logo="{ logo }">
-              <UIcon
-                :name="logo.name"
-                size="40"
-                :style="{ color: logo.color }"
-              />
-            </template>
-          </AnimateGrid>
+            <span
+              class="whitespace-pre-wrap flex items-center gap-2 text-sm leading-none tracking-tight text-white"
+            >
+              <UIcon name="i-lucide-download" size="20" />
+              My Resume
+            </span>
+          </ShimmerButton>
         </div>
+        <div
+          class="grow w-full @3xl/wrapper:max-w-[640px] @5xl/wrapper:max-w-[720px] space-y-8"
+        >
+          <div
+            v-for="(skill, index) in skills"
+            :key="skill.title + index"
+            class="w-full space-y-2"
+          >
+            <h3 class="font-bold">
+              {{ skill.title }}
+            </h3>
+            <AnimateGrid
+              :logos="skill.icons"
+              class="grid-cols-4 @xl/wrapper:grid-cols-5 @5xl/wrapper:grid-cols-6"
+            >
+              <template #logo="{ logo }">
+                <UIcon
+                  :name="logo.name"
+                  size="40"
+                  :style="{ color: logo.color }"
+                />
+              </template>
+            </AnimateGrid>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="px-4 md:px-12 lg:px-20 mt-16">
+      <div v-motion-fade-visible-once class="pb-4 border-b-2 border-gray-300">
+        <div class="flex items-center gap-4">
+          <UIcon name="i-lucide-corner-right-down" class="text-2xl" />
+          <h2 class="font-bold text-4xl">Works</h2>
+        </div>
+      </div>
+      <div
+        v-motion-fade-visible-once
+        class="px-4 py-6 whitespace-nowrap overflow-auto flex justify-between items-center gap-6 border-b border-gray-300 transition-all group hover:bg-black"
+      >
+        <div>
+          <p class="group-hover:text-white">2023 - 2024</p>
+          <p class="text-xs text-gray-500">1 year 2 months</p>
+        </div>
+        <p class="group-hover:text-white">Credit Bureau Cambodia</p>
+        <p class="text-center group-hover:text-white">
+          Full stack developer | Vue & Nuxt & Spring boot
+        </p>
       </div>
     </div>
   </section>
