@@ -1,5 +1,5 @@
 <template>
-  <section class="@container/wrapper">
+  <section class="@container/skill">
     <div class="px-4 md:px-12 lg:px-20">
       <div
         v-motion-fade-visible-once
@@ -11,7 +11,7 @@
       <p
         v-motion-fade-visible-once
         :delay="300"
-        class="mx-auto my-6 text-center computer:my-14 @3xl/wrapper:max-w-[488px] tablet:text-xl text-neutral-950"
+        class="mx-auto my-6 text-center computer:my-14 @3xl/skill:max-w-[488px] tablet:text-xl text-neutral-950"
       >
         Hello I’m Sethy. I’m a full-stack web developer More than
         <TextHighlight
@@ -26,14 +26,14 @@
       <div
         v-motion-fade-visible-once
         :delay="300"
-        class="my-6 flex justify-between items-center gap-6 flex-col @3xl/wrapper:flex-row-reverse @3xl/wrapper:items-start relative"
+        class="my-6 flex justify-between items-center gap-6 flex-col @3xl/skill:flex-row-reverse @3xl/skill:items-start relative"
       >
         <div
-          class="@3xl/wrapper:sticky @3xl/wrapper:top-16 max-w-sm p-4 border border-gray-200 rounded-2xl shadow-sm space-y-2"
+          class="@3xl/skill:sticky @3xl/skill:top-16 max-w-sm p-4 border border-gray-200 rounded-2xl shadow-sm space-y-2"
         >
           <NuxtImg
             src="/images/sethy-profile.jpg"
-            class="w-full max-h-80 @3xl/wrapper:max-h-auto object-cover rounded-xl"
+            class="w-full max-h-80 @3xl/skill:max-h-auto object-cover rounded-xl"
             loading="lazy"
           />
           <ShimmerButton
@@ -50,7 +50,7 @@
           </ShimmerButton>
         </div>
         <div
-          class="grow w-full @3xl/wrapper:max-w-[640px] @5xl/wrapper:max-w-[720px] space-y-8"
+          class="grow w-full @3xl/skill:max-w-[640px] @5xl/skill:max-w-[720px] space-y-8"
         >
           <div
             v-for="(skill, index) in skills"
@@ -62,7 +62,7 @@
             </h3>
             <AnimateGrid
               :logos="skill.icons"
-              class="grid-cols-4 @xl/wrapper:grid-cols-5 @5xl/wrapper:grid-cols-6"
+              class="grid-cols-4 @xl/skill:grid-cols-5 @5xl/skill:grid-cols-6"
             >
               <template #logo="{ logo }">
                 <UIcon
@@ -77,25 +77,23 @@
       </div>
     </div>
     <div class="px-4 md:px-12 lg:px-20 mt-16">
-      <div v-motion-fade-visible-once class="pb-4 border-b-2 border-gray-300">
+      <div v-motion-fade-visible-once class="pb-4 border-b border-gray-300">
         <div class="flex items-center gap-4">
           <UIcon name="i-lucide-corner-right-down" class="text-2xl" />
           <h2 class="font-bold text-4xl">Works</h2>
         </div>
       </div>
-      <div
+      <UTable
         v-motion-fade-visible-once
-        class="px-4 py-6 whitespace-nowrap overflow-auto flex justify-between items-center gap-6 border-b border-gray-300 transition-all group hover:bg-black"
-      >
-        <div>
-          <p class="group-hover:text-white">2023 - 2024</p>
-          <p class="text-xs text-gray-500">1 year 2 months</p>
-        </div>
-        <p class="group-hover:text-white">Credit Bureau Cambodia</p>
-        <p class="text-center group-hover:text-white">
-          Full stack developer | Vue & Nuxt & Spring boot
-        </p>
-      </div>
+        :data="works"
+        :columns="columns"
+        class="flex-1"
+        :ui="{
+          thead: 'hidden',
+          tr: 'transition-all group hover:bg-black',
+          td: 'py-6 text-base text-black group-hover:text-white',
+        }"
+      />
     </div>
   </section>
 </template>
@@ -104,6 +102,7 @@
 import TextHighlight from "@/components/Texts/TextHighlight.vue";
 import AnimateGrid from "@/components/Miscellaneous/AnimateGrid.vue";
 import ShimmerButton from "@/components/Buttons/ShimmerButton.vue";
+import type { TableColumn } from "@nuxt/ui";
 
 const skills: {
   title: string;
@@ -174,4 +173,52 @@ const downloadFile = async () => {
     toast.add({ title: "Download failed", color: "error" });
   }
 };
+
+type Work = {
+  start: Date;
+  end: Date;
+  company: string;
+  role: string;
+};
+
+const columns: TableColumn<Work>[] = [
+  {
+    accessorKey: "duration",
+    header: "Duration",
+    cell: ({ row }) =>
+      h("div", [
+        h(
+          "p",
+          { class: "group-hover:text-white" },
+          `${row.original.start.getFullYear()} - ${
+            isCurrentDate(row.original.end)
+              ? "Present"
+              : row.original.end.getFullYear()
+          }`
+        ),
+        h(
+          "p",
+          { class: "text-xs text-gray-500" },
+          calculateDuration(row.original.start, row.original.end)
+        ),
+      ]),
+  },
+  { accessorKey: "company", header: "Company" },
+  { accessorKey: "role", header: "Role" },
+];
+
+const works = ref<Work[]>([
+  {
+    start: new Date("2023-11-01"),
+    end: new Date("2025-01-01"),
+    company: "Credit Bureau Cambodia",
+    role: "Full stack developer | Vue & Nuxt & Spring boot",
+  },
+  {
+    start: new Date("2025-03-17"),
+    end: new Date(),
+    company: "InnoBlock",
+    role: "Frontend web developer | Vue & Nuxt",
+  },
+]);
 </script>
