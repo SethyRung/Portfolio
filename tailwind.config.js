@@ -13,6 +13,7 @@ module.exports = {
       fontFamily: {
         "public-sans": ["Public_Sans", "sans-serif"],
       },
+
       screens: {
         tablet: "441px",
         computer: "1024px",
