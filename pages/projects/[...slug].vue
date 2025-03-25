@@ -3,6 +3,15 @@
     v-if="page"
     class="nuxt-content max-w-screen py-10 px-4 md:px-12 lg:px-20 overflow-x-auto"
   >
+    <UBadge
+      :label="page.meta.release as string"
+      variant="subtle"
+      class="mb-4"
+    />
+    <h1>{{ page.title }}</h1>
+    <p>{{ page.description }}</p>
+    <NuxtImg :src="page.meta.image as string" />
+    <hr />
     <ContentRenderer :value="page" />
   </article>
 </template>
