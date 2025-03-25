@@ -1,5 +1,8 @@
 <template>
-  <article v-if="page" class="nuxt-content py-10 px-4 md:px-12 lg:px-20">
+  <article
+    v-if="page"
+    class="nuxt-content max-w-screen py-10 px-4 md:px-12 lg:px-20 overflow-x-auto"
+  >
     <ContentRenderer :value="page" />
   </article>
 </template>
