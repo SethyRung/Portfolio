@@ -1,10 +1,12 @@
 <template>
   <div class="space-y-8">
     <HeroSection />
-    <AboutMeSection />
+    <SkillSection />
+    <ProjectSection />
   </div>
 </template>
 <script setup lang="ts">
 import HeroSection from "~/components/HeroSection.vue";
-import AboutMeSection from "~/components/AboutMeSection.vue";
+import SkillSection from "~/components/SkillSection.vue";
+import ProjectSection from "~/components/ProjectSection.vue";
 </script>
