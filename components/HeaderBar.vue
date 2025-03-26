@@ -37,6 +37,11 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
 
 const isOpen = ref<boolean>(false);
+const route = useRoute();
+watch(route, () => {
+  isOpen.value = false;
+});
+
 const items = reactive<NavigationMenuItem[]>([
   {
     label: "Home",
