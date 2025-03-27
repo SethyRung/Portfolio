@@ -1,7 +1,6 @@
 <template>
   <NuxtLink
-    :aria-label="project.name + ' project link'"
-    :to="project.link"
+    :to="project.path"
     class="group relative flex cursor-pointer flex-col gap-1 rounded-lg border border-black/10 bg-zinc-50/80 p-1 shadow-md shadow-zinc-200/50 backdrop-blur-sm"
   >
     <div class="flex gap-1 px-1 py-[2px]">
@@ -17,12 +16,9 @@
     </div>
     <div class="flex h-56 justify-center overflow-hidden rounded-lg">
       <NuxtImg
-        :placeholder="img(`${project.image}`)"
-        width="1536"
-        :alt="project.name + ' project image'"
         class="h-full rounded-lg object-cover transition-all duration-300 hover:scale-105"
+        :alt="project.name"
         :src="project.image"
-        :aria-label="project.name + ' project image'"
       />
     </div>
     <div class="absolute bottom-0 flex w-full justify-center">
@@ -56,11 +52,11 @@
 <script setup lang="ts">
 defineProps<{
   project: {
+    id: string;
     name: string;
     release: string;
     image: string;
-    link: string;
+    path: string;
   };
 }>();
-const img = useImage();
 </script>

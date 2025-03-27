@@ -8,12 +8,7 @@
       <ProjectCard
         v-for="project in projects"
         :key="project.id"
-        :project="{
-          name: project.title,
-          release: project.meta.release as string,
-          image: project.meta.image as string,
-          link: project.path,
-        }"
+        :project="project"
       />
     </div>
   </section>
@@ -22,7 +17,19 @@
 <script lang="ts" setup>
 import ProjectCard from "./Cards/ProjectCard.vue";
 
-const { data: projects } = await useAsyncData(() => {
-  return queryCollection("projects").all();
-});
+const { data: projects } = await useAsyncData(
+  () => {
+    return queryCollection("projects").all();
+  },
+  {
+    transform: (projects) =>
+      projects.map(({ id, title, meta, path }) => ({
+        id,
+        name: title,
+        release: meta.release as string,
+        image: meta.image as string,
+        path,
+      })),
+  }
+);
 </script>
