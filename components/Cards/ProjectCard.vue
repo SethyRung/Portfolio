@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="project.path"
-    class="group relative flex cursor-pointer flex-col gap-1 rounded-lg border border-black/10 bg-zinc-50/80 p-1 shadow-md shadow-zinc-200/50 backdrop-blur-sm"
+    class="group relative flex cursor-pointer flex-col gap-1 rounded-lg border border-black/10 bg-zinc-50/80 p-1 shadow-md shadow-zinc-200/50"
   >
     <div class="flex gap-1 px-1 py-[2px]">
       <div
@@ -23,7 +23,7 @@
     </div>
     <div class="absolute bottom-0 flex w-full justify-center">
       <div
-        class="rounded-t-lg border-x border-t border-black/10 border-b-transparent px-4 py-[5px] shadow-md backdrop-blur-md sm:w-2/3"
+        class="w-2/3 px-4 py-[5px] rounded-t-lg border-x border-t border-black/10 border-b-transparent bg-white shadow-md"
       >
         <div class="flex items-center justify-between gap-2">
           <div class="flex items-center gap-2">
@@ -39,7 +39,7 @@
             </div>
           </div>
           <div
-            class="flex items-center justify-center rounded-full border border-transparent p-1 shadow-md backdrop-blur-md transition-all duration-500 group-hover:-rotate-45 group-hover:border-black/10"
+            class="flex items-center justify-center rounded-full border border-transparent p-1 shadow-md transition-all duration-500 group-hover:-rotate-45 group-hover:border-black/10"
           >
             <UIcon name="heroicons:arrow-right" class="size-3 text-black" />
           </div>
