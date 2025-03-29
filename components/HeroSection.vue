@@ -1,9 +1,12 @@
 <template>
   <section
     id="hero-section"
-    class="w-full mx-auto py-24 p-4 md:p-12 lg:p-20 relative"
+    class="w-full mx-auto mb-24 px-4 md:px-12 md:mb-12 lg:px-20 lg:mb-20 relative"
   >
     <div v-motion-slide-bottom class="flex flex-col items-center">
+      <UButton variant="outline" trailing-icon="i-lucide:chevron-right"
+        >Let's work together
+      </UButton>
       <h2
         class="my-6 text-[48px] tablet:text-[56px] computer:text-[96px] font-semibold text-center leading-[1.15]"
       >
@@ -24,6 +27,7 @@
         </span>
         to process development was enjoyable
       </p>
+
       <div class="mt-6 flex flex-wrap justify-center gap-2">
         <NuxtLink
           v-for="social in socialLink"
@@ -44,7 +48,8 @@
 </template>
 
 <script lang="ts" setup>
-import InteractiveGridPattern from "@/components/Backgrounds/InteractiveGridPattern.vue";
+import InteractiveGridPattern from "~/components/Backgrounds/InteractiveGridPattern.vue";
+
 const socialLink: { title: string; link: string; icon: string }[] = [
   {
     title: "Github",

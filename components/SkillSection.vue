@@ -99,9 +99,9 @@
 </template>
 
 <script lang="ts" setup>
-import TextHighlight from "@/components/Texts/TextHighlight.vue";
-import AnimateGrid from "@/components/Miscellaneous/AnimateGrid.vue";
-import ShimmerButton from "@/components/Buttons/ShimmerButton.vue";
+import TextHighlight from "~/components/Texts/TextHighlight.vue";
+import AnimateGrid from "~/components/Miscellaneous/AnimateGrid.vue";
+import ShimmerButton from "~/components/Buttons/ShimmerButton.vue";
 import type { TableColumn } from "@nuxt/ui";
 
 const skills: {
