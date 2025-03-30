@@ -51,5 +51,9 @@ const items = reactive<NavigationMenuItem[]>([
     label: "About me",
     to: "/about-me",
   },
+  {
+    label: "Contact me",
+    to: "/contact-me",
+  },
 ]);
 </script>
