@@ -29,7 +29,7 @@
         class="my-6 flex justify-between items-center gap-6 flex-col @3xl/skill:flex-row-reverse @3xl/skill:items-start relative"
       >
         <div
-          class="@3xl/skill:sticky @3xl/skill:top-16 max-w-sm p-4 border border-gray-200 rounded-2xl shadow-sm space-y-2"
+          class="@3xl/skill:sticky @3xl/skill:top-16 max-w-sm p-4 border border-gray-200 rounded-2xl space-y-2"
         >
           <NuxtImg
             src="/images/sethy-profile.jpg"
@@ -99,9 +99,9 @@
 </template>
 
 <script lang="ts" setup>
-import TextHighlight from "@/components/Texts/TextHighlight.vue";
-import AnimateGrid from "@/components/Miscellaneous/AnimateGrid.vue";
-import ShimmerButton from "@/components/Buttons/ShimmerButton.vue";
+import TextHighlight from "~/components/Texts/TextHighlight.vue";
+import AnimateGrid from "~/components/Miscellaneous/AnimateGrid.vue";
+import ShimmerButton from "~/components/Buttons/ShimmerButton.vue";
 import type { TableColumn } from "@nuxt/ui";
 
 const skills: {

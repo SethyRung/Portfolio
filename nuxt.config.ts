@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  devtools: { enabled: false },
+  devtools: { enabled: true },
 
   modules: [
     "@nuxt/ui",
@@ -24,6 +24,22 @@ export default defineNuxtConfig({
   },
 
   css: ["~/assets/css/main.css"],
+
+  runtimeConfig: {
+    public: {
+      available: 1,
+    },
+  },
+
+  content: {
+    renderer: {
+      anchorLinks: false,
+    },
+    preview: {
+      api: "https://api.nuxt.studio",
+      dev: true,
+    },
+  },
 
   compatibilityDate: "2025-02-28",
 });
