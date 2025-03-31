@@ -5,12 +5,12 @@
       Let's talk about your ideas, projects or anything else
     </p>
     <div
-      class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 lg:gap-28 justify-self-center"
+      class="grid grid-cols-1 md:grid-cols-[1fr_220px] gap-8 md:gap-16 lg:gap-28 justify-self-center"
     >
       <UForm
         :schema="schema"
         :state="state"
-        class="md:max-w-96 space-y-6"
+        class="md:max-w-lg space-y-6"
         @submit="onSubmit"
       >
         <div class="flex justify-between gap-6">
@@ -59,24 +59,28 @@
           <UTextarea
             v-model="state.message"
             placeholder="Leave your message here"
+            :rows="6"
             class="w-full"
           />
         </UFormField>
 
         <UButton type="submit" size="lg" block> Send message </UButton>
       </UForm>
-      <div>
+      <div class="space-y-8">
         <div>
-          <h3 class="text-lg font-bold">Chat with me</h3>
-          <p class="text-sm text-gray-500">Speak to me via live chat.</p>
-          <div class="mt-2 flex flex-col gap-2">
+          <h3 class="text-lg font-bold text-center md:text-start">
+            Chat with me
+          </h3>
+          <p class="text-sm text-gray-500 text-center md:text-start">
+            Speak to me via live chat.
+          </p>
+          <div class="mt-2 flex justify-center md:flex-col gap-2 [&>*]:w-fit">
             <UButton
               icon="i-simple-icons-telegram"
               label="Telegram"
               variant="ghost"
               color="neutral"
               to="https://t.me/sethyrung"
-              class="w-fit"
             />
             <UButton
               icon="i-simple-icons-messenger"
@@ -84,21 +88,23 @@
               variant="ghost"
               color="neutral"
               to="https://web.facebook.com/Joker.username"
-              class="w-fit"
             />
           </div>
         </div>
-        <div class="mt-8">
-          <h3 class="text-lg font-bold">Call me</h3>
-          <p class="text-sm text-gray-500">Call me Mon-Fri from 8am to 5pm</p>
-          <div class="mt-2 flex flex-col gap-2">
+        <div>
+          <h3 class="text-lg font-bold text-center md:text-start">Call me</h3>
+          <p class="text-sm text-gray-500 text-center md:text-start">
+            Call me Mon-Fri from 8am to 5pm
+          </p>
+          <div
+            class="mt-2 flex flex-wrap md:flex-col justify-center gap-2 [&>*]:w-fit [&>*]:text-xs"
+          >
             <UButton
               icon="i-lucide-phone"
               label="(+855) 97 4588804"
               variant="ghost"
               color="neutral"
               to="tel:+855974588804"
-              class="w-fit"
             />
             <UButton
               icon="i-lucide-phone"
@@ -106,7 +112,6 @@
               variant="ghost"
               color="neutral"
               to="tel:+855964391751"
-              class="w-fit"
             />
           </div>
         </div>
