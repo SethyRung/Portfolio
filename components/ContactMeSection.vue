@@ -146,11 +146,24 @@ const state = reactive<Partial<Schema>>({
 
 const toast = useToast();
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  toast.add({
-    title: "Success",
-    description: "The form has been submitted.",
-    color: "success",
+  const response = await $fetch("/api/send", {
+    method: "POST",
+    body: event.data,
   });
-  console.log(event.data);
+  if (response.error) {
+    toast.add({
+      title: "Failed",
+      description:
+        "Failed to send message. Please check your internet connection and try again.",
+      color: "error",
+    });
+  } else {
+    toast.add({
+      title: "Success",
+      description: "Your message have been sent",
+      color: "success",
+    });
+  }
+  console.log(response);
 }
 </script>

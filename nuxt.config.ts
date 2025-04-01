@@ -29,6 +29,8 @@ export default defineNuxtConfig({
     public: {
       available: 1,
     },
+    resendApiKey: "",
+    email: "",
   },
 
   content: {
