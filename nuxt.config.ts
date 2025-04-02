@@ -26,9 +26,8 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
 
   runtimeConfig: {
-    public: {
-      available: 1,
-    },
+    resendApiKey: "",
+    email: "",
   },
 
   content: {

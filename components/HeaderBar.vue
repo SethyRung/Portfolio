@@ -48,10 +48,6 @@ const items = reactive<NavigationMenuItem[]>([
     to: "/",
   },
   {
-    label: "About me",
-    to: "/about-me",
-  },
-  {
     label: "Contact me",
     to: "/contact-me",
   },
