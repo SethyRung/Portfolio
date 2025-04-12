@@ -3,7 +3,7 @@
     id="hero-section"
     class="w-full mx-auto mb-24 px-4 md:px-12 md:mb-12 lg:px-20 lg:mb-20 relative"
   >
-    <div v-motion-slide-bottom class="flex flex-col items-center">
+    <div class="flex flex-col items-center">
       <UButton
         variant="outline"
         trailing-icon="i-lucide:chevron-right"
@@ -44,7 +44,6 @@
       </div>
     </div>
     <InteractiveGridPattern
-      v-motion-fade
       class="[mask-image:radial-gradient(350px_circle_at_center,white,transparent)] -z-10 inset-0"
     />
   </section>
