@@ -29,7 +29,7 @@
           class="@3xl/skill:sticky @3xl/skill:top-16 max-w-sm p-4 border border-gray-200 rounded-2xl space-y-2"
         >
           <NuxtImg
-            src="/images/sethy-profile.jpg"
+            src="/images/sethy-profile.png"
             class="w-full max-h-80 @3xl/skill:max-h-auto object-cover rounded-xl"
             loading="lazy"
           />
