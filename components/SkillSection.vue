@@ -2,14 +2,12 @@
   <section class="@container/skill">
     <div class="px-4 md:px-12 lg:px-20">
       <div
-        v-motion-fade-visible-once
         class="w-fit mx-auto px-2 py-1 text-emerald-400 rounded-full border border-gray-300 flex items-center justify-center gap-2"
       >
         <UIcon name="i-lucide-library" />
         <h2 class="font-bold bg-gradient-to-r">Skills</h2>
       </div>
       <p
-        v-motion-fade-visible-once
         :delay="300"
         class="mx-auto my-6 text-center computer:my-14 @3xl/skill:max-w-[488px] tablet:text-xl text-neutral-950"
       >
@@ -24,7 +22,6 @@
         experience.
       </p>
       <div
-        v-motion-fade-visible-once
         :delay="300"
         class="my-6 flex justify-between items-center gap-6 flex-col @3xl/skill:flex-row-reverse @3xl/skill:items-start relative"
       >
@@ -32,7 +29,7 @@
           class="@3xl/skill:sticky @3xl/skill:top-16 max-w-sm p-4 border border-gray-200 rounded-2xl space-y-2"
         >
           <NuxtImg
-            src="/images/sethy-profile.jpg"
+            src="/images/sethy-profile.png"
             class="w-full max-h-80 @3xl/skill:max-h-auto object-cover rounded-xl"
             loading="lazy"
           />
@@ -77,14 +74,13 @@
       </div>
     </div>
     <div class="px-4 md:px-12 lg:px-20 mt-16">
-      <div v-motion-fade-visible-once class="pb-4 border-b border-gray-300">
+      <div class="pb-4 border-b border-gray-300">
         <div class="flex items-center gap-4">
           <UIcon name="i-lucide-corner-right-down" class="text-2xl" />
           <h2 class="font-bold text-4xl">Works</h2>
         </div>
       </div>
       <UTable
-        v-motion-fade-visible-once
         :data="works"
         :columns="columns"
         class="flex-1"
@@ -194,12 +190,12 @@ const columns: TableColumn<Work>[] = [
             isCurrentDate(row.original.end)
               ? "Present"
               : row.original.end.getFullYear()
-          }`
+          }`,
         ),
         h(
           "p",
           { class: "text-xs text-gray-500" },
-          calculateDuration(row.original.start, row.original.end)
+          calculateDuration(row.original.start, row.original.end),
         ),
       ]),
   },

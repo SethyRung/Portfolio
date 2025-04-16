@@ -7,9 +7,9 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "@nuxtjs/google-fonts",
     "@vueuse/nuxt",
-    "@vueuse/motion/nuxt",
     "motion-v/nuxt",
     "@nuxt/image",
+    "motion-v/nuxt",
   ],
 
   colorMode: {
