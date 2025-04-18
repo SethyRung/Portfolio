@@ -86,8 +86,7 @@
         class="flex-1"
         :ui="{
           thead: 'hidden',
-          tr: 'transition-all group hover:bg-black',
-          td: 'py-6 text-base text-black group-hover:text-white',
+          td: 'py-6 text-base text-black',
         }"
       />
     </div>
@@ -99,6 +98,7 @@ import TextHighlight from "~/components/Texts/TextHighlight.vue";
 import AnimateGrid from "~/components/Miscellaneous/AnimateGrid.vue";
 import ShimmerButton from "~/components/Buttons/ShimmerButton.vue";
 import type { TableColumn } from "@nuxt/ui";
+import { UIcon, NuxtLink } from "#components";
 
 const skills: {
   title: string;
@@ -173,7 +173,10 @@ const downloadFile = async () => {
 type Work = {
   start: Date;
   end: Date;
-  company: string;
+  company: {
+    logo: string;
+    url: string;
+  };
   role: string;
 };
 
@@ -199,22 +202,37 @@ const columns: TableColumn<Work>[] = [
         ),
       ]),
   },
-  { accessorKey: "company", header: "Company" },
+  {
+    accessorKey: "company",
+    header: "Company",
+    cell: ({ row }) =>
+      h(
+        NuxtLink,
+        { to: row.original.company.url, target: "_blank" },
+        h(UIcon, { name: row.original.company.logo, size: 28 }),
+      ),
+  },
   { accessorKey: "role", header: "Role" },
 ];
 
 const works = ref<Work[]>([
   {
-    start: new Date("2023-11-01"),
-    end: new Date("2025-01-01"),
-    company: "Credit Bureau Cambodia",
-    role: "Full stack developer | Vue & Nuxt & Spring boot",
-  },
-  {
     start: new Date("2025-03-17"),
     end: new Date(),
-    company: "InnoBlock",
+    company: {
+      logo: "i-icons-innoblock",
+      url: "https://www.innoblocktech.com",
+    },
     role: "Frontend web developer | Vue & Nuxt",
+  },
+  {
+    start: new Date("2023-11-01"),
+    end: new Date("2025-01-01"),
+    company: {
+      logo: "i-icons-cbc",
+      url: "https://www.creditbureau.com.kh",
+    },
+    role: "Full stack developer | Vue & Nuxt & Spring boot",
   },
 ]);
 </script>
