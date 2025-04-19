@@ -8,9 +8,21 @@
       variant="subtle"
       class="mb-4"
     />
-    <h1>{{ page.title }}</h1>
+    <div class="mb-4 flex justify-between items-center gap-4 flex-wrap">
+      <h1 class="!mb-0">{{ page.title }}</h1>
+      <UButton
+        v-if="page.meta.url"
+        :to="page.meta.url as string"
+        variant="subtle"
+        size="xs"
+        color="warning"
+      >
+        Explore Now
+      </UButton>
+    </div>
     <p>{{ page.description }}</p>
-    <NuxtImg :src="page.meta.image as string" />
+
+    <NuxtImg :src="page.meta.image as string" class="my-8" />
     <hr />
     <ContentRenderer :value="page" />
   </article>
