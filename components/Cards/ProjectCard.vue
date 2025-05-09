@@ -17,7 +17,7 @@
     <div class="flex h-56 justify-center overflow-hidden rounded-lg">
       <NuxtImg
         class="h-full rounded-lg object-cover transition-all duration-300 hover:scale-105"
-        :alt="project.name"
+        :alt="project.title"
         :src="project.image"
       />
     </div>
@@ -31,7 +31,7 @@
               <span
                 class="whitespace-nowrap text-sm font-semibold text-black/90"
               >
-                {{ project.name }}
+                {{ project.title }}
               </span>
               <span class="whitespace-nowrap text-xs text-neutral-700">
                 {{ project.release === "soon" ? "Soon..." : project.release }}
@@ -50,13 +50,9 @@
 </template>
 
 <script setup lang="ts">
+import type { ProjectsCollectionItem } from "@nuxt/content";
+
 defineProps<{
-  project: {
-    id: string;
-    name: string;
-    release: string;
-    image: string;
-    path: string;
-  };
+  project: ProjectsCollectionItem;
 }>();
 </script>
