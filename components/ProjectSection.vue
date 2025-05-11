@@ -17,19 +17,7 @@
 <script lang="ts" setup>
 import ProjectCard from "./Cards/ProjectCard.vue";
 
-const { data: projects } = await useAsyncData(
-  () => {
-    return queryCollection("projects").all();
-  },
-  {
-    transform: (projects) =>
-      projects.map(({ id, title, meta, path }) => ({
-        id,
-        name: title,
-        release: meta.release as string,
-        image: meta.image as string,
-        path,
-      })),
-  }
-);
+const { data: projects } = await useAsyncData(() => {
+  return queryCollection("projects").all();
+});
 </script>
