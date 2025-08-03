@@ -1,7 +1,7 @@
 <template>
   <article
     v-if="page"
-    class="nuxt-content max-w-screen py-10 px-4 md:px-12 lg:px-20 overflow-x-auto"
+    class="content max-w-screen py-10 px-4 md:px-12 lg:px-20 overflow-x-auto"
   >
     <UBadge :label="page.release as string" variant="subtle" class="mb-4" />
     <div class="mb-4 flex justify-between items-center gap-4 flex-wrap">
