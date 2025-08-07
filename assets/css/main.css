@@ -63,7 +63,7 @@ body {
   scrollbar-width: none; /* Firefox */
 }
 
-.nuxt-content {
+.content {
   h1 {
     @apply text-4xl text-(--ui-text-highlighted) font-bold mb-8 scroll-mt-[calc(45px+var(--ui-header-height))] lg:scroll-mt-(--ui-header-height);
   }
@@ -93,7 +93,7 @@ body {
     @apply font-mono text-sm/6 border border-(--ui-border-muted) bg-(--ui-bg-muted) rounded-[calc(var(--ui-radius)*1.5)] px-4 py-3 whitespace-pre-wrap break-words overflow-x-auto focus:outline-none;
   }
 
-  code {
+  code:not(pre code) {
     @apply px-1.5 py-0.5 text-sm font-mono font-medium rounded-[calc(var(--ui-radius)*1.5)] inline-block border border-(--ui-border-muted) text-(--ui-text-highlighted) bg-(--ui-bg-muted);
   }
 
@@ -103,6 +103,23 @@ body {
 
   ol {
     @apply list-decimal ps-6 my-5;
+  }
+
+  ul[data-type="taskList"] {
+    @apply list-none p-0 my-5 marker:text-(--ui-border-accented);
+  }
+
+  li div {
+    @apply inline-block px-2;
+  }
+
+  li p {
+    @apply my-0;
+  }
+
+  li[data-checked="true"] p,
+  li[data-checked="true"] a {
+    @apply line-through opacity-60 border-0;
   }
 
   li {
