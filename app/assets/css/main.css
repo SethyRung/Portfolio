@@ -1,6 +1,6 @@
-@config "../../tailwind.config.js";
 @import "tailwindcss";
 @import "@nuxt/ui";
+@config "../../../tailwind.config.js";
 
 html {
   scroll-behavior: smooth;

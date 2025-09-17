@@ -1,6 +1,5 @@
 import { setupInspiraUI } from "@inspira-ui/plugins";
 import animate from "tailwindcss-animate";
-import nuxtUI from "@nuxt/ui";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -32,5 +31,5 @@ module.exports = {
       },
     },
   },
-  plugins: [animate, setupInspiraUI, nuxtUI],
+  plugins: [animate, setupInspiraUI],
 };
