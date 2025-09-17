@@ -1,5 +1,11 @@
+import tailwindcss from "@tailwindcss/vite";
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
+
+  future: {
+    compatibilityVersion: 4,
+  },
 
   modules: [
     "@nuxt/ui",
@@ -12,6 +18,10 @@ export default defineNuxtConfig({
     "motion-v/nuxt",
   ],
 
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
   colorMode: {
     preference: "light",
   },
@@ -23,7 +33,7 @@ export default defineNuxtConfig({
     },
   },
 
-  css: ["~/assets/css/main.css"],
+  css: ["~/app/assets/css/main.css"],
 
   runtimeConfig: {
     resendApiKey: "",
