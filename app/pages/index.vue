@@ -3,5 +3,6 @@
 <template>
   <div class="min-h-screen">
     <SectionHero />
+    <SectionAbout />
   </div>
 </template>

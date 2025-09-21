@@ -86,8 +86,8 @@ const scrollToTop = () => {
             <ul class="space-y-2">
               <li v-for="item in navigation.main" :key="item.name">
                 <button
-                  @click="scrollToSection(item.href)"
                   class="text-sm text-toned hover:text-default transition-colors"
+                  @click="scrollToSection(item.href)"
                 >
                   {{ item.name }}
                 </button>

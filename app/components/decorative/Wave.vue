@@ -1,22 +1,18 @@
-<script setup lang="ts"></script>
-
 <template>
-  <svg
-    className="absolute pointer-events-none"
-    viewBox="0 0 200 100"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg viewBox="0 0 100 50" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
-      d="M0,50 Q50,20 100,50 T200,50 L200,100 L0,100 Z"
-      fill="currentColor"
-      className="text-accented opacity-5 dark:opacity-10"
+      d="M0 25 Q25 10 50 25 T100 25"
+      stroke="currentColor"
+      stroke-width="2"
+      fill="none"
+      opacity="0.3"
     />
     <path
-      d="M0,50 Q50,30 100,50 T200,50"
-      fill="none"
+      d="M0 30 Q25 15 50 30 T100 30"
       stroke="currentColor"
-      strokeWidth="1"
-      className="text-muted opacity-25 dark:opacity-40"
+      stroke-width="1"
+      fill="none"
+      opacity="0.5"
     />
   </svg>
 </template>

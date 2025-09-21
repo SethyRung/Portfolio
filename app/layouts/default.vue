@@ -5,7 +5,7 @@
     <AppHeader />
     <ScrollSmootherWrapper>
       <main>
-        <slot />
+        <slot ></slot>
       </main>
       <AppFooter />
     </ScrollSmootherWrapper>

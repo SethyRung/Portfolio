@@ -1,4 +1,7 @@
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export const animateText = (element: HTMLElement, text: string, delay = 0) => {
   const chars = text.split('')

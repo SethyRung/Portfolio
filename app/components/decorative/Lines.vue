@@ -1,24 +1,31 @@
-<script setup lang="ts"></script>
-
 <template>
-  <svg
-    className="absolute pointer-events-none"
-    viewBox="0 0 150 150"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M20 50 Q75 20 130 50 T75 80 T20 50"
-      fill="none"
+  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <line
+      x1="10"
+      y1="30"
+      x2="90"
+      y2="30"
       stroke="currentColor"
-      strokeWidth="1"
-      className="text-muted opacity-25 dark:opacity-40"
+      stroke-width="2"
+      opacity="0.3"
     />
-    <path
-      d="M30 100 Q75 70 120 100"
-      fill="none"
+    <line
+      x1="10"
+      y1="50"
+      x2="90"
+      y2="50"
       stroke="currentColor"
-      strokeWidth="0.5"
-      className="text-toned opacity-15 dark:opacity-30"
+      stroke-width="2"
+      opacity="0.5"
+    />
+    <line
+      x1="10"
+      y1="70"
+      x2="90"
+      y2="70"
+      stroke="currentColor"
+      stroke-width="2"
+      opacity="0.3"
     />
   </svg>
 </template>

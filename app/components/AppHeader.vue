@@ -131,8 +131,8 @@ onClickOutside(mobileMenuRef, (event: MouseEvent) => {
         <!-- Logo -->
         <div class="flex items-center">
           <button
-            @click="scrollToSection('home')"
             class="flex items-center space-x-2 text-inverted hover:text-dimmed transition-colors"
+            @click="scrollToSection('home')"
           >
             <div
               class="w-8 h-8 bg-inverted rounded flex items-center justify-center"

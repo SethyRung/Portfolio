@@ -38,7 +38,7 @@ onBeforeUnmount(() => {
       ref="contentRef"
       class="absolute top-0 left-0 w-full will-change-transform"
     >
-      <slot />
+      <slot ></slot>
     </div>
   </div>
 </template>

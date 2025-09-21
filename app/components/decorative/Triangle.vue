@@ -1,22 +1,18 @@
-<script setup lang="ts"></script>
-
 <template>
-  <svg
-    className="absolute pointer-events-none"
-    viewBox="0 0 100 100"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <polygon
-      points="50,15 85,85 15,85"
-      fill="none"
+  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M50 10 L90 80 L10 80 Z"
       stroke="currentColor"
-      strokeWidth="1"
-      className="text-muted opacity-25 dark:opacity-40"
+      stroke-width="2"
+      fill="none"
+      opacity="0.3"
     />
-    <polygon
-      points="50,25 75,75 25,75"
-      fill="currentColor"
-      className="text-accented opacity-5 dark:opacity-10"
+    <path
+      d="M50 25 L75 70 L25 70 Z"
+      stroke="currentColor"
+      stroke-width="1"
+      fill="none"
+      opacity="0.5"
     />
   </svg>
 </template>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { animateText } from "~/lib/animations";
 
 gsap.registerPlugin(ScrollToPlugin);
@@ -85,26 +84,19 @@ onBeforeUnmount(() => {
   gsap.killTweensOf([titleRef.value, subtitleRef.value, ctaRef.value]);
 });
 
-const scrollToSection = (sectionId: string) => {
+function scrollToSection(sectionId: string) {
   const section = document.getElementById(sectionId);
   if (section) {
-    // Use ScrollSmoother for smooth scrolling
-    const smoother = ScrollSmoother.get();
-    if (smoother) {
-      smoother.scrollTo(section, true, "top top");
-    } else {
-      // Fallback to regular GSAP scrolling
-      gsap.to(window, {
-        scrollTo: {
-          y: section,
-          offsetY: 0,
-        },
-        duration: 1,
-        ease: "power3.inOut",
-      });
-    }
+    gsap.to(window, {
+      scrollTo: {
+        y: section,
+        offsetY: 0,
+      },
+      duration: 1,
+      ease: "power3.inOut",
+    });
   }
-};
+}
 </script>
 
 <template>
