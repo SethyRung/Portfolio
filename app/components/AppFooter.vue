@@ -99,9 +99,11 @@ const scrollToTop = () => {
           <div>
             <h3 class="text-sm font-semibold text-default mb-4">Theme</h3>
             <div class="flex items-center space-x-3 mb-6">
-              <span class="text-sm text-toned">
-                {{ titleCase($colorMode.value) }}
-              </span>
+              <ClientOnly>
+                <span class="text-sm text-toned">
+                  {{ titleCase($colorMode.value) }}
+                </span>
+              </ClientOnly>
               <UColorModeSwitch color="neutral" size="lg" />
             </div>
 
