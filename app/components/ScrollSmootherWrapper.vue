@@ -14,9 +14,6 @@ onMounted(() => {
       wrapper: wrapperRef.value,
       content: contentRef.value,
       smooth: 1.5,
-      effects: true,
-      normalizeScroll: true,
-      ignoreMobileResize: true,
     });
   }
 });
@@ -38,7 +35,7 @@ onBeforeUnmount(() => {
       ref="contentRef"
       class="absolute top-0 left-0 w-full will-change-transform"
     >
-      <slot ></slot>
+      <slot></slot>
     </div>
   </div>
 </template>

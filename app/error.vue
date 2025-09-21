@@ -9,12 +9,10 @@ defineProps<{
 <template>
   <UApp>
     <AppHeader />
-
     <UError
       :error="error"
       class="min-h-[calc(100vh-var(--ui-header-height)-64px)]"
     />
-
     <AppFooter />
   </UApp>
 </template>
