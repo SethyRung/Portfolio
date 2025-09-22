@@ -15,7 +15,6 @@ const navigation = [
   { name: "Projects", to: "projects" },
   { name: "Skills", to: "skills" },
   { name: "Resume", to: "resume" },
-  { name: "Contact", to: "contact" },
 ];
 
 const scrollToSection = (sectionId: string) => {
