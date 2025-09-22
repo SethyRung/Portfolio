@@ -4,5 +4,7 @@
   <div class="min-h-screen">
     <SectionHero />
     <SectionAbout />
+    <SectionProjects />
+    <SectionSkills />
   </div>
 </template>
