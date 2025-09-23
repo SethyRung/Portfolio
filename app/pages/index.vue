@@ -6,5 +6,6 @@
     <SectionAbout />
     <SectionProjects />
     <SectionSkills />
+    <SectionResume />
   </div>
 </template>
