@@ -1,139 +1,102 @@
 <script setup lang="ts">
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+const { gsap, ScrollTrigger } = useGSAP();
 
 const sectionRef = useTemplateRef("sectionRef");
-const experienceItemsRef = ref<HTMLElement[]>([]);
+const experienceItemsRef = useTemplateRef("experienceItemsRef");
 const educationRef = useTemplateRef("educationRef");
 const downloadCtaRef = useTemplateRef("downloadCtaRef");
 
-const setExperienceItemRef = (el: HTMLElement) => {
-  if (el) experienceItemsRef.value.push(el);
-};
-
 onMounted(() => {
-  if (sectionRef.value) {
-    const header = sectionRef.value.querySelector("h2");
-    const subtitle = sectionRef.value.querySelector("p");
+  if (!sectionRef.value) return;
 
-    gsap.fromTo(
-      header,
-      { x: -50, opacity: 0 },
-      {
-        x: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.value,
-          start: "top 80%",
-          end: "bottom 60%",
-          toggleActions: "play none none reverse",
-        },
-      },
-    );
+  const header = sectionRef.value.querySelector("h2");
+  const subtitle = sectionRef.value.querySelector("p");
 
-    gsap.fromTo(
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: sectionRef.value,
+      start: "top 85%",
+      toggleActions: "play none none reverse",
+    },
+  });
+
+  if (header) {
+    tl.from(header, {
+      y: -40,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power3.out",
+    });
+  }
+
+  if (subtitle) {
+    tl.from(
       subtitle,
-      { x: 50, opacity: 0 },
       {
-        x: 0,
-        opacity: 1,
-        duration: 1,
-        delay: 0.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.value,
-          start: "top 80%",
-          end: "bottom 60%",
-          toggleActions: "play none none reverse",
-        },
+        y: 20,
+        opacity: 0,
+        duration: 0.7,
+        ease: "power2.out",
       },
+      "-=0.5",
     );
   }
 
-  experienceItemsRef.value.forEach((item, index) => {
-    const isEven = index % 2 === 0;
-    const startX = isEven ? -100 : 100;
-
-    gsap.fromTo(
-      item,
-      {
-        x: startX,
-        opacity: 0,
-        scale: 0.95,
-      },
-      {
-        x: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 0.8,
-        delay: index * 0.15,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: item,
-          start: "top 85%",
-          end: "bottom 60%",
-          toggleActions: "play none none reverse",
+  if (experienceItemsRef.value?.length) {
+    experienceItemsRef.value.forEach((element, i) => {
+      tl.from(
+        element,
+        {
+          x: i % 2 === 0 ? -80 : 80,
+          opacity: 0,
+          scale: 0.95,
+          duration: 0.8,
+          ease: "power2.out",
+          stagger: 0.15,
         },
-      },
-    );
-  });
+        "-=0.3",
+      );
+    });
+  }
 
   if (educationRef.value) {
-    gsap.fromTo(
+    tl.from(
       educationRef.value,
       {
-        x: -80,
+        y: 40,
         opacity: 0,
-      },
-      {
-        x: 0,
-        opacity: 1,
         duration: 0.8,
-        delay: 0.3,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: educationRef.value,
-          start: "top 85%",
-          end: "bottom 60%",
-          toggleActions: "play none none reverse",
-        },
+        ease: "power2.out",
       },
+      "-=0.2",
     );
   }
 
   if (downloadCtaRef.value) {
-    gsap.fromTo(
+    tl.from(
       downloadCtaRef.value,
       {
         y: 50,
         opacity: 0,
-        scale: 0.9,
-      },
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
+        scale: 0.8,
         duration: 0.8,
-        delay: 0.8,
-        ease: "back.out(1.2)",
-        scrollTrigger: {
-          trigger: downloadCtaRef.value,
-          start: "top 85%",
-          end: "bottom 60%",
-          toggleActions: "play none none reverse",
-        },
+        ease: "back.out(1.7)",
       },
-    );
+      "-=0.1",
+    ).to(downloadCtaRef.value, {
+      boxShadow: "0 0 20px rgba(0, 200, 150, 0.6)",
+      duration: 0.4,
+      repeat: 1,
+      yoyo: true,
+      ease: "power1.inOut",
+    });
   }
 });
 
 onBeforeUnmount(() => {
   ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 });
+
 const experience = [
   {
     id: 1,
@@ -236,7 +199,7 @@ const downloadResume = () => {
               <div
                 v-for="exp in experience"
                 :key="exp.id"
-                :ref="setExperienceItemRef"
+                ref="experienceItemsRef"
                 class="bg-background rounded-xl p-6 border border-muted hover:border-highlighted/30 transition-all duration-300 hover:shadow-lg"
               >
                 <div
