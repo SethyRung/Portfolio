@@ -1,4 +1,4 @@
-import gsap from "gsap";
+import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -39,21 +39,18 @@ export const animateOnScroll = (element: HTMLElement, animation = {}) => {
     y: 50,
   });
 
-  gsap.to(
-    element,
-    {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      scrollTrigger: {
-        trigger: element,
-        start: "top 80%",
-        end: "bottom 20%",
-        toggleActions: "play none none reverse",
-      },
-      ...animation,
+  gsap.to(element, {
+    opacity: 1,
+    y: 0,
+    duration: 1,
+    scrollTrigger: {
+      trigger: element,
+      start: "top 80%",
+      end: "bottom 20%",
+      toggleActions: "play none none reverse",
     },
-  );
+    ...animation,
+  });
 };
 
 export const animateOnMobileScroll = (element: HTMLElement, animation = {}) => {

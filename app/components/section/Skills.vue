@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from "vue";
-import gsap from "gsap";
+import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { animateStaggerOnScroll, animateOnScroll } from "~/lib/animations";
 
@@ -39,7 +38,7 @@ onMounted(() => {
     animateOnScroll(titleElement, {
       delay: 0.2,
       duration: 0.8,
-      ease: "power3.out"
+      ease: "power3.out",
     });
   }
 
@@ -49,7 +48,7 @@ onMounted(() => {
     animateOnScroll(subtitleElement, {
       delay: 0.4,
       duration: 0.8,
-      ease: "power3.out"
+      ease: "power3.out",
     });
   }
 
@@ -59,7 +58,7 @@ onMounted(() => {
       delay: 0.6,
       stagger: 0.15,
       duration: 0.6,
-      ease: "power2.out"
+      ease: "power2.out",
     });
   }
 
@@ -70,7 +69,7 @@ onMounted(() => {
       {
         opacity: 0,
         y: 60,
-        scale: 0.9
+        scale: 0.9,
       },
       {
         opacity: 1,
@@ -84,7 +83,7 @@ onMounted(() => {
           start: "top 60%",
           toggleActions: "play none none reverse",
         },
-      }
+      },
     );
   }
 });
