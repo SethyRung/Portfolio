@@ -1,45 +1,16 @@
 <script setup lang="ts">
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import { z } from "zod";
 
-gsap.registerPlugin(ScrollTrigger);
+const { gsap, ScrollTrigger } = useGSAP();
 
 const sectionRef = useTemplateRef("sectionRef");
 const headingRef = useTemplateRef("headingRef");
 const paragraphRef = useTemplateRef("paragraphRef");
 const formRef = useTemplateRef("formRef");
-const contactCardsRef = ref<HTMLElement[]>([]);
+const contactCardsRef = useTemplateRef("contactCardsRef");
 const socialSectionRef = useTemplateRef("socialSectionRef");
-const socialLinksRef = ref<HTMLElement[]>([]);
-
-const formData = reactive({
-  name: "",
-  email: "",
-  subject: "",
-  message: "",
-});
-
-const contactSchema = z.object({
-  name: z
-    .string()
-    .min(2, "Name must be at least 2 characters")
-    .max(100, "Name must be less than 100 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  subject: z
-    .string()
-    .min(3, "Subject must be at least 3 characters")
-    .max(200, "Subject must be less than 200 characters"),
-  message: z
-    .string()
-    .min(10, "Message must be at least 10 characters")
-    .max(1000, "Message must be less than 1000 characters"),
-});
-
-type Schema = z.infer<typeof contactSchema>;
-
-const isSubmitting = ref(false);
+const socialLinksRef = useTemplateRef("socialLinksRef");
 
 const contactInfo = [
   {
@@ -96,115 +67,139 @@ const toast = useToast();
 onMounted(() => {
   if (!sectionRef.value) return;
 
-  if (headingRef.value)
-    gsap.set(headingRef.value, { y: -30, opacity: 0, scale: 0.95 });
-  if (paragraphRef.value) gsap.set(paragraphRef.value, { y: 30, opacity: 0 });
-  if (formRef.value) gsap.set(formRef.value, { x: -50, opacity: 0 });
-  if (contactCardsRef.value)
-    gsap.set(contactCardsRef.value, { x: 50, opacity: 0 });
-  if (socialSectionRef.value)
-    gsap.set(socialSectionRef.value, { y: 30, opacity: 0 });
-  for (const element of socialLinksRef.value) {
-    gsap.set(element, { scale: 0.8, opacity: 0 });
-  }
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: sectionRef.value,
+      start: "top 80%",
+      toggleActions: "play none none reverse",
+    },
+  });
 
   if (headingRef.value) {
-    gsap.to(headingRef.value, {
-      y: 0,
-      opacity: 1,
-      scale: 1,
+    tl.from(headingRef.value, {
+      y: -40,
+      opacity: 0,
+      scale: 0.9,
       duration: 0.8,
       ease: "power3.out",
-      scrollTrigger: {
-        trigger: sectionRef.value,
-        start: "top 80%",
-        once: true,
-      },
     });
+  }
 
-    if (paragraphRef.value) {
-      gsap.to(paragraphRef.value, {
-        y: 0,
-        opacity: 1,
+  if (paragraphRef.value) {
+    tl.from(
+      paragraphRef.value,
+      {
+        y: 30,
+        opacity: 0,
         duration: 0.6,
-        delay: 0.2,
         ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.value,
-          start: "top 80%",
-          once: true,
+      },
+      "-=0.3",
+    );
+  }
+
+  if (formRef.value) {
+    tl.from(
+      formRef.value,
+      {
+        x: -50,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out",
+      },
+      "-=0.2",
+    );
+
+    const formFields = formRef.value.querySelectorAll(
+      "input, textarea, button",
+    );
+    if (formFields.length > 0) {
+      tl.from(
+        formFields,
+        {
+          y: 20,
+          opacity: 0,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: "power2.out",
         },
-      });
-
-      // Form animation
-      if (formRef.value) {
-        gsap.to(formRef.value, {
-          x: 0,
-          opacity: 1,
-          duration: 0.8,
-          delay: 0.4,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: sectionRef.value,
-            start: "top 75%",
-            once: true,
-          },
-          onComplete: () => {
-            const formFields = formRef.value?.querySelectorAll(
-              "input, textarea, button",
-            );
-            if (formFields && formFields.length > 0) {
-              gsap.fromTo(
-                formFields,
-                { y: 20, opacity: 0 },
-                {
-                  y: 0,
-                  opacity: 1,
-                  duration: 0.5,
-                  stagger: 0.1,
-                  ease: "power2.out",
-                },
-              );
-            }
-          },
-        });
-
-        // Contact cards animation
-        gsap.to(contactCardsRef.value, {
-          x: 0,
-          opacity: 1,
-          duration: 0.8,
-          delay: 0.6,
-          stagger: 0.15,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: sectionRef.value,
-            start: "top 70%",
-            once: true,
-          },
-        });
-
-        // Social section animation
-        gsap.to(socialSectionRef.value!, {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          delay: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: sectionRef.value,
-            start: "top 65%",
-            once: true,
-          },
-        });
-      }
+        "-=0.4",
+      );
     }
+  }
+
+  if (contactCardsRef.value?.length) {
+    tl.from(
+      contactCardsRef.value,
+      {
+        x: 60,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power2.out",
+      },
+      "-=0.3",
+    );
+  }
+
+  if (socialSectionRef.value) {
+    tl.from(
+      socialSectionRef.value,
+      {
+        y: 30,
+        opacity: 0,
+        duration: 0.6,
+        ease: "power2.out",
+      },
+      "-=0.2",
+    );
+  }
+
+  if (socialLinksRef.value?.length) {
+    tl.from(
+      socialLinksRef.value,
+      {
+        scale: 0.8,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "back.out(1.7)",
+      },
+      "-=0.3",
+    );
   }
 });
 
 onBeforeUnmount(() => {
   ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 });
+
+const formData = reactive({
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
+});
+
+const contactSchema = z.object({
+  name: z
+    .string()
+    .min(2, "Name must be at least 2 characters")
+    .max(100, "Name must be less than 100 characters"),
+  email: z.email("Please enter a valid email address"),
+  subject: z
+    .string()
+    .min(3, "Subject must be at least 3 characters")
+    .max(200, "Subject must be less than 200 characters"),
+  message: z
+    .string()
+    .min(10, "Message must be at least 10 characters")
+    .max(1000, "Message must be less than 1000 characters"),
+});
+
+type Schema = z.infer<typeof contactSchema>;
+
+const isSubmitting = ref(false);
 
 const handleSubmit = async (event: FormSubmitEvent<Schema>) => {
   try {
