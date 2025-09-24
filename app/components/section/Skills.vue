@@ -1,27 +1,90 @@
 <script setup lang="ts">
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { animateStaggerOnScroll, animateOnScroll } from "~/lib/animations";
 
-gsap.registerPlugin(ScrollTrigger);
+const { gsap, ScrollTrigger } = useGSAP();
 
-const skillsSection = ref<HTMLElement>();
-const categoryHeaders = ref<HTMLElement[]>([]);
-const techCards = ref<HTMLElement[]>([]);
+const skillsSection = useTemplateRef("skillsSection");
+const categoryName = useTemplateRef("categoryName");
+const techCards = useTemplateRef("techCards");
+
+const categories = [
+  {
+    name: "Frontend",
+    techs: [
+      { name: "Vue.js", icon: "i-simple-icons-vuedotjs", color: "#4FC08D" },
+      { name: "Nuxt.js", icon: "i-simple-icons-nuxtdotjs", color: "#00DC82" },
+      { name: "React", icon: "i-simple-icons-react", color: "#61DAFB" },
+      { name: "Next.js", icon: "i-simple-icons-nextdotjs", color: "#000000" },
+      {
+        name: "TypeScript",
+        icon: "i-simple-icons-typescript",
+        color: "#3178C6",
+      },
+      {
+        name: "Tailwind CSS",
+        icon: "i-simple-icons-tailwindcss",
+        color: "#06B6D4",
+      },
+      { name: "GSAP", icon: "i-simple-icons-gsap", color: "#0AE448" },
+    ],
+  },
+  {
+    name: "Backend",
+    techs: [
+      {
+        name: "Spring Boot",
+        icon: "i-simple-icons-springboot",
+        color: "#6DB33F",
+      },
+      { name: "Express", icon: "i-simple-icons-express", color: "#000000" },
+      { name: "NestJS", icon: "i-simple-icons-nestjs", color: "#E0234E" },
+      { name: "FastAPI", icon: "i-simple-icons-fastapi", color: "#009688" },
+    ],
+  },
+  {
+    name: "Database",
+    techs: [
+      {
+        name: "PostgreSQL",
+        icon: "i-simple-icons-postgresql",
+        color: "#4169E1",
+      },
+      { name: "MongoDB", icon: "i-simple-icons-mongodb", color: "#47A248" },
+    ],
+  },
+  {
+    name: "Tools",
+    techs: [
+      { name: "Docker", icon: "i-simple-icons-docker", color: "#2496ED" },
+      { name: "Vite", icon: "i-simple-icons-vite", color: "#646CFF" },
+      { name: "Git", icon: "i-simple-icons-git", color: "#F05032" },
+      { name: "GitHub", icon: "i-simple-icons-github", color: "#181717" },
+      { name: "GitLab", icon: "i-simple-icons-gitlab", color: "#FC6D26" },
+      { name: "Vercel", icon: "i-simple-icons-vercel", color: "#000000" },
+      { name: "Render", icon: "i-simple-icons-render", color: "#000000" },
+      { name: "Directus", icon: "i-simple-icons-directus", color: "#263238" },
+    ],
+  },
+];
 
 onMounted(() => {
-  // Set initial hidden state for all elements
-  gsap.set(skillsSection.value?.querySelector("h2"), {
-    opacity: 0,
-    y: 50,
-  });
+  const h2Element = skillsSection.value?.querySelector("h2");
+  if (h2Element) {
+    gsap.set(h2Element, {
+      opacity: 0,
+      y: 50,
+    });
+  }
 
-  gsap.set(skillsSection.value?.querySelector("p"), {
-    opacity: 0,
-    y: 30,
-  });
+  const pElement = skillsSection.value?.querySelector("p");
+  if (pElement) {
+    gsap.set(pElement, {
+      opacity: 0,
+      y: 30,
+    });
+  }
 
-  gsap.set(categoryHeaders.value, {
+  gsap.set(categoryName.value, {
     opacity: 0,
     y: 40,
   });
@@ -32,7 +95,6 @@ onMounted(() => {
     scale: 0.9,
   });
 
-  // Animate section title
   const titleElement = skillsSection.value?.querySelector("h2");
   if (titleElement) {
     animateOnScroll(titleElement, {
@@ -42,7 +104,6 @@ onMounted(() => {
     });
   }
 
-  // Animate subtitle
   const subtitleElement = skillsSection.value?.querySelector("p");
   if (subtitleElement) {
     animateOnScroll(subtitleElement, {
@@ -52,9 +113,8 @@ onMounted(() => {
     });
   }
 
-  // Animate category headers
-  if (categoryHeaders.value.length > 0) {
-    animateStaggerOnScroll(categoryHeaders.value, {
+  if (categoryName.value && categoryName.value.length > 0) {
+    animateStaggerOnScroll(categoryName.value, {
       delay: 0.6,
       stagger: 0.15,
       duration: 0.6,
@@ -62,8 +122,7 @@ onMounted(() => {
     });
   }
 
-  // Animate tech cards with stagger
-  if (techCards.value.length > 0) {
+  if (techCards.value && techCards.value.length > 0) {
     gsap.fromTo(
       techCards.value,
       {
@@ -91,40 +150,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 });
-
-const frontends = [
-  { name: "Vue.js", icon: "i-simple-icons-vuedotjs" },
-  { name: "Nuxt.js", icon: "i-simple-icons-nuxtdotjs" },
-  { name: "React", icon: "i-simple-icons-react" },
-  { name: "Next.js", icon: "i-simple-icons-nextdotjs" },
-  { name: "TypeScript", icon: "i-simple-icons-typescript" },
-  { name: "Tailwind CSS", icon: "i-simple-icons-tailwindcss" },
-  { name: "Vite", icon: "i-simple-icons-vite" },
-  { name: "GSAP", icon: "i-simple-icons-gsap" },
-];
-
-const backends = [
-  { name: "Spring Boot", icon: "i-simple-icons-springboot" },
-  { name: "Express", icon: "i-simple-icons-express" },
-  { name: "NestJS", icon: "i-simple-icons-nestjs" },
-  { name: "FastAPI", icon: "i-simple-icons-fastapi" },
-];
-
-const databases = [
-  { name: "PostgreSQL", icon: "i-simple-icons-postgresql" },
-  { name: "MongoDB", icon: "i-simple-icons-mongodb" },
-  { name: "MySQL", icon: "i-simple-icons-mysql" },
-];
-
-const tools = [
-  { name: "Docker", icon: "i-simple-icons-docker" },
-  { name: "Git", icon: "i-simple-icons-git" },
-  { name: "GitHub", icon: "i-simple-icons-github" },
-  { name: "GitLab", icon: "i-simple-icons-gitlab" },
-  { name: "Vercel", icon: "i-simple-icons-vercel" },
-  { name: "Render", icon: "i-simple-icons-render" },
-  { name: "Directus", icon: "i-simple-icons-directus" },
-];
 </script>
 
 <template>
@@ -141,101 +166,35 @@ const tools = [
         </div>
 
         <div class="space-y-16">
-          <div class="space-y-8">
-            <div ref="categoryHeaders" class="flex items-center space-x-3">
-              <UIcon name="i-lucide-monitor" class="w-6 h-6 text-blue-500" />
-              <h3 class="text-2xl font-bold text-default">Frontend</h3>
-            </div>
+          <div
+            v-for="category in categories"
+            :key="category.name"
+            class="space-y-8"
+          >
+            <h3 ref="categoryName" class="text-2xl font-bold text-default">
+              {{ category.name }}
+            </h3>
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               <div
-                v-for="tech in frontends"
+                v-for="tech in category.techs"
                 :key="tech.name"
                 ref="techCards"
-                class="group relative bg-background rounded-xl p-6 border border-muted transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-highlighted/30"
+                class="group relative rounded-xl p-6 border border-muted transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-highlighted/30"
               >
                 <div class="flex flex-col items-center space-y-3">
                   <UIcon
                     :name="tech.icon"
-                    class="w-12 h-12 text-default"
+                    class="w-12 h-12"
                     :alt="`${tech.name} icon`"
+                    :style="{
+                      color:
+                        $colorMode.preference === 'light' ? tech.color : '',
+                    }"
                   />
-                  <h4 class="font-semibold text-default">{{ tech.name }}</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-8">
-            <div ref="categoryHeaders" class="flex items-center space-x-3">
-              <UIcon name="i-lucide-server" class="w-6 h-6 text-green-500" />
-              <h3 class="text-2xl font-bold text-default">Backend</h3>
-            </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              <div
-                v-for="tech in backends"
-                :key="tech.name"
-                ref="techCards"
-                class="group relative bg-background rounded-xl p-6 border border-muted transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-highlighted/30"
-              >
-                <div class="flex flex-col items-center space-y-3">
-                  <UIcon
-                    :name="tech.icon"
-                    class="w-12 h-12 text-default"
-                    :alt="`${tech.name} icon`"
-                  />
-                  <h4 class="font-semibold text-default">{{ tech.name }}</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-8">
-            <div ref="categoryHeaders" class="flex items-center space-x-3">
-              <UIcon name="i-lucide-database" class="w-6 h-6 text-purple-500" />
-              <h3 class="text-2xl font-bold text-default">Database</h3>
-            </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              <div
-                v-for="tech in databases"
-                :key="tech.name"
-                ref="techCards"
-                class="group relative bg-background rounded-xl p-6 border border-muted transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-highlighted/30"
-              >
-                <div class="flex flex-col items-center space-y-3">
-                  <UIcon
-                    :name="tech.icon"
-                    class="w-12 h-12 text-default"
-                    :alt="`${tech.name} icon`"
-                  />
-                  <h4 class="font-semibold text-default">{{ tech.name }}</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-8">
-            <div ref="categoryHeaders" class="flex items-center space-x-3">
-              <UIcon name="i-lucide-wrench" class="w-6 h-6 text-orange-500" />
-              <h3 class="text-2xl font-bold text-default">Tools</h3>
-            </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              <div
-                v-for="tech in tools"
-                :key="tech.name"
-                ref="techCards"
-                class="group relative bg-background rounded-xl p-6 border border-muted transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-highlighted/30"
-              >
-                <div class="flex flex-col items-center space-y-3">
-                  <UIcon
-                    :name="tech.icon"
-                    class="w-12 h-12 text-default"
-                    :alt="`${tech.name} icon`"
-                  />
-                  <h4 class="font-semibold text-default">{{ tech.name }}</h4>
+                  <h4 class="font-semibold text-default">
+                    {{ tech.name }}
+                  </h4>
                 </div>
               </div>
             </div>

@@ -24,4 +24,7 @@ export default defineNuxtConfig({
       siteUrl: "http://localhost:3000",
     },
   },
+  colorMode: {
+    preference: "light",
+  },
 });
