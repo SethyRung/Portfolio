@@ -1,20 +1,16 @@
 <script setup lang="ts">
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+const { gsap, ScrollTrigger } = useGSAP();
 
 const sectionRef = useTemplateRef("sectionRef");
 const cardRef = useTemplateRef("cardRef");
 const contentRef = useTemplateRef("contentRef");
 
-// Avatar ripple effect refs
 const avatarContainer = useTemplateRef("avatarContainer");
 const avatarBase = useTemplateRef("avatarBase");
 const hoverRipple = useTemplateRef("hoverRipple");
 const clickRipples = useTemplateRef("clickRipples");
 const ambientRipple = useTemplateRef("ambientRipple");
 
-// Ripple effect state
 let rippleTimeout: number | null = null;
 let clickRippleCount = 0;
 
@@ -22,25 +18,20 @@ const skills = [
   "Frontend Development",
   "Backend Development",
   "Mobile Development",
-  "Database Design",
 ];
 
-// Ripple effect handlers
 const handleHoverRipple = () => {
   if (!hoverRipple.value) return;
 
-  // Clear any existing timeout
   if (rippleTimeout) {
     clearTimeout(rippleTimeout);
   }
 
-  // Reset hover ripple
   gsap.set(hoverRipple.value, {
     scale: 0,
     opacity: 0,
   });
 
-  // Animate hover ripple
   gsap.to(hoverRipple.value, {
     scale: 1.3,
     opacity: 0.4,
@@ -48,7 +39,6 @@ const handleHoverRipple = () => {
     ease: "power2.out",
   });
 
-  // Create secondary ripple effect
   setTimeout(() => {
     if (hoverRipple.value) {
       gsap.to(hoverRipple.value, {
@@ -60,7 +50,6 @@ const handleHoverRipple = () => {
     }
   }, 200);
 
-  // Set timeout to reset
   rippleTimeout = setTimeout(() => {
     if (hoverRipple.value) {
       gsap.set(hoverRipple.value, {
@@ -76,15 +65,12 @@ const handleClickRipple = (event: MouseEvent) => {
 
   clickRippleCount++;
 
-  // Get container position and dimensions
   const rect = avatarContainer.value.getBoundingClientRect();
   const size = Math.max(rect.width, rect.height);
 
-  // Calculate click position relative to container
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
 
-  // Create ripple element
   const ripple = document.createElement("div");
   ripple.className = "absolute bg-default/40 rounded-full pointer-events-none";
   ripple.style.width = "0px";
@@ -93,10 +79,8 @@ const handleClickRipple = (event: MouseEvent) => {
   ripple.style.top = `${y}px`;
   ripple.style.transform = "translate(-50%, -50%)";
 
-  // Add ripple to container
   clickRipples.value.appendChild(ripple);
 
-  // Animate ripple
   gsap.to(ripple, {
     width: `${size * 2}px`,
     height: `${size * 2}px`,
@@ -104,20 +88,17 @@ const handleClickRipple = (event: MouseEvent) => {
     duration: 0.6,
     ease: "power2.out",
     onComplete: () => {
-      // Fade out ripple
       gsap.to(ripple, {
         opacity: 0,
         duration: 0.4,
         ease: "power2.inOut",
         onComplete: () => {
-          // Remove ripple element
           ripple.remove();
         },
       });
     },
   });
 
-  // Add avatar scale animation on click
   if (avatarBase.value) {
     gsap.to(avatarBase.value, {
       scale: 0.95,
@@ -133,7 +114,6 @@ const handleClickRipple = (event: MouseEvent) => {
     });
   }
 
-  // Create secondary wave effect
   setTimeout(() => {
     if (ambientRipple.value) {
       gsap.to(ambientRipple.value, {
@@ -153,7 +133,6 @@ const handleClickRipple = (event: MouseEvent) => {
     }
   }, 100);
 
-  // Limit ripples to prevent memory issues
   if (clickRippleCount > 10) {
     const existingRipples = clickRipples.value.children;
     if (existingRipples.length > 5) {
@@ -163,11 +142,9 @@ const handleClickRipple = (event: MouseEvent) => {
   }
 };
 
-// Enhanced ambient ripple animation
 const createAmbientRippleAnimation = () => {
   if (!ambientRipple.value) return;
 
-  // Create subtle pulsing effect
   const ambientTimeline = gsap.timeline({ repeat: -1 });
 
   ambientTimeline
@@ -192,13 +169,11 @@ onMounted(() => {
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-  // Initialize ambient ripple animation
   let ambientTimeline: gsap.core.Timeline | undefined;
   if (ambientRipple.value) {
     ambientTimeline = createAmbientRippleAnimation();
   }
 
-  // Animate the entire section
   gsap.fromTo(
     sectionRef.value,
     { opacity: 0, y: 50 },
@@ -214,7 +189,6 @@ onMounted(() => {
     },
   );
 
-  // Enhanced avatar entrance animation with ripple
   if (avatarContainer.value) {
     const avatarTimeline = gsap.timeline({
       scrollTrigger: {
@@ -226,16 +200,13 @@ onMounted(() => {
 
     if (avatarBase.value && hoverRipple.value) {
       avatarTimeline
-        // Initial scale down
         .set(avatarBase.value, { scale: 0, opacity: 0 })
-        // Base avatar entrance
         .to(avatarBase.value, {
           scale: 1,
           opacity: 1,
           duration: 0.8,
           ease: "back.out(1.7)",
         })
-        // Entrance ripple effect
         .to(
           hoverRipple.value,
           {
@@ -256,7 +227,6 @@ onMounted(() => {
           },
           "-=0.2",
         )
-        // Subtle bounce effect
         .to(avatarBase.value, {
           scale: 1.1,
           duration: 0.2,
@@ -270,7 +240,6 @@ onMounted(() => {
     }
   }
 
-  // Parallax effect for the image
   if (cardRef.value) {
     gsap.to(cardRef.value, {
       y: -50,
@@ -283,7 +252,6 @@ onMounted(() => {
     });
   }
 
-  // Enhanced parallax for avatar container
   if (avatarContainer.value) {
     gsap.to(avatarContainer.value, {
       y: -30,
@@ -298,7 +266,6 @@ onMounted(() => {
     });
   }
 
-  // Stagger animation for content
   if (contentRef.value) {
     gsap.fromTo(
       contentRef.value.children,
@@ -318,7 +285,6 @@ onMounted(() => {
     );
   }
 
-  // Enhanced floating accent elements with individual animations
   const floatingAccents = cardRef.value?.querySelectorAll(
     ".absolute.-top-2, .absolute.-bottom-2",
   );
@@ -341,7 +307,6 @@ onMounted(() => {
     );
   }
 
-  // Cleanup function for component unmount
   return () => {
     if (rippleTimeout) {
       clearTimeout(rippleTimeout);
@@ -353,16 +318,13 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  // Clean up all scroll triggers
   ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
-  // Clean up ripple timeout
   if (rippleTimeout) {
     clearTimeout(rippleTimeout);
     rippleTimeout = null;
   }
 
-  // Clean up any remaining click ripples
   if (clickRipples.value) {
     const ripples = clickRipples.value.children;
     Array.from(ripples).forEach((ripple) => ripple.remove());
@@ -384,7 +346,6 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <!-- Profile Card -->
           <div ref="cardRef" class="relative">
             <div
               class="overflow-hidden border border-default shadow-lg rounded-xl"
@@ -394,14 +355,12 @@ onBeforeUnmount(() => {
                   class="aspect-square bg-elevated rounded-xl flex items-center justify-center"
                 >
                   <div class="text-center">
-                    <!-- Enhanced Avatar with Ripple Effect -->
                     <div
                       ref="avatarContainer"
                       class="relative inline-block mb-6 cursor-pointer"
                       @mouseenter="handleHoverRipple"
                       @click="handleClickRipple"
                     >
-                      <!-- Base Avatar Circle -->
                       <div
                         ref="avatarBase"
                         class="relative w-32 h-32 bg-default rounded-full mx-auto flex items-center justify-center shadow-lg transform transition-transform duration-300 hover:scale-105 z-10"
@@ -409,21 +368,17 @@ onBeforeUnmount(() => {
                         <span class="text-3xl font-bold text-default">SR</span>
                       </div>
 
-                      <!-- Ripple Layers Container -->
                       <div class="absolute inset-0 pointer-events-none">
-                        <!-- Hover Ripple -->
                         <div
                           ref="hoverRipple"
                           class="absolute inset-0 bg-default rounded-full scale-0 opacity-0 transform transition-all duration-500 ease-out"
                         ></div>
 
-                        <!-- Click Ripples Container -->
                         <div
                           ref="clickRipples"
                           class="absolute inset-0 rounded-full overflow-hidden"
                         ></div>
 
-                        <!-- Persistent Ambient Ripple -->
                         <div
                           ref="ambientRipple"
                           class="absolute inset-0 bg-default/20 rounded-full scale-100 opacity-30 animate-pulse"
@@ -440,7 +395,6 @@ onBeforeUnmount(() => {
               </div>
             </div>
 
-            <!-- Floating accent elements -->
             <div
               class="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-br from-blue-400 to-purple-400 dark:from-muted dark:to-toned rounded-full shadow-lg"
             ></div>
