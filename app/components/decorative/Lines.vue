@@ -1,0 +1,31 @@
+<template>
+  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <line
+      x1="10"
+      y1="30"
+      x2="90"
+      y2="30"
+      stroke="currentColor"
+      stroke-width="2"
+      opacity="0.3"
+    />
+    <line
+      x1="10"
+      y1="50"
+      x2="90"
+      y2="50"
+      stroke="currentColor"
+      stroke-width="2"
+      opacity="0.5"
+    />
+    <line
+      x1="10"
+      y1="70"
+      x2="90"
+      y2="70"
+      stroke="currentColor"
+      stroke-width="2"
+      opacity="0.3"
+    />
+  </svg>
+</template>

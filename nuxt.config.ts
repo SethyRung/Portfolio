@@ -1,53 +1,30 @@
-export default defineNuxtConfig({
-  devtools: { enabled: true },
+import tailwindcss from "@tailwindcss/vite";
 
+export default defineNuxtConfig({
+  future: {
+    compatibilityVersion: 4,
+  },
+  compatibilityDate: "2024-11-27",
+  devtools: { enabled: true },
+  css: ["~/assets/css/main.css"],
   modules: [
     "@nuxt/ui",
     "@nuxt/content",
     "@nuxt/eslint",
-    "@nuxtjs/google-fonts",
+    "@nuxt/fonts",
     "@vueuse/nuxt",
-    "motion-v/nuxt",
-    "@nuxt/image",
-    "motion-v/nuxt",
   ],
-
-  colorMode: {
-    preference: "light",
+  vite: {
+    plugins: [tailwindcss()],
   },
-
-  googleFonts: {
-    download: true,
-    families: {
-      "Public Sans": [100, 200, 300, 400, 500, 600, 700, 800, 900],
-    },
-  },
-
-  css: ["~/assets/css/main.css"],
-
   runtimeConfig: {
     resendApiKey: "",
     email: "",
-  },
-
-  content: {
-    renderer: {
-      anchorLinks: false,
-    },
-    preview: {
-      api: "https://api.nuxt.studio",
-      dev: true,
+    public: {
+      siteUrl: "http://localhost:3000",
     },
   },
-
-  icon: {
-    customCollections: [
-      {
-        prefix: "icons",
-        dir: "./assets/icons",
-      },
-    ],
+  colorMode: {
+    preference: "light",
   },
-
-  compatibilityDate: "2025-02-28",
 });

@@ -5,10 +5,8 @@ const resend = new Resend(config.resendApiKey);
 
 export default defineEventHandler(async (event) => {
   const data = await readBody<{
-    firstName: string;
-    lastName: string;
+    name: string;
     email: string;
-    phone: string;
     subject: string;
     message: string;
   }>(event);
@@ -47,9 +45,8 @@ export default defineEventHandler(async (event) => {
         margin-bottom: 20px;
       "
     >
-      <p><span style="font-weight: bold">Name:</span> ${data.firstName} ${data.lastName}</p>
+      <p><span style="font-weight: bold">Name:</span> ${data.name}</p>
       <p><span style="font-weight: bold">Email:</span> ${data.email}</p>
-      <p><span style="font-weight: bold">Phone:</span> ${data.phone}</p>
       <p><span style="font-weight: bold">Subject:</span> ${data.subject}</p>
     </div>
     <div
@@ -73,7 +70,7 @@ export default defineEventHandler(async (event) => {
       <p>
         This is an automated notification. Please do not reply to this email.
       </p>
-      <p>© 2025 SethyRung. All rights reserved.</p>
+      <p>© ${new Date().getFullYear()} Sethy Rung. All rights reserved.</p>
     </div>
   </body>
 </html>

@@ -1,0 +1,224 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme static {
+  --font-geist: "Geist", sans-serif;
+}
+
+/* Light mode scrollbar - modern design */
+html:not(.dark)::-webkit-scrollbar,
+html:not(.dark) *::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}
+
+html:not(.dark)::-webkit-scrollbar-track,
+html:not(.dark) *::-webkit-scrollbar-track {
+  background: #f8fafc !important;
+  border-radius: 3px !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+html:not(.dark)::-webkit-scrollbar-thumb,
+html:not(.dark) *::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #64748b, #475569) !important;
+  border-radius: 3px !important;
+  border: 1px solid #ffffff !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+html:not(.dark)::-webkit-scrollbar-thumb:hover,
+html:not(.dark) *::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #475569, #334155) !important;
+  transform: scaleX(1.2) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+}
+
+html:not(.dark)::-webkit-scrollbar-thumb:active,
+html:not(.dark) *::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(135deg, #334155, #1e293b) !important;
+  transform: scaleX(1.1) !important;
+}
+
+/* Dark mode scrollbar - neutral-950 FORCED */
+html.dark::-webkit-scrollbar,
+html.dark *::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}
+
+html.dark::-webkit-scrollbar-track,
+html.dark *::-webkit-scrollbar-track {
+  background: transparent !important;
+  border-radius: 3px !important;
+}
+
+html.dark::-webkit-scrollbar-thumb,
+html.dark *::-webkit-scrollbar-thumb {
+  background: #030712 !important;
+  border-radius: 3px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+html.dark::-webkit-scrollbar-thumb:hover,
+html.dark *::-webkit-scrollbar-thumb:hover {
+  background: #111827 !important;
+  transform: scaleX(1.2) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+html.dark::-webkit-scrollbar-thumb:active,
+html.dark *::-webkit-scrollbar-thumb:active {
+  background: #000000 !important;
+  transform: scaleX(1.1) !important;
+}
+
+/* Firefox scrollbar */
+html:not(.dark) * {
+  scrollbar-width: thin !important;
+  scrollbar-color: #64748b #f8fafc !important;
+}
+
+html.dark * {
+  scrollbar-width: thin !important;
+  scrollbar-color: #030712 transparent !important;
+}
+
+/* Hide scrollbar for specific elements while keeping functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Text gradient */
+.text-gradient {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass morphism */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Custom utilities for animations */
+@utility animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+@utility animate-slide-up {
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+@utility animate-slide-in-left {
+  animation: slideInLeft 0.8s ease-out forwards;
+}
+
+@utility animate-slide-in-right {
+  animation: slideInRight 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Marquee animations */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+.animate-marquee-pause:hover {
+  animation-play-state: paused;
+}
