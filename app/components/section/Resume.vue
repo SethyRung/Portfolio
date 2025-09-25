@@ -244,7 +244,7 @@ onBeforeUnmount(() => {
               <div
                 v-for="edu in education"
                 :key="edu.id"
-                class="bg-background rounded-xl p-6 border border-muted"
+                class="rounded-xl p-6 border border-muted"
               >
                 <h4 class="text-lg font-bold text-default mb-1">
                   {{ edu.degree }}
@@ -264,18 +264,8 @@ onBeforeUnmount(() => {
 
             <div
               ref="downloadCtaRef"
-              class="group relative bg-white border border-gray-200 rounded-2xl p-8 text-center transition-all duration-500 hover:border-gray-300 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)] overflow-hidden"
+              class="group relative border border-muted rounded-2xl p-8 text-center transition-all duration-500 hover:border-gray-300 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)] overflow-hidden"
             >
-              <div class="absolute inset-0">
-                <div
-                  class="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-transparent"
-                ></div>
-
-                <div
-                  class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNlNWU3ZWIiIGZpbGwtb3BhY2l0eT0iMC4zIj48cGF0aCBkPSJNNDAgMFY0MEgweiIvPjwvZz48L2c+PC9zdmc+')] opacity-10"
-                ></div>
-              </div>
-
               <div class="relative z-10">
                 <div
                   class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-2xl mb-6 group-hover:border-blue-300 transition-all duration-300 group-hover:scale-105 shadow-sm"
@@ -286,14 +276,12 @@ onBeforeUnmount(() => {
                   />
                 </div>
 
-                <h3
-                  class="text-2xl font-bold text-gray-900 mb-3 tracking-tight"
-                >
+                <h3 class="text-2xl font-bold text-default mb-3 tracking-tight">
                   Download Resume
                 </h3>
 
                 <p
-                  class="text-gray-600 text-base mb-6 max-w-md mx-auto leading-relaxed"
+                  class="text-toned text-base mb-6 max-w-md mx-auto leading-relaxed"
                 >
                   Access a detailed PDF version of my professional experience,
                   skills, and contact information.
@@ -312,21 +300,15 @@ onBeforeUnmount(() => {
                 </div>
 
                 <div
-                  class="mt-6 flex items-center justify-center space-x-6 text-sm text-gray-500"
+                  class="mt-6 flex items-center justify-center space-x-6 text-sm text-toned"
                 >
                   <div class="flex items-center space-x-2">
-                    <UIcon
-                      name="i-lucide-file-text"
-                      class="w-4 h-4 text-gray-400"
-                    />
+                    <UIcon name="i-lucide-file-text" class="w-4 h-4" />
                     <span>PDF Format</span>
                   </div>
                   <div class="w-px h-4 bg-gray-300"></div>
                   <div class="flex items-center space-x-2">
-                    <UIcon
-                      name="i-lucide-hard-drive"
-                      class="w-4 h-4 text-gray-400"
-                    />
+                    <UIcon name="i-lucide-hard-drive" class="w-4 h-4" />
                     <span>~200 KB</span>
                   </div>
                 </div>
