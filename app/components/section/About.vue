@@ -167,8 +167,6 @@ const createAmbientRippleAnimation = () => {
 onMounted(() => {
   if (!sectionRef.value) return;
 
-  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-
   let ambientTimeline: gsap.core.Timeline | undefined;
   if (ambientRipple.value) {
     ambientTimeline = createAmbientRippleAnimation();
