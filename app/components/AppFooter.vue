@@ -16,17 +16,17 @@ const navigation = {
   social: [
     {
       name: "GitHub",
-      href: "https://github.com",
+      href: "https://github.com/SethyRung",
       icon: "i-simple-icons-github",
     },
     {
       name: "LinkedIn",
-      href: "https://linkedin.com",
+      href: "https://linkedin.com/in/sethy-rung-146709299",
       icon: "i-simple-icons-linkedin",
     },
     {
       name: "Twitter",
-      href: "https://twitter.com",
+      href: "https://x.com/SethyRung",
       icon: "i-simple-icons-x",
     },
   ],
