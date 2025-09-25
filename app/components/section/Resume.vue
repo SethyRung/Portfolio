@@ -1,101 +1,17 @@
 <script setup lang="ts">
+import {
+  animateText,
+  animateStaggerOnScroll,
+  animateOnScroll,
+} from "~/lib/animations";
+
 const { gsap, ScrollTrigger } = useGSAP();
 
-const sectionRef = useTemplateRef("sectionRef");
 const experienceItemsRef = useTemplateRef("experienceItemsRef");
 const educationRef = useTemplateRef("educationRef");
 const downloadCtaRef = useTemplateRef("downloadCtaRef");
-
-onMounted(() => {
-  if (!sectionRef.value) return;
-
-  const header = sectionRef.value.querySelector("h2");
-  const subtitle = sectionRef.value.querySelector("p");
-
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: sectionRef.value,
-      start: "top 85%",
-      toggleActions: "play none none reverse",
-    },
-  });
-
-  if (header) {
-    tl.from(header, {
-      y: -40,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power3.out",
-    });
-  }
-
-  if (subtitle) {
-    tl.from(
-      subtitle,
-      {
-        y: 20,
-        opacity: 0,
-        duration: 0.7,
-        ease: "power2.out",
-      },
-      "-=0.5",
-    );
-  }
-
-  if (experienceItemsRef.value?.length) {
-    experienceItemsRef.value.forEach((element, i) => {
-      tl.from(
-        element,
-        {
-          x: i % 2 === 0 ? -80 : 80,
-          opacity: 0,
-          scale: 0.95,
-          duration: 0.8,
-          ease: "power2.out",
-          stagger: 0.15,
-        },
-        "-=0.3",
-      );
-    });
-  }
-
-  if (educationRef.value) {
-    tl.from(
-      educationRef.value,
-      {
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power2.out",
-      },
-      "-=0.2",
-    );
-  }
-
-  if (downloadCtaRef.value) {
-    tl.from(
-      downloadCtaRef.value,
-      {
-        y: 50,
-        opacity: 0,
-        scale: 0.8,
-        duration: 0.8,
-        ease: "back.out(1.7)",
-      },
-      "-=0.1",
-    ).to(downloadCtaRef.value, {
-      boxShadow: "0 0 20px rgba(0, 200, 150, 0.6)",
-      duration: 0.4,
-      repeat: 1,
-      yoyo: true,
-      ease: "power1.inOut",
-    });
-  }
-});
-
-onBeforeUnmount(() => {
-  ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-});
+const titleRef = useTemplateRef("titleRef");
+const subtitleRef = useTemplateRef("subtitleRef");
 
 const experience = [
   {
@@ -168,6 +84,71 @@ const downloadResume = () => {
   link.download = "sethy-rung-resume.pdf";
   link.click();
 };
+
+onMounted(() => {
+  if (titleRef.value) {
+    animateText(titleRef.value, "Resume", 0.3);
+  }
+
+  if (subtitleRef.value) {
+    gsap.fromTo(
+      subtitleRef.value,
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        delay: 0.6,
+        ease: "power2.out",
+      },
+    );
+  }
+
+  if (experienceItemsRef.value) {
+    const items = Array.isArray(experienceItemsRef.value)
+      ? experienceItemsRef.value
+      : [experienceItemsRef.value];
+    animateStaggerOnScroll(items, {
+      delay: 0.8,
+      duration: 0.6,
+    });
+  }
+
+  if (educationRef.value) {
+    animateOnScroll(educationRef.value, {
+      delay: 1.2,
+      duration: 0.8,
+    });
+  }
+
+  if (downloadCtaRef.value) {
+    gsap.fromTo(
+      downloadCtaRef.value,
+      {
+        opacity: 0,
+        scale: 0.9,
+        y: 30,
+      },
+      {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 0.8,
+        delay: 1.4,
+        ease: "back.out(1.7)",
+        scrollTrigger: {
+          trigger: downloadCtaRef.value,
+          start: "top 85%",
+          toggleActions: "play none none reverse",
+        },
+      },
+    );
+  }
+});
+
+onBeforeUnmount(() => {
+  ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+});
 </script>
 
 <template>
@@ -180,15 +161,15 @@ const downloadResume = () => {
       <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
           <h2 class="text-4xl md:text-5xl font-bold text-default mb-4">
-            <span class="text-highlighted">Resume</span>
+            <span ref="titleRef" class="text-highlighted">Resume</span>
           </h2>
-          <p class="text-xl text-toned max-w-2xl mx-auto">
+          <p ref="subtitleRef" class="text-xl text-toned max-w-2xl mx-auto">
             Download my resume or view my professional experience and education
           </p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          <div class="lg:col-span-2 space-y-8">
+        <div class="space-y-12">
+          <div class="space-y-8">
             <div class="flex items-center space-x-3 mb-6">
               <h3 class="text-2xl font-bold text-default">
                 Professional Experience
@@ -283,24 +264,73 @@ const downloadResume = () => {
 
             <div
               ref="downloadCtaRef"
-              class="bg-gradient-to-r from-blue-500/10 to-purple-600/10 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 hover:scale-105"
+              class="group relative bg-white border border-gray-200 rounded-2xl p-8 text-center transition-all duration-500 hover:border-gray-300 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)] overflow-hidden"
             >
-              <UIcon
-                name="i-lucide-file-text"
-                class="w-12 h-12 text-highlighted mx-auto mb-4"
-              />
-              <h4 class="text-lg font-bold text-default mb-2">
-                Download Resume
-              </h4>
-              <p class="text-toned text-sm mb-4">
-                Get a detailed PDF version of my resume
-              </p>
-              <UButton
-                label="Download PDF"
-                trailing-icon="i-lucide-download"
-                size="lg"
-                @click="downloadResume"
-              />
+              <div class="absolute inset-0">
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-transparent"
+                ></div>
+
+                <div
+                  class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNlNWU3ZWIiIGZpbGwtb3BhY2l0eT0iMC4zIj48cGF0aCBkPSJNNDAgMFY0MEgweiIvPjwvZz48L2c+PC9zdmc+')] opacity-10"
+                ></div>
+              </div>
+
+              <div class="relative z-10">
+                <div
+                  class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-2xl mb-6 group-hover:border-blue-300 transition-all duration-300 group-hover:scale-105 shadow-sm"
+                >
+                  <UIcon
+                    name="i-lucide-file-down"
+                    class="w-10 h-10 text-blue-600 group-hover:text-blue-700 transition-colors"
+                  />
+                </div>
+
+                <h3
+                  class="text-2xl font-bold text-gray-900 mb-3 tracking-tight"
+                >
+                  Download Resume
+                </h3>
+
+                <p
+                  class="text-gray-600 text-base mb-6 max-w-md mx-auto leading-relaxed"
+                >
+                  Access a detailed PDF version of my professional experience,
+                  skills, and contact information.
+                </p>
+
+                <!-- Professional button -->
+                <div class="inline-flex">
+                  <UButton
+                    label="Download PDF"
+                    trailing-icon="i-lucide-download"
+                    size="lg"
+                    variant="solid"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 border-0"
+                    @click="downloadResume"
+                  />
+                </div>
+
+                <div
+                  class="mt-6 flex items-center justify-center space-x-6 text-sm text-gray-500"
+                >
+                  <div class="flex items-center space-x-2">
+                    <UIcon
+                      name="i-lucide-file-text"
+                      class="w-4 h-4 text-gray-400"
+                    />
+                    <span>PDF Format</span>
+                  </div>
+                  <div class="w-px h-4 bg-gray-300"></div>
+                  <div class="flex items-center space-x-2">
+                    <UIcon
+                      name="i-lucide-hard-drive"
+                      class="w-4 h-4 text-gray-400"
+                    />
+                    <span>~200 KB</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
