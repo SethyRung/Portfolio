@@ -318,17 +318,6 @@ const projects: Project[] = [
                 color="neutral"
               />
             </div>
-            <UButton
-              v-if="project.url"
-              variant="outline"
-              size="sm"
-              color="primary"
-              trailing-icon="i-lucide-arrow-right"
-              class="hover:bg-primary hover:text-white hover:border-primary transition-all"
-              :to="project.url"
-            >
-              View Project
-            </UButton>
           </div>
         </template>
       </UCard>
