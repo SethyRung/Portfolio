@@ -329,115 +329,103 @@ onBeforeUnmount(() => {
 
 <template>
   <section id="about" ref="sectionRef" class="py-24 bg-default">
-    <div class="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-      <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-16">
-          <h2 class="text-3xl sm:text-4xl font-bold text-default mb-4">
-            About Me
-          </h2>
-          <p class="text-lg text-toned max-w-2xl mx-auto">
-            Get to know me, my journey, and what I bring to the table
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold text-default mb-4">About Me</h2>
+      <p class="text-lg text-toned max-w-2xl mx-auto">
+        Get to know me, my journey, and what I bring to the table
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      <div ref="cardRef" class="relative">
+        <div class="overflow-hidden border border-default shadow-lg rounded-xl">
+          <div class="p-8">
+            <div
+              class="aspect-square bg-elevated rounded-xl flex items-center justify-center"
+            >
+              <div class="text-center">
+                <div
+                  ref="avatarContainer"
+                  class="relative inline-block mb-6 cursor-pointer"
+                  @mouseenter="handleHoverRipple"
+                  @click="handleClickRipple"
+                >
+                  <div
+                    ref="avatarBase"
+                    class="relative w-32 h-32 bg-default rounded-full mx-auto flex items-center justify-center shadow-lg transform transition-transform duration-300 hover:scale-105 z-10"
+                  >
+                    <span class="text-3xl font-bold text-default">SR</span>
+                  </div>
+
+                  <div class="absolute inset-0 pointer-events-none">
+                    <div
+                      ref="hoverRipple"
+                      class="absolute inset-0 bg-default rounded-full scale-0 opacity-0 transform transition-all duration-500 ease-out"
+                    ></div>
+
+                    <div
+                      ref="clickRipples"
+                      class="absolute inset-0 rounded-full overflow-hidden"
+                    ></div>
+
+                    <div
+                      ref="ambientRipple"
+                      class="absolute inset-0 bg-default/20 rounded-full scale-100 opacity-30 animate-pulse"
+                    ></div>
+                  </div>
+                </div>
+
+                <h3 class="text-xl font-semibold text-default mb-2">
+                  Sethy Rung
+                </h3>
+                <p class="text-muted">Full Stack Developer</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-br from-blue-400 to-purple-400 dark:from-muted dark:to-toned rounded-full shadow-lg"
+        ></div>
+        <div
+          class="absolute -bottom-2 -left-2 w-3 h-3 bg-gradient-to-br from-green-400 to-blue-400 dark:from-muted dark:to-toned rounded-full shadow-lg"
+        ></div>
+      </div>
+
+      <!-- Content -->
+      <div ref="contentRef" class="space-y-8">
+        <div>
+          <h3 class="text-2xl font-semibold text-default mb-4">
+            Passionate Developer
+          </h3>
+          <p class="text-toned leading-relaxed">
+            I'm a passionate full-stack developer with expertise in modern web
+            technologies. I love creating beautiful, functional applications
+            that solve real-world problems and provide exceptional user
+            experiences.
           </p>
         </div>
 
-        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <div ref="cardRef" class="relative">
+        <div>
+          <h3 class="text-2xl font-semibold text-default mb-4">My Journey</h3>
+          <p class="text-toned leading-relaxed">
+            With over 3 years of experience in web development, I've worked on
+            various projects ranging from small business websites to large-scale
+            enterprise applications. I'm constantly learning and adapting to new
+            technologies and best practices.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-2xl font-semibold text-default mb-4">Expertise</h3>
+          <div class="grid grid-cols-2 gap-3">
             <div
-              class="overflow-hidden border border-default shadow-lg rounded-xl"
+              v-for="(skill, index) in skills"
+              :key="index"
+              class="flex items-center space-x-2"
             >
-              <div class="p-8">
-                <div
-                  class="aspect-square bg-elevated rounded-xl flex items-center justify-center"
-                >
-                  <div class="text-center">
-                    <div
-                      ref="avatarContainer"
-                      class="relative inline-block mb-6 cursor-pointer"
-                      @mouseenter="handleHoverRipple"
-                      @click="handleClickRipple"
-                    >
-                      <div
-                        ref="avatarBase"
-                        class="relative w-32 h-32 bg-default rounded-full mx-auto flex items-center justify-center shadow-lg transform transition-transform duration-300 hover:scale-105 z-10"
-                      >
-                        <span class="text-3xl font-bold text-default">SR</span>
-                      </div>
-
-                      <div class="absolute inset-0 pointer-events-none">
-                        <div
-                          ref="hoverRipple"
-                          class="absolute inset-0 bg-default rounded-full scale-0 opacity-0 transform transition-all duration-500 ease-out"
-                        ></div>
-
-                        <div
-                          ref="clickRipples"
-                          class="absolute inset-0 rounded-full overflow-hidden"
-                        ></div>
-
-                        <div
-                          ref="ambientRipple"
-                          class="absolute inset-0 bg-default/20 rounded-full scale-100 opacity-30 animate-pulse"
-                        ></div>
-                      </div>
-                    </div>
-
-                    <h3 class="text-xl font-semibold text-default mb-2">
-                      Sethy Rung
-                    </h3>
-                    <p class="text-muted">Full Stack Developer</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-br from-blue-400 to-purple-400 dark:from-muted dark:to-toned rounded-full shadow-lg"
-            ></div>
-            <div
-              class="absolute -bottom-2 -left-2 w-3 h-3 bg-gradient-to-br from-green-400 to-blue-400 dark:from-muted dark:to-toned rounded-full shadow-lg"
-            ></div>
-          </div>
-
-          <!-- Content -->
-          <div ref="contentRef" class="space-y-8">
-            <div>
-              <h3 class="text-2xl font-semibold text-default mb-4">
-                Passionate Developer
-              </h3>
-              <p class="text-toned leading-relaxed">
-                I'm a passionate full-stack developer with expertise in modern
-                web technologies. I love creating beautiful, functional
-                applications that solve real-world problems and provide
-                exceptional user experiences.
-              </p>
-            </div>
-
-            <div>
-              <h3 class="text-2xl font-semibold text-default mb-4">
-                My Journey
-              </h3>
-              <p class="text-toned leading-relaxed">
-                With over 3 years of experience in web development, I've worked
-                on various projects ranging from small business websites to
-                large-scale enterprise applications. I'm constantly learning and
-                adapting to new technologies and best practices.
-              </p>
-            </div>
-
-            <div>
-              <h3 class="text-2xl font-semibold text-default mb-4">
-                Expertise
-              </h3>
-              <div class="grid grid-cols-2 gap-3">
-                <div
-                  v-for="(skill, index) in skills"
-                  :key="index"
-                  class="flex items-center space-x-2"
-                >
-                  <div class="w-1.5 h-1.5 bg-muted rounded-full"></div>
-                  <span class="text-sm text-toned">{{ skill }}</span>
-                </div>
-              </div>
+              <div class="w-1.5 h-1.5 bg-muted rounded-full"></div>
+              <span class="text-sm text-toned">{{ skill }}</span>
             </div>
           </div>
         </div>

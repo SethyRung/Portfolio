@@ -240,101 +240,98 @@ const projects: Project[] = [
 
 <template>
   <section id="projects" ref="sectionRef" class="py-20">
-    <div class="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-      <div class="max-w-6xl mx-auto">
-        <!-- Section Header -->
-        <div class="text-center mb-20">
-          <h2 class="text-4xl md:text-5xl font-bold text-default mb-4">
-            My <span class="text-highlighted">Projects</span>
-          </h2>
-          <p class="text-lg text-toned max-w-2xl mx-auto leading-relaxed">
-            A showcase of my recent work and contributions to various projects
-          </p>
-        </div>
+    <div class="text-center mb-20">
+      <h2 class="text-4xl md:text-5xl font-bold text-default mb-4">
+        My <span class="text-highlighted">Projects</span>
+      </h2>
+      <p class="text-lg text-toned max-w-2xl mx-auto leading-relaxed">
+        A showcase of my recent work and contributions to various projects
+      </p>
+    </div>
 
-        <div
-          ref="projectCardsContainerRef"
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          <UCard
-            v-for="project in projects"
-            :key="project.id"
-            :ui="{
-              root: 'group flex flex-col',
-              body: 'flex-1',
-            }"
-          >
-            <template #header>
-              <div class="flex items-start justify-between card-header">
-                <div class="flex items-center space-x-3">
-                  <div
-                    class="w-12 h-12 rounded-lg bg-inverted flex items-center justify-center flex-shrink-0"
-                  >
-                    <UIcon :name="project.icon" class="size-6 text-inverted" />
-                  </div>
-                  <div>
-                    <UBadge :label="project.category" variant="soft" />
-                    <h3
-                      class="text-lg font-bold text-default group-hover:text-primary transition-colors leading-tight"
-                    >
-                      {{ project.title }}
-                    </h3>
-                  </div>
-                </div>
+    <div
+      ref="projectCardsContainerRef"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+    >
+      <UCard
+        v-for="project in projects"
+        :key="project.id"
+        :ui="{
+          root: 'group flex flex-col',
+          body: 'flex-1',
+        }"
+      >
+        <template #header>
+          <div class="flex items-start justify-between card-header">
+            <div class="flex items-center space-x-3">
+              <div
+                class="w-12 h-12 rounded-lg bg-inverted flex items-center justify-center flex-shrink-0"
+              >
+                <UIcon :name="project.icon" class="size-6 text-inverted" />
               </div>
-            </template>
-
-            <template #default>
-              <p class="text-toned text-sm mb-6 line-clamp-3 leading-relaxed">
-                {{ project.description }}
-              </p>
-
-              <div class="flex flex-wrap gap-2 mb-6">
-                <UBadge
-                  v-for="tech in project.techStack"
-                  :key="tech"
-                  :label="tech"
-                  color="neutral"
-                  variant="subtle"
-                />
-              </div>
-            </template>
-
-            <template #footer>
-              <div class="flex items-center justify-between">
-                <div class="flex space-x-2">
-                  <UButton
-                    :to="project.githubUrl"
-                    target="_blank"
-                    variant="ghost"
-                    size="sm"
-                    icon="i-lucide-github"
-                    color="neutral"
-                  />
-                  <UButton
-                    v-if="!!project.demoUrl"
-                    :to="project.demoUrl"
-                    target="_blank"
-                    variant="ghost"
-                    size="sm"
-                    icon="i-lucide-external-link"
-                    color="neutral"
-                  />
-                </div>
-                <UButton
-                  variant="outline"
-                  size="sm"
-                  color="primary"
-                  trailing-icon="i-lucide-arrow-right"
-                  class="hover:bg-primary hover:text-white hover:border-primary transition-all"
+              <div>
+                <UBadge :label="project.category" variant="soft" />
+                <h3
+                  class="text-lg font-bold text-default group-hover:text-primary transition-colors leading-tight"
                 >
-                  View Project
-                </UButton>
+                  {{ project.title }}
+                </h3>
               </div>
-            </template>
-          </UCard>
-        </div>
-      </div>
+            </div>
+          </div>
+        </template>
+
+        <template #default>
+          <p class="text-toned text-sm mb-6 line-clamp-3 leading-relaxed">
+            {{ project.description }}
+          </p>
+
+          <div class="flex flex-wrap gap-2 mb-6">
+            <UBadge
+              v-for="tech in project.techStack"
+              :key="tech"
+              :label="tech"
+              color="neutral"
+              variant="subtle"
+            />
+          </div>
+        </template>
+
+        <template #footer>
+          <div class="flex items-center justify-between">
+            <div class="flex space-x-2">
+              <UButton
+                :to="project.githubUrl"
+                target="_blank"
+                variant="ghost"
+                size="sm"
+                icon="i-lucide-github"
+                color="neutral"
+              />
+              <UButton
+                v-if="!!project.demoUrl"
+                :to="project.demoUrl"
+                target="_blank"
+                variant="ghost"
+                size="sm"
+                icon="i-lucide-external-link"
+                color="neutral"
+              />
+            </div>
+            <UButton
+              v-if="project.url"
+              variant="outline"
+              size="sm"
+              color="primary"
+              trailing-icon="i-lucide-arrow-right"
+              class="hover:bg-primary hover:text-white hover:border-primary transition-all"
+              :to="project.url"
+            >
+              View Project
+            </UButton>
+          </div>
+        </template>
+      </UCard>
     </div>
   </section>
 </template>

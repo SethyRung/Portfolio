@@ -154,49 +154,44 @@ onBeforeUnmount(() => {
 
 <template>
   <section id="skills" ref="skillsSection" class="py-20 bg-muted/10">
-    <div class="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-      <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-16">
-          <h2 class="text-4xl md:text-5xl font-bold text-default mb-4">
-            Tech <span class="text-highlighted">Stack</span>
-          </h2>
-          <p class="text-xl text-toned max-w-2xl mx-auto">
-            Technologies I love working with
-          </p>
-        </div>
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold text-default mb-4">
+        Tech <span class="text-highlighted">Stack</span>
+      </h2>
+      <p class="text-xl text-toned max-w-2xl mx-auto">
+        Technologies I love working with
+      </p>
+    </div>
 
-        <div class="space-y-16">
+    <div class="space-y-16">
+      <div
+        v-for="category in categories"
+        :key="category.name"
+        class="space-y-8"
+      >
+        <h3 ref="categoryName" class="text-2xl font-bold text-default">
+          {{ category.name }}
+        </h3>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <div
-            v-for="category in categories"
-            :key="category.name"
-            class="space-y-8"
+            v-for="tech in category.techs"
+            :key="tech.name"
+            ref="techCards"
+            class="group relative rounded-xl p-6 border border-muted transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-highlighted/30"
           >
-            <h3 ref="categoryName" class="text-2xl font-bold text-default">
-              {{ category.name }}
-            </h3>
-
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              <div
-                v-for="tech in category.techs"
-                :key="tech.name"
-                ref="techCards"
-                class="group relative rounded-xl p-6 border border-muted transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-highlighted/30"
-              >
-                <div class="flex flex-col items-center space-y-3">
-                  <UIcon
-                    :name="tech.icon"
-                    class="w-12 h-12"
-                    :alt="`${tech.name} icon`"
-                    :style="{
-                      color:
-                        $colorMode.preference === 'light' ? tech.color : '',
-                    }"
-                  />
-                  <h4 class="font-semibold text-default">
-                    {{ tech.name }}
-                  </h4>
-                </div>
-              </div>
+            <div class="flex flex-col items-center space-y-3">
+              <UIcon
+                :name="tech.icon"
+                class="w-12 h-12"
+                :alt="`${tech.name} icon`"
+                :style="{
+                  color: $colorMode.preference === 'light' ? tech.color : '',
+                }"
+              />
+              <h4 class="font-semibold text-default">
+                {{ tech.name }}
+              </h4>
             </div>
           </div>
         </div>
