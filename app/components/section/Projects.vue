@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+const { gsap, ScrollTrigger } = useGSAP();
 
 type Project = {
   id: number;
@@ -12,8 +11,6 @@ type Project = {
   githubUrl: string;
   demoUrl: string;
 };
-
-gsap.registerPlugin(ScrollTrigger);
 
 const sectionRef = useTemplateRef("sectionRef");
 const projectCardsContainerRef = useTemplateRef("projectCardsContainerRef");
@@ -62,27 +59,25 @@ onMounted(() => {
 
   if (projectCardsContainerRef.value) {
     const projectCards = Array.from(projectCardsContainerRef.value.children);
-    gsap.fromTo(
-      projectCards,
-      { opacity: 0, y: 60, scale: 0.95 },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 1,
-        stagger: 0.15,
-        delay: 0.4,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: projectCards[0],
-          start: "top 85%",
-          end: "bottom 60%",
-          toggleActions: "play none none reverse",
-        },
-      },
-    );
 
-    // Add hover animations to cards
+    gsap.set(projectCards, { opacity: 0, y: 60, scale: 0.95 });
+
+    gsap.to(projectCards, {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 1,
+      stagger: 0.15,
+      delay: 0.4,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: projectCards[0],
+        start: "top 85%",
+        end: "bottom 60%",
+        toggleActions: "play none none reverse",
+      },
+    });
+
     projectCards.forEach((card) => {
       if (!card) return;
 
