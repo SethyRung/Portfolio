@@ -5,7 +5,7 @@
     <AppHeader />
     <ScrollSmootherWrapper>
       <UMain>
-        <UContainer>
+        <UContainer class="overflow-x-hidden">
           <slot></slot>
         </UContainer>
       </UMain>
