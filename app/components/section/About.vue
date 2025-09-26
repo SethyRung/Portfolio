@@ -172,20 +172,18 @@ onMounted(() => {
     ambientTimeline = createAmbientRippleAnimation();
   }
 
-  gsap.fromTo(
-    sectionRef.value,
-    { opacity: 0, y: 50 },
-    {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      scrollTrigger: {
-        trigger: sectionRef.value,
-        start: "top 80%",
-        toggleActions: "play none none reverse",
-      },
+  gsap.set(sectionRef.value, { opacity: 0, y: 50 });
+
+  gsap.to(sectionRef.value, {
+    opacity: 1,
+    y: 0,
+    duration: 1,
+    scrollTrigger: {
+      trigger: sectionRef.value,
+      start: "top 80%",
+      toggleActions: "play none none reverse",
     },
-  );
+  });
 
   if (avatarContainer.value) {
     const avatarTimeline = gsap.timeline({
@@ -265,44 +263,43 @@ onMounted(() => {
   }
 
   if (contentRef.value) {
-    gsap.fromTo(
-      contentRef.value.children,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        scrollTrigger: {
-          trigger: contentRef.value,
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse",
-        },
+    const contentChildren = Array.from(contentRef.value.children);
+
+    // Set initial state for content children to be hidden
+    gsap.set(contentChildren, { opacity: 0, y: 30 });
+
+    gsap.to(contentChildren, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      stagger: 0.2,
+      scrollTrigger: {
+        trigger: contentRef.value,
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse",
       },
-    );
+    });
   }
 
   const floatingAccents = cardRef.value?.querySelectorAll(
     ".absolute.-top-2, .absolute.-bottom-2",
   );
-  if (floatingAccents) {
-    gsap.fromTo(
-      floatingAccents,
-      { opacity: 0, scale: 0 },
-      {
-        opacity: 1,
-        scale: 1,
-        duration: 0.6,
-        stagger: 0.2,
-        ease: "back.out(1.7)",
-        scrollTrigger: {
-          trigger: cardRef.value,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
+  if (floatingAccents && floatingAccents.length > 0) {
+    gsap.set(floatingAccents, { opacity: 0, scale: 0 });
+
+    gsap.to(floatingAccents, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.6,
+      stagger: 0.2,
+      ease: "back.out(1.7)",
+      scrollTrigger: {
+        trigger: cardRef.value,
+        start: "top 85%",
+        toggleActions: "play none none reverse",
       },
-    );
+    });
   }
 
   return () => {
