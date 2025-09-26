@@ -153,7 +153,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section id="skills" ref="skillsSection" class="py-20 bg-muted/10">
+  <section id="skills" ref="skillsSection" class="py-20">
     <div class="text-center mb-16">
       <h2 class="text-4xl md:text-5xl font-bold text-default mb-4">
         Tech <span class="text-highlighted">Stack</span>
