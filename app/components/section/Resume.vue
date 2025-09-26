@@ -1,24 +1,14 @@
 <script setup lang="ts">
-import {
-  animateText,
-  animateStaggerOnScroll,
-  animateOnScroll,
-} from "~/lib/animations";
-
 const { gsap, ScrollTrigger } = useGSAP();
-
-const experienceItemsRef = useTemplateRef("experienceItemsRef");
-const educationRef = useTemplateRef("educationRef");
-const downloadCtaRef = useTemplateRef("downloadCtaRef");
-const titleRef = useTemplateRef("titleRef");
-const subtitleRef = useTemplateRef("subtitleRef");
 
 const experience = [
   {
     id: 1,
-    title: "Junior Frontend Developer",
+    position: "Junior Frontend Developer",
     company: "InnoBlock Technology",
-    period: "2025 – Present",
+    startDate: "2025-01-01",
+    endDate: null,
+    location: "Remote",
     description:
       "Contributing to the TTGreen Project, a sustainability and carbon management platform.",
     responsibilities: [
@@ -29,12 +19,15 @@ const experience = [
       "Working on sustainability-focused features for carbon management",
     ],
     technologies: ["Vue 3", "Nuxt.js", "Tailwind CSS"],
+    website: "https://www.innoblocktech.com/",
   },
   {
     id: 2,
-    title: "Young Credit Bureau Program",
+    position: "Young Credit Bureau Program",
     company: "Credit Bureau Cambodia (CBC)",
-    period: "2024 – 2025",
+    startDate: "2023-11-01",
+    endDate: "2024-12-31",
+    location: "Phnom Penh, Cambodia",
     description:
       "Contributed to various projects focusing on credit bureau systems and security.",
     responsibilities: [
@@ -50,12 +43,15 @@ const experience = [
       "Spring Boot",
       "Fast API",
     ],
+    website: "https://www.creditbureau.com.kh/",
   },
   {
     id: 3,
-    title: "Full Stack Developer",
+    position: "Full Stack Developer",
     company: "Personal Projects",
-    period: "2024 – Present",
+    startDate: "2024-01-01",
+    endDate: null,
+    location: "Phnom Penh, Cambodia",
     description:
       "Developing various full-stack applications to showcase technical skills and creativity.",
     responsibilities: [
@@ -64,6 +60,7 @@ const experience = [
       "News Website: Nuxt + Directus CMS with banners, ads, and dynamic navigation",
     ],
     technologies: ["Nuxt.js", "Next.js", "NestJS", "Spring Boot", "Directus"],
+    website: null,
   },
 ];
 
@@ -74,7 +71,7 @@ const education = [
     institution: "Royal University of Phnom Penh",
     period: "2019 - 2023",
     description:
-      "Graduated with honors, specializing in software engineering and web technologies.",
+      "Successfully completed the requirements for and was awarded the Bachelor of Science degree from the Royal University of Phnom Penh (RUPP).",
   },
 ];
 
@@ -85,65 +82,121 @@ const downloadResume = () => {
   link.click();
 };
 
-onMounted(() => {
-  if (titleRef.value) {
-    animateText(titleRef.value, "Resume", 0.3);
-  }
+const animateTimelineItems = () => {
+  const items = document.querySelectorAll("[data-timeline-item]");
 
-  if (subtitleRef.value) {
+  items.forEach((item, index) => {
     gsap.fromTo(
-      subtitleRef.value,
-      { opacity: 0, y: 20 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: 0.6,
-        ease: "power2.out",
-      },
-    );
-  }
-
-  if (experienceItemsRef.value) {
-    const items = Array.isArray(experienceItemsRef.value)
-      ? experienceItemsRef.value
-      : [experienceItemsRef.value];
-    animateStaggerOnScroll(items, {
-      delay: 0.8,
-      duration: 0.6,
-    });
-  }
-
-  if (educationRef.value) {
-    animateOnScroll(educationRef.value, {
-      delay: 1.2,
-      duration: 0.8,
-    });
-  }
-
-  if (downloadCtaRef.value) {
-    gsap.fromTo(
-      downloadCtaRef.value,
+      item,
       {
         opacity: 0,
-        scale: 0.9,
-        y: 30,
+        x: index % 2 === 0 ? -50 : 50,
       },
       {
         opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 0.8,
-        delay: 1.4,
-        ease: "back.out(1.7)",
+        x: 0,
+        duration: 0.6,
+        delay: index * 0.1,
         scrollTrigger: {
-          trigger: downloadCtaRef.value,
-          start: "top 85%",
+          trigger: item,
+          start: "top 80%",
           toggleActions: "play none none reverse",
         },
       },
     );
-  }
+  });
+};
+
+const animateEducationSection = () => {
+  const educationCard = document.querySelector("[data-education-card]");
+  const educationHeader = document.querySelector("[data-education-header]");
+
+  gsap.fromTo(
+    educationHeader,
+    {
+      opacity: 0,
+      y: -30,
+    },
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      delay: 0.2,
+      scrollTrigger: {
+        trigger: educationHeader,
+        start: "top 80%",
+        toggleActions: "play none none reverse",
+      },
+    },
+  );
+
+  gsap.fromTo(
+    educationCard,
+    {
+      opacity: 0,
+      scale: 0.9,
+    },
+    {
+      opacity: 1,
+      scale: 1,
+      duration: 0.8,
+      delay: 0.4,
+      scrollTrigger: {
+        trigger: educationCard,
+        start: "top 80%",
+        toggleActions: "play none none reverse",
+      },
+    },
+  );
+};
+
+const animateResumeSection = () => {
+  const resumeCard = document.querySelector("[data-resume-card]");
+  const resumeHeader = document.querySelector("[data-resume-header]");
+
+  gsap.fromTo(
+    resumeHeader,
+    {
+      opacity: 0,
+      y: -30,
+    },
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      delay: 0.3,
+      scrollTrigger: {
+        trigger: resumeHeader,
+        start: "top 80%",
+        toggleActions: "play none none reverse",
+      },
+    },
+  );
+
+  gsap.fromTo(
+    resumeCard,
+    {
+      opacity: 0,
+      scale: 0.9,
+    },
+    {
+      opacity: 1,
+      scale: 1,
+      duration: 0.8,
+      delay: 0.5,
+      scrollTrigger: {
+        trigger: resumeCard,
+        start: "top 80%",
+        toggleActions: "play none none reverse",
+      },
+    },
+  );
+};
+
+onMounted(() => {
+  animateTimelineItems();
+  animateEducationSection();
+  animateResumeSection();
 });
 
 onBeforeUnmount(() => {
@@ -152,168 +205,280 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section
-    id="resume"
-    ref="sectionRef"
-    class="py-20 bg-muted/10 relative overflow-hidden"
-  >
-    <div class="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 relative z-10">
-      <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-16">
-          <h2 class="text-4xl md:text-5xl font-bold text-default mb-4">
-            <span ref="titleRef" class="text-highlighted">Resume</span>
-          </h2>
-          <p ref="subtitleRef" class="text-xl text-toned max-w-2xl mx-auto">
-            Download my resume or view my professional experience and education
-          </p>
-        </div>
+  <section id="resume" class="py-20 bg-default dark:bg-dark-800">
+    <div class="mb-16">
+      <h2 class="text-4xl font-bold text-center mb-4">
+        Professional Experience
+      </h2>
+      <p
+        class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-center"
+      >
+        My journey through the tech industry, building innovative solutions
+      </p>
 
-        <div class="space-y-12">
-          <div class="space-y-8">
-            <div class="flex items-center space-x-3 mb-6">
-              <h3 class="text-2xl font-bold text-default">
-                Professional Experience
-              </h3>
-            </div>
+      <div class="relative mt-12">
+        <div
+          class="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-accented transform -translate-x-1/2"
+        ></div>
 
-            <div class="space-y-6">
-              <div
-                v-for="exp in experience"
-                :key="exp.id"
-                ref="experienceItemsRef"
-                class="bg-background rounded-xl p-6 border border-muted hover:border-highlighted/30 transition-all duration-300 hover:shadow-lg"
-              >
-                <div
-                  class="flex flex-col md:flex-row md:items-start md:justify-between mb-4"
+        <div class="space-y-8 md:space-y-12">
+          <div
+            v-for="(exp, index) in experience"
+            :key="exp.id"
+            data-timeline-item
+            class="relative"
+          >
+            <div
+              :class="[
+                'flex items-center',
+                index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse',
+              ]"
+            >
+              <div class="md:w-1/2 px-4">
+                <UCard
+                  class="rounded-xl shadow-lg hover:shadow-xl transition-shadow"
                 >
-                  <div>
-                    <h4 class="text-xl font-bold text-default mb-1">
-                      {{ exp.title }}
-                    </h4>
-                    <p class="text-highlighted font-medium">
-                      {{ exp.company }}
-                    </p>
+                  <div class="flex items-start justify-between mb-4">
+                    <div>
+                      <h3 class="text-xl font-semibold">
+                        {{ exp.position }}
+                      </h3>
+                      <p class="text-green-500 font-medium">
+                        {{ exp.company }}
+                      </p>
+                    </div>
+                    <UButton
+                      v-if="exp.website"
+                      icon="i-lucide-external-link"
+                      :to="exp.website"
+                      target="_blank"
+                      color="neutral"
+                      variant="link"
+                    />
                   </div>
+
                   <div
-                    class="flex items-center space-x-2 text-sm text-toned mt-2 md:mt-0"
+                    class="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400 mb-4"
                   >
-                    <UIcon name="i-lucide-calendar" class="w-4 h-4" />
-                    <span>{{ exp.period }}</span>
+                    <div class="flex items-center space-x-1">
+                      <UIcon name="i-lucide-calendar" class="w-4 h-4" />
+                      <span>
+                        {{
+                          new Date(exp.startDate).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                          })
+                        }}
+                        -
+                        {{
+                          exp.endDate
+                            ? new Date(exp.endDate).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "long",
+                                },
+                              )
+                            : "Present"
+                        }}
+                      </span>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                      <UIcon name="i-lucide-map-pin" class="w-4 h-4" />
+                      <span>{{ exp.location }}</span>
+                    </div>
                   </div>
-                </div>
 
-                <p class="text-toned mb-4">{{ exp.description }}</p>
+                  <p class="text-gray-700 dark:text-gray-300 mb-4">
+                    {{ exp.description }}
+                  </p>
 
-                <div class="space-y-2">
-                  <h5 class="font-medium text-default">
-                    Key Responsibilities:
-                  </h5>
-                  <ul class="space-y-1">
-                    <li
-                      v-for="responsibility in exp.responsibilities"
-                      :key="responsibility"
-                      class="flex items-start space-x-2 text-sm text-toned"
-                    >
-                      <div
-                        class="w-1.5 h-1.5 bg-highlighted rounded-full mt-2 flex-shrink-0"
-                      ></div>
-                      <span>{{ responsibility }}</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="flex flex-wrap gap-2 mt-4">
-                  <span
-                    v-for="tech in exp.technologies"
-                    :key="tech"
-                    class="px-2 py-1 bg-muted/50 text-toned text-xs rounded-md"
+                  <div
+                    v-if="
+                      exp.responsibilities && exp.responsibilities.length > 0
+                    "
+                    class="mb-4"
                   >
-                    {{ tech }}
-                  </span>
+                    <h4
+                      class="font-medium text-gray-900 dark:text-gray-100 mb-2"
+                    >
+                      Key Responsibilities:
+                    </h4>
+                    <ul class="space-y-1">
+                      <li
+                        v-for="responsibility in exp.responsibilities"
+                        :key="responsibility"
+                        class="flex items-start space-x-2 text-sm"
+                      >
+                        <div
+                          class="w-1.5 h-1.5 bg-accent-600 rounded-full mt-2 flex-shrink-0"
+                        ></div>
+                        <span>{{ responsibility }}</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="flex flex-wrap gap-2">
+                    <UBadge
+                      v-for="tech in exp.technologies"
+                      :key="tech"
+                      :label="tech"
+                      variant="subtle"
+                    />
+                  </div>
+                </UCard>
+              </div>
+
+              <div class="hidden md:flex md:w-1/2 justify-center relative">
+                <div
+                  class="absolute top-1/2 left-0 right-0 h-0.5 bg-accented"
+                ></div>
+                <div
+                  class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold z-10 shadow-lg"
+                >
+                  {{ index + 1 }}
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
 
-          <div class="space-y-8">
-            <div ref="educationRef" class="space-y-6">
-              <div class="flex items-center space-x-3 mb-6">
-                <h3 class="text-2xl font-bold text-default">Education</h3>
-              </div>
+    <div class="mt-16">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="h-full flex flex-col">
+          <div class="text-center mb-6" data-education-header>
+            <h3
+              class="text-2xl font-bold flex items-center justify-center space-x-2 mb-4"
+            >
+              <UIcon
+                name="i-lucide-graduation-cap"
+                class="w-6 h-6 text-accent-600"
+              />
+              <span>Education</span>
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+              Academic background and qualifications
+            </p>
+          </div>
 
-              <div
-                v-for="edu in education"
-                :key="edu.id"
-                class="rounded-xl p-6 border border-muted"
-              >
-                <h4 class="text-lg font-bold text-default mb-1">
-                  {{ edu.degree }}
-                </h4>
-                <p class="text-highlighted font-medium mb-2">
-                  {{ edu.institution }}
-                </p>
+          <div class="max-w-xl mx-auto h-full flex flex-col gap-4">
+            <UCard
+              v-for="edu in education"
+              :key="edu.id"
+              data-education-card
+              :ui="{
+                root: 'flex-1 flex flex-col shadow-lg hover:shadow-xl transition-all duration-300',
+                header: 'flex justify-between',
+                body: 'flex-1',
+              }"
+            >
+              <template #header>
+                <div>
+                  <h4
+                    class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1"
+                  >
+                    {{ edu.degree }}
+                  </h4>
+                  <p class="text-accent-600 dark:text-accent-400 font-medium">
+                    {{ edu.institution }}
+                  </p>
+                </div>
                 <div
-                  class="flex items-center space-x-2 text-sm text-toned mb-3"
+                  class="flex items-center space-x-1 text-sm text-gray-500 dark:text-gray-400"
                 >
                   <UIcon name="i-lucide-calendar" class="w-4 h-4" />
                   <span>{{ edu.period }}</span>
                 </div>
-                <p class="text-sm text-toned">{{ edu.description }}</p>
-              </div>
-            </div>
+              </template>
 
-            <div
-              ref="downloadCtaRef"
-              class="group relative border border-muted rounded-2xl p-8 text-center transition-all duration-500 hover:border-gray-300 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)] overflow-hidden"
-            >
-              <div class="relative z-10">
+              <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                {{ edu.description }}
+              </p>
+
+              <template #footer>
                 <div
-                  class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-2xl mb-6 group-hover:border-blue-300 transition-all duration-300 group-hover:scale-105 shadow-sm"
+                  class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400"
                 >
                   <UIcon
-                    name="i-lucide-file-down"
-                    class="w-10 h-10 text-blue-600 group-hover:text-blue-700 transition-colors"
+                    name="i-lucide-award"
+                    class="w-4 h-4 text-accent-600"
                   />
+                  <span>Graduated</span>
                 </div>
+              </template>
+            </UCard>
+          </div>
+        </div>
 
-                <h3 class="text-2xl font-bold text-default mb-3 tracking-tight">
-                  Download Resume
-                </h3>
+        <div class="h-full flex flex-col">
+          <div class="text-center mb-6" data-resume-header>
+            <h3
+              class="text-2xl font-bold flex items-center justify-center space-x-2 mb-4"
+            >
+              <UIcon name="i-lucide-download" class="w-6 h-6 text-accent-600" />
+              <span>Get My Resume</span>
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+              Download a comprehensive PDF version
+            </p>
+          </div>
 
-                <p
-                  class="text-toned text-base mb-6 max-w-md mx-auto leading-relaxed"
+          <div class="max-w-xl mx-auto flex-grow">
+            <UCard
+              data-resume-card
+              :ui="{
+                root: 'flex-1 flex flex-col shadow-lg hover:shadow-xl transition-all duration-300',
+                header: 'flex justify-between',
+                body: 'flex-1',
+              }"
+            >
+              <template #header>
+                <div>
+                  <h4
+                    class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1"
+                  >
+                    Professional Resume
+                  </h4>
+                  <p class="text-accent-600 dark:text-accent-400 font-medium">
+                    Complete career overview
+                  </p>
+                </div>
+                <div
+                  class="flex items-center space-x-1 text-sm text-gray-500 dark:text-gray-400"
                 >
-                  Access a detailed PDF version of my professional experience,
-                  skills, and contact information.
-                </p>
+                  <UIcon name="i-lucide-file-text" class="w-4 h-4" />
+                  <span>PDF</span>
+                </div>
+              </template>
 
-                <!-- Professional button -->
-                <div class="inline-flex">
+              <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                Comprehensive document detailing my professional experience,
+                technical skills, educational background, and notable projects.
+                Perfect for recruitment and partnership opportunities.
+              </p>
+
+              <template #footer>
+                <div class="flex items-center justify-between">
+                  <div
+                    class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400"
+                  >
+                    <UIcon
+                      name="i-lucide-download"
+                      class="w-4 h-4 text-accent-600"
+                    />
+                    <span>~200 KB</span>
+                  </div>
                   <UButton
-                    label="Download PDF"
+                    label="Download"
                     trailing-icon="i-lucide-download"
-                    size="lg"
-                    variant="solid"
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 border-0"
+                    size="xs"
                     @click="downloadResume"
                   />
                 </div>
-
-                <div
-                  class="mt-6 flex items-center justify-center space-x-6 text-sm text-toned"
-                >
-                  <div class="flex items-center space-x-2">
-                    <UIcon name="i-lucide-file-text" class="w-4 h-4" />
-                    <span>PDF Format</span>
-                  </div>
-                  <div class="w-px h-4 bg-gray-300"></div>
-                  <div class="flex items-center space-x-2">
-                    <UIcon name="i-lucide-hard-drive" class="w-4 h-4" />
-                    <span>~200 KB</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+              </template>
+            </UCard>
           </div>
         </div>
       </div>

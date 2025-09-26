@@ -4,9 +4,11 @@
   <div class="bg-default font-geist relative">
     <AppHeader />
     <ScrollSmootherWrapper>
-      <main>
-        <slot></slot>
-      </main>
+      <UMain>
+        <UContainer>
+          <slot></slot>
+        </UContainer>
+      </UMain>
       <AppFooter />
     </ScrollSmootherWrapper>
   </div>

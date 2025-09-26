@@ -59,7 +59,7 @@ const scrollToTop = () => {
 
 <template>
   <footer class="border-t border-default bg-default">
-    <div class="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+    <div class="w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-8">
       <div class="py-12">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
           <!-- Logo and description -->

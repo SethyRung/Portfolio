@@ -125,7 +125,7 @@ onClickOutside(mobileMenuRef, (event: MouseEvent) => {
     ref="headerRef"
     class="fixed top-0 w-full z-50 border-b border-default bg-default/75 backdrop-blur-sm"
   >
-    <div class="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+    <div class="w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex h-16 items-center justify-between">
         <!-- Logo -->
         <div class="flex items-center">

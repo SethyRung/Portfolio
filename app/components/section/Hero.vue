@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { gsap } from "gsap";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { animateText } from "~/lib/animations";
 
-gsap.registerPlugin(ScrollToPlugin);
+const { gsap } = useGSAP();
 
 const nameRef = useTemplateRef("nameRef");
 const titleRef = useTemplateRef("titleRef");
@@ -11,7 +9,6 @@ const subtitleRef = useTemplateRef("subtitleRef");
 const ctaRef = useTemplateRef("ctaRef");
 
 onMounted(() => {
-  // Set initial states for timeline animations
   if (titleRef.value) {
     gsap.set(titleRef.value, { opacity: 0, y: 30, scale: 0.95 });
   }
@@ -24,12 +21,10 @@ onMounted(() => {
 
   const tl = gsap.timeline();
 
-  // Animate name with text animation
   if (nameRef.value) {
     animateText(nameRef.value, "Sethy Rung", 0.5);
   }
 
-  // Animate title with enhanced easing
   if (titleRef.value) {
     tl.to(titleRef.value, {
       opacity: 1,
@@ -41,7 +36,6 @@ onMounted(() => {
     });
   }
 
-  // Animate subtitle
   if (subtitleRef.value) {
     tl.to(
       subtitleRef.value,
@@ -56,7 +50,6 @@ onMounted(() => {
     );
   }
 
-  // Animate CTA buttons with bounce effect
   if (ctaRef.value) {
     tl.to(
       ctaRef.value,
@@ -71,7 +64,6 @@ onMounted(() => {
     );
   }
 
-  // Fallback: make content visible after 3 seconds if animations don't work
   setTimeout(() => {
     if (titleRef.value) gsap.set(titleRef.value, { opacity: 1, y: 0 });
     if (subtitleRef.value) gsap.set(subtitleRef.value, { opacity: 1, y: 0 });
@@ -80,7 +72,6 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  // Cleanup any ongoing animations
   gsap.killTweensOf([titleRef.value, subtitleRef.value, ctaRef.value]);
 });
 
@@ -104,7 +95,6 @@ function scrollToSection(sectionId: string) {
     id="hero"
     class="min-h-screen flex items-center justify-center relative bg-default overflow-hidden"
   >
-    <!-- Decorative elements -->
     <div class="absolute top-10 left-10 w-24 h-24 animate-pulse">
       <DecorativeCircle />
     </div>
@@ -124,7 +114,7 @@ function scrollToSection(sectionId: string) {
       <DecorativeDots />
     </div>
 
-    <div class="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 z-10">
+    <div class="z-10">
       <div class="max-w-4xl mx-auto text-center">
         <div ref="nameRef" class="text-default"></div>
 
