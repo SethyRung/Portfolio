@@ -1,7 +1,78 @@
 <script setup lang="ts">
-import { animateStaggerOnScroll, animateOnScroll } from "~/lib/animations";
-
 const { gsap, ScrollTrigger } = useGSAP();
+
+const { width } = useWindowSize();
+const isMobile = computed(() => width.value < 768);
+
+const animateOnScroll = (element: HTMLElement, animation = {}) => {
+  // Set initial state
+  gsap.set(element, {
+    opacity: 0,
+    y: 50,
+  });
+
+  gsap.to(element, {
+    opacity: 1,
+    y: 0,
+    duration: 1,
+    scrollTrigger: {
+      trigger: element,
+      start: "top 80%",
+      end: "bottom 20%",
+      toggleActions: "play none none reverse",
+    },
+    ...animation,
+  });
+};
+
+// Inline animateStaggerOnScroll function
+const animateStaggerOnScroll = (elements: HTMLElement[], animation = {}) => {
+  if (isMobile.value) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            gsap.fromTo(
+              elements,
+              { opacity: 0, y: 50 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power2.out",
+                ...animation,
+              },
+            );
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+
+    if (elements.length > 0) {
+      observer.observe(elements[0]!);
+    }
+  } else {
+    gsap.fromTo(
+      elements,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: elements[0],
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+        ...animation,
+      },
+    );
+  }
+};
 
 const skillsSection = useTemplateRef("skillsSection");
 const categoryName = useTemplateRef("categoryName");

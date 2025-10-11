@@ -92,7 +92,6 @@ app/
 ├── layouts/            # Layout components
 ├── pages/              # Route pages
 ├── lib/                # Utility libraries
-│   └── animations.ts   # GSAP animation helpers
 └── assets/             # Static assets
     └── css/
         └── main.css    # Global styles

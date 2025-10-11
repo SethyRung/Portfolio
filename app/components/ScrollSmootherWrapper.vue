@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { gsap } from "gsap";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
-
-gsap.registerPlugin(ScrollSmoother);
+const { ScrollSmoother } = useGSAP();
 
 const wrapperRef = useTemplateRef("wrapperRef");
 const contentRef = useTemplateRef("contentRef");
+
 let scrollSmoother: ScrollSmoother | null = null;
 
 onMounted(() => {

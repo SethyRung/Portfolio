@@ -1,9 +1,6 @@
 <script setup lang="ts">
+const { gsap } = useGSAP();
 import { titleCase } from "scule";
-import { gsap } from "gsap";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-
-gsap.registerPlugin(ScrollToPlugin);
 
 const navigation = {
   main: [
