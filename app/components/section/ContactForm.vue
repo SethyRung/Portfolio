@@ -39,18 +39,60 @@ const animateFormStep = (
     },
   });
 
-  tl.fromTo(
-    stepElement,
+    const mm = gsap.matchMedia();
+
+  mm.add(
     {
-      opacity: 0,
-      x: direction === "next" ? 50 : -50,
+      desktop: "(min-width: 768px)",
+      mobile: "(max-width: 767px)",
     },
-    {
-      opacity: 1,
-      x: 0,
-      duration: 0.5,
-      ease: "power3.out",
-    },
+    (context) => {
+      if (!context.conditions) return;
+      const { desktop, mobile } = context.conditions;
+
+      if (desktop) {
+                tl.fromTo(
+          stepElement,
+          {
+            opacity: 0,
+            x: direction === "next" ? 50 : -50,
+          },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.5,
+            ease: "power3.out",
+          },
+        );
+      }
+
+      if (mobile) {
+                const form = stepElement.closest('form');
+        if (form) {
+          form.style.overflow = 'hidden';
+        }
+
+        tl.fromTo(
+          stepElement,
+          {
+            opacity: 0,
+            y: direction === "next" ? 30 : -30,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            ease: "power3.out",
+            onComplete: () => {
+                            if (form) {
+                form.style.overflow = '';
+              }
+              if (onComplete) onComplete();
+            },
+          },
+        );
+      }
+    }
   );
 
   return tl;
@@ -341,8 +383,9 @@ const nextStep = () => {
   try {
     if (canGoNext.value && currentStep.value < steps.length) {
       const currentStepIndex = Math.max(0, currentStep.value - 1);
-      if (steps[currentStepIndex]) {
-        steps[currentStepIndex].isComplete = true;
+      const step = steps[currentStepIndex];
+      if (step) {
+        step.isComplete = true;
       }
 
       currentStep.value++;
@@ -493,8 +536,7 @@ const initializeFormAnimations = () => {
   try {
     const responseCardEl = responseTimeCardRef.value?.$el as HTMLElement;
 
-    // Animate response time card
-    if (responseCardEl && currentStep.value !== 2) {
+        if (responseCardEl && currentStep.value !== 2) {
       animateResponseCard(responseCardEl);
     }
   } catch (error) {

@@ -13,270 +13,505 @@ const socialLinksRef = useTemplateRef<HTMLElement[]>("socialLinksRef");
 const contactInfoCardRef = useTemplateRef<any>("contactInfoCardRef");
 const socialCardRef = useTemplateRef<any>("socialCardRef");
 
-const contactAnimations: gsap.core.Timeline[] = [];
+const contactAnimations: (gsap.core.Timeline | gsap.core.Tween)[] = [];
+const matchMediaInstances: gsap.MatchMedia[] = [];
+const hoverEventListeners: { element: HTMLElement; type: string; listener: EventListener }[] = [];
+let overflowProtectionCount = 0;
+const setOverflowProtection = (section: HTMLElement | null, protect: boolean) => {
+  if (!section) return;
+
+  if (protect) {
+    overflowProtectionCount++;
+    if (overflowProtectionCount === 1) {
+      section.style.overflow = 'hidden';
+    }
+  } else {
+    overflowProtectionCount = Math.max(0, overflowProtectionCount - 1);
+    if (overflowProtectionCount === 0) {
+      section.style.overflow = '';
+    }
+  }
+};
 const animateContactSection = (elements: {
   title: HTMLElement;
   subtitle: HTMLElement;
   form: HTMLElement;
   contactCard: HTMLElement;
   socialCard: HTMLElement;
-}) => {
-  const tl = gsap.timeline({ delay: 0.2 });
+}): gsap.MatchMedia => {
+  const mm = gsap.matchMedia();
+  matchMediaInstances.push(mm);
 
-  gsap.set(elements.title, { opacity: 0, y: 30 });
-  gsap.set(elements.subtitle, { opacity: 0, y: 20 });
-  gsap.set(elements.form, { opacity: 0, x: -30 });
-  gsap.set(elements.contactCard, { opacity: 0, x: 30 });
-  gsap.set(elements.socialCard, { opacity: 0, x: 30 });
-  tl.to(elements.title, {
-    opacity: 1,
-    y: 0,
-    duration: 0.8,
-    ease: "power3.out",
-  })
-    .to(
-      elements.subtitle,
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: "power2.out",
-      },
-      "-=0.4",
-    )
-    .to(
-      elements.form,
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      },
-      "-=0.3",
-    )
-    .to(
-      elements.contactCard,
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      },
-      "-=0.5",
-    )
-    .to(
-      elements.socialCard,
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      },
-      "-=0.6",
-    );
+  mm.add(
+    {
+      desktop: "(min-width: 768px)",
+      mobile: "(max-width: 767px)",
+    },
+    (context) => {
+      if (!context.conditions) return;
+      const { desktop, mobile } = context.conditions;
+      const section = elements.form.closest('#contact');
 
-  return tl;
-};
+      if (desktop) {
+                gsap.set(elements.title, { opacity: 0, y: 30 });
+        gsap.set(elements.subtitle, { opacity: 0, y: 20 });
+        gsap.set(elements.form, { opacity: 0, x: -30 });
+        gsap.set(elements.contactCard, { opacity: 0, x: 30 });
+        gsap.set(elements.socialCard, { opacity: 0, x: 30 });
 
-const isMobile = () => {
-  return (
-    window.innerWidth < 768 ||
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent,
-    )
+        const tl = gsap.timeline({
+          delay: 0.2,
+          scrollTrigger: {
+            trigger: elements.title,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          }
+        });
+
+        tl.to(elements.title, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+        })
+          .to(
+            elements.subtitle,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: "power2.out",
+            },
+            "-=0.4",
+          )
+          .to(
+            elements.form,
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.8,
+              ease: "power3.out",
+            },
+            "-=0.3",
+          )
+          .to(
+            elements.contactCard,
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.8,
+              ease: "power3.out",
+            },
+            "-=0.5",
+          )
+          .to(
+            elements.socialCard,
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.8,
+              ease: "power3.out",
+            },
+            "-=0.6",
+          );
+
+        contactAnimations.push(tl);
+        return tl;
+      }
+
+      if (mobile) {
+                gsap.set(elements.title, { opacity: 0, y: 30 });
+        gsap.set(elements.subtitle, { opacity: 0, y: 20 });
+        gsap.set(elements.form, { opacity: 0, y: 30 });
+        gsap.set(elements.contactCard, { opacity: 0, y: 30 });
+        gsap.set(elements.socialCard, { opacity: 0, y: 30 });
+
+                setOverflowProtection(section as HTMLElement, true);
+
+        const tl = gsap.timeline({
+          delay: 0.2,
+          scrollTrigger: {
+            trigger: elements.title,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+          onComplete: () => {
+                        setOverflowProtection(section as HTMLElement, false);
+          }
+        });
+
+        tl.to(elements.title, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+        })
+          .to(
+            elements.subtitle,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: "power2.out",
+            },
+            "-=0.4",
+          )
+          .to(
+            elements.form,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power3.out",
+            },
+            "-=0.3",
+          )
+          .to(
+            elements.contactCard,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power3.out",
+            },
+            "-=0.5",
+          )
+          .to(
+            elements.socialCard,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power3.out",
+            },
+            "-=0.6",
+          );
+
+        contactAnimations.push(tl);
+        return tl;
+      }
+
+      return null;
+    }
   );
+
+  return mm;
 };
 
-const animateContactInfoItems = (items: HTMLElement[]) => {
-  if (items.length === 0) return;
 
-  if (isMobile()) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            gsap.fromTo(
-              items,
-              { opacity: 0, y: 20, scale: 0.95 },
-              {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.5,
-                stagger: 0.1,
-                ease: "power2.out",
-              },
-            );
-            observer.unobserve(entry.target);
+const animateContactInfoItems = (items: HTMLElement[]): gsap.MatchMedia | null => {
+  if (items.length === 0) return null;
+
+  const mm = gsap.matchMedia();
+  matchMediaInstances.push(mm);
+
+  mm.add(
+    {
+      desktop: "(min-width: 768px)",
+      mobile: "(max-width: 767px)",
+    },
+    (context) => {
+      if (!context.conditions) return;
+      const { desktop, mobile } = context.conditions;
+      const section = items[0]?.closest('#contact');
+
+            gsap.set(items, { opacity: 0, y: 20, scale: 0.95 });
+
+      if (desktop) {
+        const tween = gsap.to(items, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.6,
+          stagger: 0.15,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: items[0],
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        });
+        contactAnimations.push(tween);
+        return tween;
+      }
+
+      if (mobile) {
+                setOverflowProtection(section as HTMLElement, true);
+
+        const tween = gsap.to(items, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: items[0],
+            start: "top 90%",
+            toggleActions: "play none none reverse",
+          },
+          onComplete: () => {
+                        setOverflowProtection(section as HTMLElement, false);
           }
         });
-      },
-      { threshold: 0.1 },
-    );
+        contactAnimations.push(tween);
+        return tween;
+      }
 
-    if (items[0]) {
-      observer.observe(items[0]);
+      return null;
     }
-  } else {
-    gsap.fromTo(
-      items,
-      { opacity: 0, y: 20, scale: 0.95 },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.6,
-        stagger: 0.15,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: items[0],
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
-      },
-    );
-  }
+  );
+
+  return mm;
 };
 
-const animateSocialLinks = (links: HTMLElement[]) => {
-  if (links.length === 0) return;
+const animateSocialLinks = (links: HTMLElement[]): gsap.MatchMedia | null => {
+  if (links.length === 0) return null;
 
-  if (isMobile()) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            gsap.fromTo(
-              links,
-              { opacity: 0, scale: 0.8, rotation: -10 },
-              {
-                opacity: 1,
-                scale: 1,
-                rotation: 0,
-                duration: 0.4,
-                stagger: 0.08,
-                ease: "back.out(1.7)",
-              },
-            );
-            observer.unobserve(entry.target);
+  const mm = gsap.matchMedia();
+  matchMediaInstances.push(mm);
+
+  mm.add(
+    {
+      desktop: "(min-width: 768px)",
+      mobile: "(max-width: 767px)",
+    },
+    (context) => {
+      if (!context.conditions) return;
+      const { desktop, mobile } = context.conditions;
+      const section = links[0]?.closest('#contact');
+
+            gsap.set(links, { opacity: 0, scale: 0.8, rotation: -10 });
+
+      if (desktop) {
+        const tween = gsap.to(links, {
+          opacity: 1,
+          scale: 1,
+          rotation: 0,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: links[0],
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        });
+        contactAnimations.push(tween);
+        return tween;
+      }
+
+      if (mobile) {
+                setOverflowProtection(section as HTMLElement, true);
+
+        const tween = gsap.to(links, {
+          opacity: 1,
+          scale: 1,
+          rotation: 0,
+          duration: 0.4,
+          stagger: 0.08,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: links[0],
+            start: "top 90%",
+            toggleActions: "play none none reverse",
+          },
+          onComplete: () => {
+                        setOverflowProtection(section as HTMLElement, false);
           }
         });
-      },
-      { threshold: 0.1 },
-    );
+        contactAnimations.push(tween);
+        return tween;
+      }
 
-    if (links[0]) {
-      observer.observe(links[0]);
+      return null;
     }
-  } else {
-    gsap.fromTo(
-      links,
-      { opacity: 0, scale: 0.8, rotation: -10 },
-      {
-        opacity: 1,
-        scale: 1,
-        rotation: 0,
-        duration: 0.5,
-        stagger: 0.1,
-        ease: "back.out(1.7)",
-        scrollTrigger: {
-          trigger: links[0],
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
-      },
-    );
-  }
+  );
+
+  return mm;
 };
 
 const createContactItemHover = (element: HTMLElement) => {
   const icon = element.querySelector(".contact-icon");
   const arrow = element.querySelector(".contact-arrow");
 
-  element.addEventListener("mouseenter", () => {
-    gsap.to(icon, {
-      scale: 1.1,
-      duration: 0.3,
-      ease: "power2.out",
-    });
-    gsap.to(arrow, {
-      opacity: 1,
-      x: 3,
-      y: -3,
-      duration: 0.3,
-      ease: "power2.out",
-    });
-  });
+  const mouseEnterHandler = () => {
+    if (icon) {
+      const iconTween = gsap.to(icon, {
+        scale: 1.1,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+      contactAnimations.push(iconTween);
+    }
+    if (arrow) {
+      const arrowTween = gsap.to(arrow, {
+        opacity: 1,
+        x: 3,
+        y: -3,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+      contactAnimations.push(arrowTween);
+    }
+  };
 
-  element.addEventListener("mouseleave", () => {
-    gsap.to(icon, {
-      scale: 1,
-      rotation: 0,
-      duration: 0.3,
-      ease: "power2.out",
-    });
-    gsap.to(arrow, {
-      opacity: 0,
-      x: 0,
-      y: 0,
-      duration: 0.3,
-      ease: "power2.out",
-    });
-  });
+  const mouseLeaveHandler = () => {
+    if (icon) {
+      const iconTween = gsap.to(icon, {
+        scale: 1,
+        rotation: 0,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+      contactAnimations.push(iconTween);
+    }
+    if (arrow) {
+      const arrowTween = gsap.to(arrow, {
+        opacity: 0,
+        x: 0,
+        y: 0,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+      contactAnimations.push(arrowTween);
+    }
+  };
+
+  element.addEventListener("mouseenter", mouseEnterHandler);
+  element.addEventListener("mouseleave", mouseLeaveHandler);
+
+    hoverEventListeners.push(
+    { element, type: "mouseenter", listener: mouseEnterHandler },
+    { element, type: "mouseleave", listener: mouseLeaveHandler }
+  );
 };
 
 const createSocialLinkHover = (element: HTMLElement) => {
   const icon = element.querySelector(".social-icon");
   const text = element.querySelector(".social-text");
 
-  element.addEventListener("mouseenter", () => {
-    gsap.to(element, {
+  const mouseEnterHandler = () => {
+    const elementTween = gsap.to(element, {
       scale: 1.05,
       duration: 0.2,
       ease: "power2.out",
     });
-    gsap.to(icon, {
-      scale: 1.2,
-      duration: 0.3,
-      ease: "back.out(1.7)",
-    });
-    gsap.to(text, {
-      fontWeight: 600,
-      duration: 0.2,
-      ease: "power2.out",
-    });
-  });
+    contactAnimations.push(elementTween);
 
-  element.addEventListener("mouseleave", () => {
-    gsap.to(element, {
+    if (icon) {
+      const iconTween = gsap.to(icon, {
+        scale: 1.2,
+        duration: 0.3,
+        ease: "back.out(1.7)",
+      });
+      contactAnimations.push(iconTween);
+    }
+
+    if (text) {
+      const textTween = gsap.to(text, {
+        fontWeight: 600,
+        duration: 0.2,
+        ease: "power2.out",
+      });
+      contactAnimations.push(textTween);
+    }
+  };
+
+  const mouseLeaveHandler = () => {
+    const elementTween = gsap.to(element, {
       scale: 1,
       duration: 0.2,
       ease: "power2.out",
     });
-    gsap.to(icon, {
-      scale: 1,
-      rotation: 0,
-      duration: 0.3,
-      ease: "power2.out",
-    });
-    gsap.to(text, {
-      fontWeight: 400,
-      duration: 0.2,
-      ease: "power2.out",
-    });
-  });
+    contactAnimations.push(elementTween);
+
+    if (icon) {
+      const iconTween = gsap.to(icon, {
+        scale: 1,
+        rotation: 0,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+      contactAnimations.push(iconTween);
+    }
+
+    if (text) {
+      const textTween = gsap.to(text, {
+        fontWeight: 400,
+        duration: 0.2,
+        ease: "power2.out",
+      });
+      contactAnimations.push(textTween);
+    }
+  };
+
+  element.addEventListener("mouseenter", mouseEnterHandler);
+  element.addEventListener("mouseleave", mouseLeaveHandler);
+
+    hoverEventListeners.push(
+    { element, type: "mouseenter", listener: mouseEnterHandler },
+    { element, type: "mouseleave", listener: mouseLeaveHandler }
+  );
 };
 
 const cleanupContactAnimations = () => {
-  ScrollTrigger.getAll().forEach((trigger) => {
-    if (
-      trigger.trigger?.closest("#contact") ||
-      trigger.trigger?.classList?.contains("contact-item") ||
-      trigger.trigger?.classList?.contains("social-link")
-    ) {
-      trigger.kill();
+    contactAnimations.forEach((animation) => {
+    if (animation && animation.kill) {
+      try {
+        animation.kill();
+      } catch (error) {
+        console.warn("Error killing animation:", error);
+      }
     }
   });
+  contactAnimations.length = 0; 
+    matchMediaInstances.forEach((mm) => {
+    if (mm && mm.kill) {
+      try {
+        mm.kill();
+      } catch (error) {
+        console.warn("Error killing matchMedia:", error);
+      }
+    }
+  });
+  matchMediaInstances.length = 0; 
+    hoverEventListeners.forEach(({ element, type, listener }) => {
+    if (element && listener) {
+      try {
+        element.removeEventListener(type, listener);
+      } catch (error) {
+        console.warn("Error removing event listener:", error);
+      }
+    }
+  });
+  hoverEventListeners.length = 0; 
+    try {
+    ScrollTrigger.getAll().forEach((trigger) => {
+      if (
+        trigger.trigger?.closest("#contact") ||
+        trigger.trigger?.classList?.contains("contact-item") ||
+        trigger.trigger?.classList?.contains("social-link")
+      ) {
+        trigger.kill();
+      }
+    });
+  } catch (error) {
+    console.warn("Error killing ScrollTriggers:", error);
+  }
+
+    overflowProtectionCount = 0;
+
+    const contactSection = document.querySelector('#contact') as HTMLElement;
+  if (contactSection) {
+    contactSection.style.overflow = '';
+  }
+
+    try {
+    gsap.killTweensOf("#contact *");
+  } catch (error) {
+    console.warn("Error killing remaining tweens:", error);
+  }
 };
 
 const contactInfo = [
@@ -347,23 +582,24 @@ const initializeAnimations = () => {
   try {
     const contactInfoCard = contactInfoCardRef.value?.$el as HTMLElement;
     const socialCard = socialCardRef.value?.$el as HTMLElement;
-    if (
+
+        if (
       titleRef.value &&
       subtitleRef.value &&
       formRef.value &&
       contactInfoCard &&
       socialCard
     ) {
-      const mainAnimation = animateContactSection({
+      animateContactSection({
         title: titleRef.value,
         subtitle: subtitleRef.value,
         form: formRef.value,
         contactCard: contactInfoCard,
         socialCard: socialCard,
       });
-      contactAnimations.push(mainAnimation);
     }
-    if (contactInfoRef.value) {
+
+        if (contactInfoRef.value) {
       const contactItems = Array.isArray(contactInfoRef.value)
         ? contactInfoRef.value.filter(
             (el): el is HTMLElement => el && "nodeName" in el,
@@ -375,7 +611,8 @@ const initializeAnimations = () => {
         animateContactInfoItems(contactItems);
       }
     }
-    if (socialLinksRef.value) {
+
+        if (socialLinksRef.value) {
       const socialElements = Array.isArray(socialLinksRef.value)
         ? socialLinksRef.value.filter(
             (el): el is HTMLElement => el && "nodeName" in el,
@@ -387,7 +624,8 @@ const initializeAnimations = () => {
         animateSocialLinks(socialElements);
       }
     }
-    setupHoverEffects();
+
+        setupHoverEffects();
   } catch (error) {
     console.warn("Error initializing contact animations:", error);
   }
@@ -441,13 +679,6 @@ const setupHoverEffects = () => {
 
 onBeforeUnmount(() => {
   try {
-    contactAnimations.forEach((animation) => {
-      if (animation && animation.kill) {
-        animation.kill();
-      }
-    });
-
-
     cleanupContactAnimations();
   } catch (error) {
     console.error("Error cleaning up contact animations:", error);
@@ -471,7 +702,7 @@ onBeforeUnmount(() => {
       </p>
     </div>
 
-    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div ref="formRef">
         <ContactForm />
       </div>
@@ -506,14 +737,14 @@ onBeforeUnmount(() => {
                   class="w-6 h-6 text-default group-hover:text-highlighted"
                 />
               </div>
-              <div class="flex-1 min-w-0">
+              <div class="flex-1 min-w-0 overflow-hidden">
                 <h3
-                  class="font-semibold text-default mb-1 group-hover:text-highlighted transition-colors"
+                  class="font-semibold text-default mb-1 group-hover:text-highlighted transition-colors truncate"
                 >
                   {{ contact.label }}
                 </h3>
                 <p
-                  class="text-toned text-sm break-words group-hover:text-default transition-colors"
+                  class="text-toned text-sm break-words group-hover:text-default transition-colors hyphens-auto"
                 >
                   {{ contact.value }}
                 </p>
@@ -525,7 +756,6 @@ onBeforeUnmount(() => {
             </a>
           </div>
         </UCard>
-
 
         <UCard ref="socialCardRef">
           <h4 class="font-bold text-default mb-4 flex items-center">
