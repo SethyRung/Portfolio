@@ -353,111 +353,109 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section id="skills" ref="skillsSection">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-16">
-        <h2
-          id="skills-heading"
-          ref="sectionTitle"
-          class="text-4xl lg:text-5xl font-bold text-foreground mb-4"
-        >
-          Tech Stack
-        </h2>
-        <p
-          ref="sectionSubtitle"
-          class="text-lg text-muted-foreground max-w-2xl mx-auto"
-        >
-          Technologies I love working with, each mastered through real-world
-          projects
-        </p>
-      </div>
+  <section id="skills" ref="skillsSection" class="py-20 md:py-32">
+    <div class="text-center mb-16">
+      <h2
+        id="skills-heading"
+        ref="sectionTitle"
+        class="text-4xl lg:text-5xl font-bold text-foreground mb-4"
+      >
+        Tech Stack
+      </h2>
+      <p
+        ref="sectionSubtitle"
+        class="text-lg text-muted-foreground max-w-2xl mx-auto"
+      >
+        Technologies I love working with, each mastered through real-world
+        projects
+      </p>
+    </div>
 
-      <div class="space-y-12">
-        <div v-for="category in skillsData" :key="category.name">
-          <h3 class="text-2xl font-semibold text-foreground text-center mb-8">
-            {{ category.name }}
-          </h3>
+    <div class="space-y-12">
+      <div v-for="category in skillsData" :key="category.name">
+        <h3 class="text-2xl font-semibold text-foreground text-center mb-8">
+          {{ category.name }}
+        </h3>
 
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        >
           <div
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            v-for="tech in category.techs"
+            :key="tech.name"
+            ref="techCards"
+            class="flip-card-container relative w-full h-48 cursor-pointer"
+            @click="toggleCardFlip(tech.name)"
           >
             <div
-              v-for="tech in category.techs"
-              :key="tech.name"
-              ref="techCards"
-              class="flip-card-container relative w-full h-48 cursor-pointer"
-              @click="toggleCardFlip(tech.name)"
+              class="flip-card-inner absolute inset-0 w-full h-full transition-transform duration-700"
+              :class="expandedCard === tech.name ? 'rotate-y-180' : ''"
+              style="transform-style: preserve-3d"
             >
               <div
-                class="flip-card-inner absolute inset-0 w-full h-full transition-transform duration-700"
-                :class="expandedCard === tech.name ? 'rotate-y-180' : ''"
-                style="transform-style: preserve-3d"
+                class="flip-card-front absolute inset-0 w-full h-full backface-hidden"
               >
-                <div
-                  class="flip-card-front absolute inset-0 w-full h-full backface-hidden"
+                <UCard
+                  class="h-full group transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                  :ui="{
+                    body: 'bg-muted/50 backdrop-blur-sm h-full flex flex-col items-center justify-center',
+                  }"
                 >
-                  <UCard
-                    class="h-full group transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-                    :ui="{
-                      body: 'bg-muted/50 backdrop-blur-sm h-full flex flex-col items-center justify-center',
-                    }"
-                  >
-                    <ClientOnly>
-                      <UIcon
-                        :name="tech.icon"
-                        data-icon
-                        class="w-12 h-12 transition-transform duration-300 group-hover:scale-110"
-                        :style="{
-                          color: colorMode.value === 'light' ? tech.color : '',
-                        }"
-                      />
-                    </ClientOnly>
+                  <ClientOnly>
+                    <UIcon
+                      :name="tech.icon"
+                      data-icon
+                      class="w-12 h-12 transition-transform duration-300 group-hover:scale-110"
+                      :style="{
+                        color: colorMode.value === 'light' ? tech.color : '',
+                      }"
+                    />
+                  </ClientOnly>
 
+                  <h4
+                    class="mt-3 text-lg font-semibold text-foreground text-center"
+                  >
+                    {{ tech.name }}
+                  </h4>
+                </UCard>
+              </div>
+
+              <div
+                class="flip-card-back absolute inset-0 w-full h-full rotate-y-180 backface-hidden"
+              >
+                <UCard
+                  class="h-full overflow-y-auto"
+                  :ui="{
+                    body: 'backdrop-blur-sm p-4',
+                  }"
+                >
+                  <div class="space-y-4">
                     <h4
-                      class="mt-3 text-lg font-semibold text-foreground text-center"
+                      class="text-lg font-semibold text-foreground text-center"
                     >
                       {{ tech.name }}
                     </h4>
-                  </UCard>
-                </div>
 
-                <div
-                  class="flip-card-back absolute inset-0 w-full h-full rotate-y-180 backface-hidden"
-                >
-                  <UCard
-                    class="h-full overflow-y-auto"
-                    :ui="{
-                      body: 'backdrop-blur-sm p-4',
-                    }"
-                  >
-                    <div class="space-y-4">
-                      <h4
-                        class="text-lg font-semibold text-foreground text-center"
-                      >
-                        {{ tech.name }}
-                      </h4>
+                    <p class="text-sm text-muted-foreground leading-relaxed">
+                      {{ tech.description }}
+                    </p>
 
-                      <p class="text-sm text-muted-foreground leading-relaxed">
-                        {{ tech.description }}
-                      </p>
-
-                      <div v-if="tech.projects && tech.projects.length > 0">
-                        <h5 class="text-sm font-semibold text-foreground mb-2">
-                          Featured in:
-                        </h5>
-                        <div class="flex flex-wrap gap-1">
-                          <span
-                            v-for="project in tech.projects"
-                            :key="project"
-                            class="px-2 py-1 bg-primary/10 text-primary dark:text-primary/80 rounded-md text-xs"
-                          >
-                            {{ project }}
-                          </span>
-                        </div>
+                    <div v-if="tech.projects && tech.projects.length > 0">
+                      <h5 class="text-sm font-semibold text-foreground mb-2">
+                        Featured in:
+                      </h5>
+                      <div class="flex flex-wrap gap-1">
+                        <span
+                          v-for="project in tech.projects"
+                          :key="project"
+                          class="px-2 py-1 bg-primary/10 text-primary dark:text-primary/80 rounded-md text-xs"
+                        >
+                          {{ project }}
+                        </span>
                       </div>
                     </div>
-                  </UCard>
-                </div>
+                  </div>
+                </UCard>
               </div>
             </div>
           </div>

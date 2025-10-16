@@ -119,7 +119,7 @@ const animateTimelineItems = () => {
                   start: "top 80%",
                   toggleActions: "play none none reverse",
                 },
-              }
+              },
             );
           }
 
@@ -156,16 +156,15 @@ const animateTimelineItems = () => {
                     parent.style.overflow = "";
                   }
                 },
-              }
+              },
             );
           }
-        }
+        },
       );
 
       // Store matchMedia instance for cleanup
       item._matchMedia = mm;
-    },
-    item);
+    }, item);
 
     // Store context for cleanup
     item._context = ctx;
@@ -282,7 +281,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section id="resume" class="py-20 bg-default dark:bg-dark-800">
+  <section id="resume" class="py-20 md:py-32">
     <div class="mb-16">
       <h2 class="text-4xl font-bold text-center mb-4">
         Professional Experience
