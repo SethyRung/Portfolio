@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { gsap } from "gsap";
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-
-gsap.registerPlugin(ScrollToPlugin);
+const { gsap } = useGSAP();
 
 const headerRef = useTemplateRef("headerRef");
 const mobileMenuRef = useTemplateRef("mobileMenuRef");

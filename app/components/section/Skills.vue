@@ -1,31 +1,94 @@
 <script setup lang="ts">
-import { animateStaggerOnScroll, animateOnScroll } from "~/lib/animations";
-
 const { gsap, ScrollTrigger } = useGSAP();
 
 const skillsSection = useTemplateRef("skillsSection");
-const categoryName = useTemplateRef("categoryName");
+const sectionTitle = useTemplateRef("sectionTitle");
+const sectionSubtitle = useTemplateRef("sectionSubtitle");
 const techCards = useTemplateRef("techCards");
 
-const categories = [
+const expandedCard = ref<string | null>(null);
+
+const colorMode = useColorMode();
+
+const skillsData = [
   {
     name: "Frontend",
     techs: [
-      { name: "Vue.js", icon: "i-simple-icons-vuedotjs", color: "#4FC08D" },
-      { name: "Nuxt.js", icon: "i-simple-icons-nuxtdotjs", color: "#00DC82" },
-      { name: "React", icon: "i-simple-icons-react", color: "#61DAFB" },
-      { name: "Next.js", icon: "i-simple-icons-nextdotjs", color: "#000000" },
+      {
+        name: "Vue.js",
+        icon: "i-simple-icons-vuedotjs",
+        color: "#4FC08D",
+        description:
+          "Building reactive user interfaces with Vue 3 Composition API, reactive state management, and component architecture",
+        projects: [
+          "Portfolio 2025 - Personal portfolio with GSAP animations",
+          "The Angkor Times - News platform with Vue 3 Composition API",
+          "Asset Management - Admin dashboard with TypeScript",
+          "Chongkran - Recipe web app with authentication system",
+        ],
+      },
+      {
+        name: "Nuxt.js",
+        icon: "i-simple-icons-nuxtdotjs",
+        color: "#00DC82",
+        description:
+          "Server-side rendering, static site generation, and full-stack Vue applications with SEO optimization",
+        projects: [
+          "Portfolio 2025 - Modern portfolio with Nuxt 4 and Nuxt UI",
+          "The Angkor Times - News website with SSR pagination and Directus",
+          "Asset Management - Frontend with TypeScript and Pinia",
+          "Chongkran - Full-stack recipe platform with Nuxt 3",
+          "Flutter Docs - Documentation site with Nuxt Content",
+          "Nuxt Boilerplate - Production-ready starter template",
+        ],
+      },
+      {
+        name: "React",
+        icon: "i-simple-icons-react",
+        color: "#61DAFB",
+        description:
+          "Component-based architecture with modern hooks, state management, and performance optimization",
+        projects: [
+          "Movie Website - Movie discovery app with TypeScript and Vite",
+        ],
+      },
       {
         name: "TypeScript",
         icon: "i-simple-icons-typescript",
         color: "#3178C6",
+        description:
+          "Type-safe JavaScript development with advanced type patterns, interfaces, and generic programming",
+        projects: [
+          "Asset Management - Type-safe frontend with Nuxt 3",
+          "Movie Website - TypeScript React application",
+          "Nuxt Boilerplate - Pre-configured TypeScript setup",
+        ],
       },
       {
         name: "Tailwind CSS",
         icon: "i-simple-icons-tailwindcss",
         color: "#06B6D4",
+        description:
+          "Utility-first CSS framework with responsive design, custom animations, and component systems",
+        projects: [
+          "Portfolio 2025 - Custom animations and responsive design",
+          "The Angkor Times - News platform with Nuxt UI integration",
+          "Asset Management - Admin interface with Tailwind",
+          "Chongkran - Recipe app with custom components",
+          "Movie Website - Modern UI with Tailwind",
+          "Flutter Docs - Documentation site styling",
+        ],
       },
-      { name: "GSAP", icon: "i-simple-icons-gsap", color: "#0AE448" },
+      {
+        name: "GSAP",
+        icon: "i-simple-icons-gsap",
+        color: "#0AE448",
+        description:
+          "High-performance animation library with timeline control, scroll-based animations, and 3D transforms",
+        projects: [
+          "Portfolio 2025 - Scroll-triggered animations and interactions",
+        ],
+      },
     ],
   },
   {
@@ -35,10 +98,32 @@ const categories = [
         name: "Spring Boot",
         icon: "i-simple-icons-springboot",
         color: "#6DB33F",
+        description:
+          "Java framework for building REST APIs, microservices, and enterprise applications with Spring Security",
+        projects: [
+          "Asset Management - REST API backend with PostgreSQL integration",
+        ],
       },
-      { name: "Express", icon: "i-simple-icons-express", color: "#000000" },
-      { name: "NestJS", icon: "i-simple-icons-nestjs", color: "#E0234E" },
-      { name: "FastAPI", icon: "i-simple-icons-fastapi", color: "#009688" },
+      {
+        name: "NestJS",
+        icon: "i-simple-icons-nestjs",
+        color: "#E0234E",
+        description:
+          "Progressive Node.js framework with TypeScript support, dependency injection, and modular architecture",
+        projects: [
+          "Chongkran - Recipe API with JWT authentication and meal planning",
+        ],
+      },
+      {
+        name: "Directus",
+        icon: "i-simple-icons-directus",
+        color: "#263238",
+        description:
+          "Headless CMS with automatic API generation, extensible architecture, and real-time collaboration",
+        projects: [
+          "The Angkor Times - Content management with author publishing and admin approval",
+        ],
+      },
     ],
   },
   {
@@ -48,102 +133,217 @@ const categories = [
         name: "PostgreSQL",
         icon: "i-simple-icons-postgresql",
         color: "#4169E1",
+        description:
+          "Advanced relational database with complex queries, indexing strategies, and JSON support",
+        projects: [
+          "The Angkor Times - News content and user management",
+          "Asset Management - Asset tracking and user roles",
+        ],
       },
-      { name: "MongoDB", icon: "i-simple-icons-mongodb", color: "#47A248" },
+      {
+        name: "Microsoft SQL Server",
+        icon: "i-simple-icons-microsoftsqlserver",
+        color: "#CC2927",
+        description:
+          "Enterprise relational database with stored procedures, reporting, and business intelligence",
+        projects: [
+          "Mart Management System - Desktop app with stored procedures and reporting",
+        ],
+      },
+      {
+        name: "MongoDB",
+        icon: "i-simple-icons-mongodb",
+        color: "#47A248",
+        description: "NoSQL, aggregation pipelines, schema design",
+        projects: ["Chongkran - Recipe app deployment"],
+      },
     ],
   },
   {
     name: "Tools",
     techs: [
-      { name: "Docker", icon: "i-simple-icons-docker", color: "#2496ED" },
-      { name: "Vite", icon: "i-simple-icons-vite", color: "#646CFF" },
-      { name: "Git", icon: "i-simple-icons-git", color: "#F05032" },
-      { name: "GitHub", icon: "i-simple-icons-github", color: "#181717" },
-      { name: "GitLab", icon: "i-simple-icons-gitlab", color: "#FC6D26" },
-      { name: "Vercel", icon: "i-simple-icons-vercel", color: "#000000" },
-      { name: "Render", icon: "i-simple-icons-render", color: "#000000" },
-      { name: "Directus", icon: "i-simple-icons-directus", color: "#263238" },
+      {
+        name: "Vite",
+        icon: "i-simple-icons-vite",
+        color: "#646CFF",
+        description:
+          "Next-generation build tool with instant hot module replacement and optimized production bundles",
+        projects: [
+          "Movie Website - React TypeScript application",
+          "Nuxt Boilerplate - Optimized development setup",
+        ],
+      },
+      {
+        name: "Docker",
+        icon: "i-simple-icons-docker",
+        color: "#2496ED",
+        description: "Containerization, Docker Compose, multi-stage builds",
+        projects: ["Development environments", "Production deployments"],
+      },
+      {
+        name: "Git",
+        icon: "i-simple-icons-git",
+        color: "#F05032",
+        description:
+          "Version control system with branching strategies, collaboration workflows, and automation",
+        projects: [
+          "Portfolio 2025 - Version control and deployment",
+          "The Angkor Times - Multi-repo project management",
+          "Asset Management - Frontend/backend coordination",
+          "Chongkran - Full-stack project collaboration",
+        ],
+      },
+      {
+        name: "GitHub",
+        icon: "i-simple-icons-github",
+        color: "#181717",
+        description:
+          "Code hosting platform with collaborative features, CI/CD automation, and project management",
+        projects: [
+          "All projects - Code hosting and version control",
+          "Portfolio 2025 - Automated deployment via GitHub Actions",
+          "Open source contributions and project documentation",
+        ],
+      },
+      {
+        name: "Vercel",
+        icon: "i-simple-icons-vercel",
+        color: "#000000",
+        description:
+          "Serverless deployment platform with edge computing, analytics, and performance optimization",
+        projects: [
+          "Portfolio 2025 - Production deployment",
+          "The Angkor Times - News platform hosting",
+          "Asset Management - Frontend deployment",
+          "Chongkran - Recipe app deployment",
+          "Movie Website - React app deployment",
+          "Flutter Docs - Documentation site hosting",
+        ],
+      },
+    ],
+  },
+  {
+    name: "Desktop",
+    techs: [
+      {
+        name: "C#",
+        icon: "i-simple-icons-csharp",
+        color: "#239120",
+        description:
+          "Object-oriented programming language for building Windows applications and enterprise software",
+        projects: [
+          "Mart Management System - Desktop application with WinForms",
+        ],
+      },
+      {
+        name: ".NET Framework",
+        icon: "i-simple-icons-dotnet",
+        color: "#5C2D91",
+        description:
+          "Development platform for building Windows applications with comprehensive framework libraries",
+        projects: ["Mart Management System - WinForms desktop application"],
+      },
     ],
   },
 ];
 
+const toggleCardFlip = (techName: string) => {
+  expandedCard.value = expandedCard.value === techName ? null : techName;
+};
+
 onMounted(() => {
-  const h2Element = skillsSection.value?.querySelector("h2");
-  if (h2Element) {
-    gsap.set(h2Element, {
-      opacity: 0,
-      y: 50,
-    });
+  if (sectionTitle.value) {
+    gsap.set(sectionTitle.value, { opacity: 0, y: 50 });
   }
 
-  const pElement = skillsSection.value?.querySelector("p");
-  if (pElement) {
-    gsap.set(pElement, {
-      opacity: 0,
-      y: 30,
-    });
+  if (sectionSubtitle.value) {
+    gsap.set(sectionSubtitle.value, { opacity: 0, y: 30 });
   }
 
-  gsap.set(categoryName.value, {
-    opacity: 0,
-    y: 40,
-  });
-
-  gsap.set(techCards.value, {
-    opacity: 0,
-    y: 60,
-    scale: 0.9,
-  });
-
-  const titleElement = skillsSection.value?.querySelector("h2");
-  if (titleElement) {
-    animateOnScroll(titleElement, {
-      delay: 0.2,
-      duration: 0.8,
-      ease: "power3.out",
-    });
+  if (techCards.value && techCards.value.length > 0) {
+    gsap.set(techCards.value, { opacity: 0, y: 80, scale: 0.9 });
   }
 
-  const subtitleElement = skillsSection.value?.querySelector("p");
-  if (subtitleElement) {
-    animateOnScroll(subtitleElement, {
-      delay: 0.4,
-      duration: 0.8,
-      ease: "power3.out",
-    });
-  }
-
-  if (categoryName.value && categoryName.value.length > 0) {
-    animateStaggerOnScroll(categoryName.value, {
-      delay: 0.6,
-      stagger: 0.15,
-      duration: 0.6,
+  if (sectionTitle.value) {
+    gsap.to(sectionTitle.value, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
       ease: "power2.out",
+      scrollTrigger: {
+        trigger: sectionTitle.value,
+        start: "top 80%",
+        end: "top 50%",
+        scrub: true,
+      },
+    });
+  }
+
+  if (sectionSubtitle.value) {
+    gsap.to(sectionSubtitle.value, {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: sectionSubtitle.value,
+        start: "top 80%",
+        end: "top 50%",
+        scrub: true,
+      },
     });
   }
 
   if (techCards.value && techCards.value.length > 0) {
-    gsap.fromTo(
-      techCards.value,
-      {
-        opacity: 0,
-        y: 60,
-        scale: 0.9,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.6,
-        stagger: 0.05,
-        ease: "back.out(1.2)",
-        scrollTrigger: {
-          trigger: skillsSection.value,
-          start: "top 60%",
-          toggleActions: "play none none reverse",
-        },
-      },
+    const cardsArray = Array.from(techCards.value).filter(
+      (card) => card && typeof card.getBoundingClientRect === "function",
     );
+
+    cardsArray.forEach((card, _index) => {
+      gsap.fromTo(
+        card,
+        {
+          opacity: 0,
+          y: 60,
+          scale: 0.8,
+          rotationY: 15,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          rotationY: 0,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: card,
+            start: "top bottom",
+            end: "top 65%",
+            scrub: true,
+          },
+        },
+      );
+    });
+
+    const categoryTitles = skillsSection.value?.querySelectorAll("h3");
+    if (categoryTitles && categoryTitles.length > 0) {
+      gsap.set(categoryTitles, { opacity: 0, y: 30 });
+
+      categoryTitles.forEach((title, _index) => {
+        gsap.to(title, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: title,
+            start: "top 80%",
+            end: "top 50%",
+            scrub: true,
+          },
+        });
+      });
+    }
   }
 });
 
@@ -153,45 +353,110 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section id="skills" ref="skillsSection" class="py-20">
+  <section id="skills" ref="skillsSection" class="py-20 md:py-32">
     <div class="text-center mb-16">
-      <h2 class="text-4xl md:text-5xl font-bold text-default mb-4">
-        Tech <span class="text-highlighted">Stack</span>
+      <h2
+        id="skills-heading"
+        ref="sectionTitle"
+        class="text-4xl lg:text-5xl font-bold text-foreground mb-4"
+      >
+        Tech Stack
       </h2>
-      <p class="text-xl text-toned max-w-2xl mx-auto">
-        Technologies I love working with
+      <p
+        ref="sectionSubtitle"
+        class="text-lg text-muted-foreground max-w-2xl mx-auto"
+      >
+        Technologies I love working with, each mastered through real-world
+        projects
       </p>
     </div>
 
-    <div class="space-y-16">
-      <div
-        v-for="category in categories"
-        :key="category.name"
-        class="space-y-8"
-      >
-        <h3 ref="categoryName" class="text-2xl font-bold text-default">
+    <div class="space-y-12">
+      <div v-for="category in skillsData" :key="category.name">
+        <h3 class="text-2xl font-semibold text-foreground text-center mb-8">
           {{ category.name }}
         </h3>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        >
           <div
             v-for="tech in category.techs"
             :key="tech.name"
             ref="techCards"
-            class="group relative rounded-xl p-6 border border-muted transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-highlighted/30"
+            class="flip-card-container relative w-full h-48 cursor-pointer"
+            @click="toggleCardFlip(tech.name)"
           >
-            <div class="flex flex-col items-center space-y-3">
-              <UIcon
-                :name="tech.icon"
-                class="w-12 h-12"
-                :alt="`${tech.name} icon`"
-                :style="{
-                  color: $colorMode.preference === 'light' ? tech.color : '',
-                }"
-              />
-              <h4 class="font-semibold text-default">
-                {{ tech.name }}
-              </h4>
+            <div
+              class="flip-card-inner absolute inset-0 w-full h-full transition-transform duration-700"
+              :class="expandedCard === tech.name ? 'rotate-y-180' : ''"
+              style="transform-style: preserve-3d"
+            >
+              <div
+                class="flip-card-front absolute inset-0 w-full h-full backface-hidden"
+              >
+                <UCard
+                  class="h-full group transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                  :ui="{
+                    body: 'bg-muted/50 backdrop-blur-sm h-full flex flex-col items-center justify-center',
+                  }"
+                >
+                  <ClientOnly>
+                    <UIcon
+                      :name="tech.icon"
+                      data-icon
+                      class="w-12 h-12 transition-transform duration-300 group-hover:scale-110"
+                      :style="{
+                        color: colorMode.value === 'light' ? tech.color : '',
+                      }"
+                    />
+                  </ClientOnly>
+
+                  <h4
+                    class="mt-3 text-lg font-semibold text-foreground text-center"
+                  >
+                    {{ tech.name }}
+                  </h4>
+                </UCard>
+              </div>
+
+              <div
+                class="flip-card-back absolute inset-0 w-full h-full rotate-y-180 backface-hidden"
+              >
+                <UCard
+                  class="h-full overflow-y-auto"
+                  :ui="{
+                    body: 'backdrop-blur-sm p-4',
+                  }"
+                >
+                  <div class="space-y-4">
+                    <h4
+                      class="text-lg font-semibold text-foreground text-center"
+                    >
+                      {{ tech.name }}
+                    </h4>
+
+                    <p class="text-sm text-muted-foreground leading-relaxed">
+                      {{ tech.description }}
+                    </p>
+
+                    <div v-if="tech.projects && tech.projects.length > 0">
+                      <h5 class="text-sm font-semibold text-foreground mb-2">
+                        Featured in:
+                      </h5>
+                      <div class="flex flex-wrap gap-1">
+                        <span
+                          v-for="project in tech.projects"
+                          :key="project"
+                          class="px-2 py-1 bg-primary/10 text-primary dark:text-primary/80 rounded-md text-xs"
+                        >
+                          {{ project }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </UCard>
+              </div>
             </div>
           </div>
         </div>

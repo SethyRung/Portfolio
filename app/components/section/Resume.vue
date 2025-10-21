@@ -86,24 +86,88 @@ const animateTimelineItems = () => {
   const items = document.querySelectorAll("[data-timeline-item]");
 
   items.forEach((item, index) => {
-    gsap.fromTo(
-      item,
-      {
-        opacity: 0,
-        x: index % 2 === 0 ? -50 : 50,
-      },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.6,
-        delay: index * 0.1,
-        scrollTrigger: {
-          trigger: item,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
+    // Create a context for each timeline item to ensure proper cleanup
+    const ctx = gsap.context(() => {
+      // Use matchMedia for responsive animations
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          // Desktop: 768px and up - use horizontal animations
+          desktop: "(min-width: 768px)",
+          // Mobile: below 768px - use vertical animations with overflow protection
+          mobile: "(max-width: 767px)",
         },
-      },
-    );
+        (context) => {
+          const { desktop, mobile } = context.conditions;
+
+          // Desktop animation: horizontal slide-in
+          if (desktop) {
+            gsap.fromTo(
+              item,
+              {
+                opacity: 0,
+                x: index % 2 === 0 ? -50 : 50,
+              },
+              {
+                opacity: 1,
+                x: 0,
+                duration: 0.6,
+                delay: index * 0.1,
+                scrollTrigger: {
+                  trigger: item,
+                  start: "top 80%",
+                  toggleActions: "play none none reverse",
+                },
+              },
+            );
+          }
+
+          // Mobile animation: vertical slide-in with overflow protection
+          if (mobile) {
+            // Set initial overflow hidden on the parent container
+            const parent = item.parentElement;
+            if (parent) {
+              parent.style.overflow = "hidden";
+            }
+
+            gsap.fromTo(
+              item,
+              {
+                opacity: 0,
+                y: index % 2 === 0 ? 30 : -30, // Alternating vertical directions
+                scale: 0.95, // Slight scale for depth effect
+              },
+              {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.6,
+                delay: index * 0.1,
+                ease: "power2.out", // Smoother easing for mobile
+                scrollTrigger: {
+                  trigger: item,
+                  start: "top 85%", // Slightly later trigger for mobile
+                  toggleActions: "play none none reverse",
+                },
+                onComplete: () => {
+                  // Clean up overflow hidden after animation
+                  if (parent) {
+                    parent.style.overflow = "";
+                  }
+                },
+              },
+            );
+          }
+        },
+      );
+
+      // Store matchMedia instance for cleanup
+      item._matchMedia = mm;
+    }, item);
+
+    // Store context for cleanup
+    item._context = ctx;
   });
 };
 
@@ -200,12 +264,24 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  // Clean up ScrollTrigger instances
   ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+
+  // Clean up timeline item animations and contexts
+  const items = document.querySelectorAll("[data-timeline-item]");
+  items.forEach((item) => {
+    if (item._context) {
+      item._context.revert(); // Clean up GSAP context
+    }
+    if (item._matchMedia) {
+      item._matchMedia.kill(); // Clean up matchMedia instance
+    }
+  });
 });
 </script>
 
 <template>
-  <section id="resume" class="py-20 bg-default dark:bg-dark-800">
+  <section id="resume" class="py-20 md:py-32">
     <div class="mb-16">
       <h2 class="text-4xl font-bold text-center mb-4">
         Professional Experience

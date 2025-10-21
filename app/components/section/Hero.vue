@@ -1,12 +1,30 @@
 <script setup lang="ts">
-import { animateText } from "~/lib/animations";
-
 const { gsap } = useGSAP();
 
 const nameRef = useTemplateRef("nameRef");
 const titleRef = useTemplateRef("titleRef");
 const subtitleRef = useTemplateRef("subtitleRef");
 const ctaRef = useTemplateRef("ctaRef");
+
+const animateText = (element: HTMLElement, text: string, delay = 0) => {
+  const chars = text.split("");
+  element.innerHTML = chars
+    .map(
+      (char) =>
+        `<span class="inline-block opacity-0" style="transform: translateY(10px) scale(0.9);">${char === " " ? "&nbsp;" : char}</span>`,
+    )
+    .join("");
+
+  gsap.to(element.children, {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    duration: 0.6,
+    stagger: 0.04,
+    delay,
+    ease: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+  });
+};
 
 onMounted(() => {
   if (titleRef.value) {

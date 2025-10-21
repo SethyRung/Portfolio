@@ -4,10 +4,16 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  compatibilityDate: "2024-11-27",
+  compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
-  modules: ["@nuxt/ui", "@nuxt/eslint", "@nuxt/fonts", "@vueuse/nuxt"],
+  modules: [
+    "@nuxt/ui",
+    "@nuxt/eslint",
+    "@nuxt/fonts",
+    "@vueuse/nuxt",
+    "@nuxt/test-utils/module",
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
@@ -17,8 +23,5 @@ export default defineNuxtConfig({
     public: {
       siteUrl: "http://localhost:3000",
     },
-  },
-  colorMode: {
-    preference: "light",
   },
 });
