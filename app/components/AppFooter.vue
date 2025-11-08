@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { gsap } = useGSAP();
+import gsap from "gsap";
 import { titleCase } from "scule";
 
 const navigation = {

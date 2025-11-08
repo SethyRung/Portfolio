@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import gsap from "gsap";
+
 const loadingProgress = ref(0);
 const isHiding = ref(false);
 const shouldShow = ref(true);
@@ -28,8 +30,6 @@ nuxtApp.hook("app:mounted", () => {
   }, PROGRESS_DURATION);
 });
 
-const { gsap } = useGSAP();
-
 const loadingRef = useTemplateRef("loadingRef");
 const progressBarRef = useTemplateRef("progressBarRef");
 const loadingTextRef = useTemplateRef("loadingTextRef");
@@ -46,28 +46,40 @@ const hideLoadingScreen = () => {
   });
 
   if (progressBarRef.value) {
-    tl.to(progressBarRef.value, {
-      opacity: 0,
-      y: -20,
-      duration: 0.4,
-      ease: "power2.inOut",
-    }, 0);
+    tl.to(
+      progressBarRef.value,
+      {
+        opacity: 0,
+        y: -20,
+        duration: 0.4,
+        ease: "power2.inOut",
+      },
+      0,
+    );
   }
 
   if (loadingTextRef.value) {
-    tl.to(loadingTextRef.value, {
-      opacity: 0,
-      y: 20,
-      duration: 0.4,
-      ease: "power2.inOut",
-    }, 0.1);
+    tl.to(
+      loadingTextRef.value,
+      {
+        opacity: 0,
+        y: 20,
+        duration: 0.4,
+        ease: "power2.inOut",
+      },
+      0.1,
+    );
   }
 
-  tl.to(loadingRef.value, {
-    opacity: 0,
-    duration: 0.6,
-    ease: "power2.inOut",
-  }, 0.3);
+  tl.to(
+    loadingRef.value,
+    {
+      opacity: 0,
+      duration: 0.6,
+      ease: "power2.inOut",
+    },
+    0.3,
+  );
 };
 
 watch(loadingProgress, (newValue) => {

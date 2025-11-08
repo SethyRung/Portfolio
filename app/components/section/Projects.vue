@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const { gsap, ScrollTrigger } = useGSAP();
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 type Project = {
   id: number;
