@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import ScrollSmoother from "gsap/ScrollSmoother";
 
-let scrollSmoother: ScrollSmoother | null = null;
+let smoother: ScrollSmoother | null = null;
 
 onMounted(() => {
-  scrollSmoother = ScrollSmoother.create({
+  smoother = ScrollSmoother.create({
     wrapper: "#smooth-wrapper",
     content: "#smooth-content",
     smooth: 1.5,
@@ -12,9 +12,9 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  if (scrollSmoother) {
-    scrollSmoother.kill();
-    scrollSmoother = null;
+  if (smoother) {
+    smoother.kill();
+    smoother = null;
   }
 });
 </script>
