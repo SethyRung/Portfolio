@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     resendApiKey: "",
     email: "",
     public: {
-      siteUrl: "http://localhost:3000",
+      siteUrl: "",
     },
   },
 });
