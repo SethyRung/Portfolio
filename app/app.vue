@@ -4,7 +4,9 @@ import ScrollSmoother from "gsap/ScrollSmoother";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import ScrollToPlugin from "gsap/ScrollToPlugin";
 
-gsap.registerPlugin(ScrollSmoother, ScrollTrigger, ScrollToPlugin);
+onMounted(() => {
+  gsap.registerPlugin(ScrollSmoother, ScrollTrigger, ScrollToPlugin);
+})
 </script>
 
 <template>
