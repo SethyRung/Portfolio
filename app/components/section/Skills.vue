@@ -2,16 +2,17 @@
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
-const skillsSection = useTemplateRef("skillsSection");
 const sectionTitle = useTemplateRef("sectionTitle");
 const sectionSubtitle = useTemplateRef("sectionSubtitle");
+const categoryTitles = useTemplateRef("categoryTitles");
 const techCards = useTemplateRef("techCards");
 
 const expandedCard = ref<string | null>(null);
 
 const colorMode = useColorMode();
+const isLight = computed(() => colorMode.preference === "light");
 
-const skillsData = [
+const skillsData = computed(() => [
   {
     name: "Frontend",
     techs: [
@@ -118,7 +119,7 @@ const skillsData = [
       {
         name: "Directus",
         icon: "i-simple-icons-directus",
-        color: "#263238",
+        color: isLight.value ? "#263238" : "#FFFFFF",
         description:
           "Headless CMS with automatic API generation, extensible architecture, and real-time collaboration",
         projects: [
@@ -165,7 +166,7 @@ const skillsData = [
     techs: [
       {
         name: "Vite",
-        icon: "i-simple-icons-vite",
+        icon: "i-vscode-icons-file-type-vite",
         color: "#646CFF",
         description:
           "Next-generation build tool with instant hot module replacement and optimized production bundles",
@@ -197,7 +198,7 @@ const skillsData = [
       {
         name: "GitHub",
         icon: "i-simple-icons-github",
-        color: "#181717",
+        color: isLight.value ? "#181717" : "#FFFFFF",
         description:
           "Code hosting platform with collaborative features, CI/CD automation, and project management",
         projects: [
@@ -209,7 +210,7 @@ const skillsData = [
       {
         name: "Vercel",
         icon: "i-simple-icons-vercel",
-        color: "#000000",
+        color: isLight.value ? "#000000" : "#FFFFFF",
         description:
           "Serverless deployment platform with edge computing, analytics, and performance optimization",
         projects: [
@@ -228,7 +229,7 @@ const skillsData = [
     techs: [
       {
         name: "C#",
-        icon: "i-simple-icons-csharp",
+        icon: "i-vscode-icons-file-type-csharp2",
         color: "#239120",
         description:
           "Object-oriented programming language for building Windows applications and enterprise software",
@@ -246,127 +247,78 @@ const skillsData = [
       },
     ],
   },
-];
+]);
 
 const toggleCardFlip = (techName: string) => {
   expandedCard.value = expandedCard.value === techName ? null : techName;
 };
 
 onMounted(() => {
-  if (sectionTitle.value) {
-    gsap.set(sectionTitle.value, { opacity: 0, y: 50 });
+  if (!sectionTitle.value || !sectionSubtitle.value || !categoryTitles.value || !techCards.value) {
+    return;
   }
 
-  if (sectionSubtitle.value) {
-    gsap.set(sectionSubtitle.value, { opacity: 0, y: 30 });
-  }
-
-  if (techCards.value && techCards.value.length > 0) {
-    gsap.set(techCards.value, { opacity: 0, y: 80, scale: 0.9 });
-  }
-
-  if (sectionTitle.value) {
-    gsap.to(sectionTitle.value, {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: sectionTitle.value,
-        start: "top 80%",
-        end: "top 50%",
-        scrub: true,
-      },
-    });
-  }
-
-  if (sectionSubtitle.value) {
-    gsap.to(sectionSubtitle.value, {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: sectionSubtitle.value,
-        start: "top 80%",
-        end: "top 50%",
-        scrub: true,
-      },
-    });
-  }
-
-  if (techCards.value && techCards.value.length > 0) {
-    const cardsArray = Array.from(techCards.value).filter(
-      (card) => card && typeof card.getBoundingClientRect === "function",
-    );
-
-    cardsArray.forEach((card, _index) => {
-      gsap.fromTo(
-        card,
-        {
-          opacity: 0,
-          y: 60,
-          scale: 0.8,
-          rotationY: 15,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          rotationY: 0,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: card,
-            start: "top bottom",
-            end: "top 65%",
-            scrub: true,
-          },
-        },
-      );
-    });
-
-    const categoryTitles = skillsSection.value?.querySelectorAll("h3");
-    if (categoryTitles && categoryTitles.length > 0) {
-      gsap.set(categoryTitles, { opacity: 0, y: 30 });
-
-      categoryTitles.forEach((title, _index) => {
-        gsap.to(title, {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: title,
-            start: "top 80%",
-            end: "top 50%",
-            scrub: true,
-          },
-        });
-      });
+  gsap.from(sectionTitle.value, {
+    opacity: 0,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: sectionTitle.value,
+      end: "top 50%",
+      scrub: true
     }
-  }
+  })
+
+  gsap.from(sectionSubtitle.value, {
+    opacity: 0,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: sectionSubtitle.value,
+      end: "top 50%",
+      scrub: true
+    }
+  })
+
+  categoryTitles.value.forEach((title) => {
+    gsap.from(title, {
+      opacity: 0,
+      y: 30,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: title,
+        start: "top 90%",
+        end: "top 50%",
+        scrub: true,
+      },
+    });
+  });
+
+
+  techCards.value.forEach(card => {
+    gsap.from(card, {
+      scale: 0.9,
+      rotationY: 15,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: card,
+        end: "top 50%",
+        scrub: true,
+      }
+    })
+  })
 });
 
 onBeforeUnmount(() => {
-  ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+  ScrollTrigger.killAll();
 });
 </script>
 
 <template>
   <section id="skills" ref="skillsSection" class="py-20 md:py-32">
     <div class="text-center mb-16">
-      <h2
-        id="skills-heading"
-        ref="sectionTitle"
-        class="text-4xl lg:text-5xl font-bold text-foreground mb-4"
-      >
+      <h2 ref="sectionTitle" class="text-4xl lg:text-5xl font-bold text-foreground mb-4">
         Tech Stack
       </h2>
-      <p
-        ref="sectionSubtitle"
-        class="text-lg text-muted-foreground max-w-2xl mx-auto"
-      >
+      <p ref="sectionSubtitle" class="text-lg text-muted-foreground max-w-2xl mx-auto">
         Technologies I love working with, each mastered through real-world
         projects
       </p>
@@ -374,66 +326,38 @@ onBeforeUnmount(() => {
 
     <div class="space-y-12">
       <div v-for="category in skillsData" :key="category.name">
-        <h3 class="text-2xl font-semibold text-foreground text-center mb-8">
+        <h3 ref="categoryTitles" class="text-2xl font-semibold text-foreground text-center mb-8">
           {{ category.name }}
         </h3>
 
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-        >
-          <div
-            v-for="tech in category.techs"
-            :key="tech.name"
-            ref="techCards"
-            class="flip-card-container relative w-full h-48 cursor-pointer"
-            @click="toggleCardFlip(tech.name)"
-          >
-            <div
-              class="flip-card-inner absolute inset-0 w-full h-full transition-transform duration-700"
-              :class="expandedCard === tech.name ? 'rotate-y-180' : ''"
-              style="transform-style: preserve-3d"
-            >
-              <div
-                class="flip-card-front absolute inset-0 w-full h-full backface-hidden"
-              >
-                <UCard
-                  class="h-full group transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-                  :ui="{
-                    body: 'bg-muted/50 backdrop-blur-sm h-full flex flex-col items-center justify-center',
-                  }"
-                >
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div v-for="tech in category.techs" :key="tech.name" ref="techCards"
+            class="relative w-full h-48 cursor-pointer" @click="toggleCardFlip(tech.name)">
+            <div class="absolute inset-0 w-full h-full transition-transform duration-700"
+              :class="expandedCard === tech.name ? 'rotate-y-180' : ''" style="transform-style: preserve-3d">
+              <div class="absolute inset-0 w-full h-full backface-hidden">
+                <UCard class="h-full group transition-all duration-300 hover:shadow-lg hover:-translate-y-1" :ui="{
+                  body: 'bg-muted/50 backdrop-blur-sm h-full flex flex-col items-center justify-center',
+                }">
                   <ClientOnly>
-                    <UIcon
-                      :name="tech.icon"
-                      data-icon
-                      class="w-12 h-12 transition-transform duration-300 group-hover:scale-110"
+                    <UIcon :name="tech.icon" class="w-12 h-12 transition-transform duration-300 group-hover:scale-110"
                       :style="{
-                        color: colorMode.value === 'light' ? tech.color : '',
-                      }"
-                    />
+                        color: tech.color,
+                      }" />
                   </ClientOnly>
 
-                  <h4
-                    class="mt-3 text-lg font-semibold text-foreground text-center"
-                  >
+                  <h4 class="mt-3 text-lg font-semibold text-foreground text-center">
                     {{ tech.name }}
                   </h4>
                 </UCard>
               </div>
 
-              <div
-                class="flip-card-back absolute inset-0 w-full h-full rotate-y-180 backface-hidden"
-              >
-                <UCard
-                  class="h-full overflow-y-auto"
-                  :ui="{
-                    body: 'backdrop-blur-sm p-4',
-                  }"
-                >
+              <div class="absolute inset-0 w-full h-full rotate-y-180 backface-hidden">
+                <UCard class="h-full overflow-y-auto" :ui="{
+                  body: 'backdrop-blur-sm p-4',
+                }">
                   <div class="space-y-4">
-                    <h4
-                      class="text-lg font-semibold text-foreground text-center"
-                    >
+                    <h4 class="text-lg font-semibold text-foreground text-center">
                       {{ tech.name }}
                     </h4>
 
@@ -446,11 +370,8 @@ onBeforeUnmount(() => {
                         Featured in:
                       </h5>
                       <div class="flex flex-wrap gap-1">
-                        <span
-                          v-for="project in tech.projects"
-                          :key="project"
-                          class="px-2 py-1 bg-primary/10 text-primary dark:text-primary/80 rounded-md text-xs"
-                        >
+                        <span v-for="project in tech.projects" :key="project"
+                          class="px-2 py-1 bg-primary/10 text-primary dark:text-primary/80 rounded-md text-xs">
                           {{ project }}
                         </span>
                       </div>
