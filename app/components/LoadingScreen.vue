@@ -1,125 +1,63 @@
 <script setup lang="ts">
 import gsap from "gsap";
 
-const loadingProgress = ref(0);
-const isHiding = ref(false);
-const shouldShow = ref(true);
-const nuxtApp = useNuxtApp();
+const progressContainerRef = useTemplateRef("progressContainerRef")
+const progressIndicatorRef = useTemplateRef("progressIndicatorRef")
 
-const PROGRESS_STEPS = 60;
-const PROGRESS_DURATION = 2000;
-const HIDE_DELAY = 300;
-
-let currentStep = 0;
-const progressInterval = setInterval(() => {
-  currentStep++;
-  loadingProgress.value = Math.min(
-    Math.round((currentStep / PROGRESS_STEPS) * 110),
-    100,
-  );
-
-  if (currentStep >= PROGRESS_STEPS) {
-    clearInterval(progressInterval);
-  }
-}, PROGRESS_DURATION / PROGRESS_STEPS);
-
-nuxtApp.hook("app:mounted", () => {
-  setTimeout(() => {
-    clearInterval(progressInterval);
-    loadingProgress.value = 100;
-  }, PROGRESS_DURATION);
-});
-
-const loadingRef = useTemplateRef("loadingRef");
-const progressBarRef = useTemplateRef("progressBarRef");
-const loadingTextRef = useTemplateRef("loadingTextRef");
-
-const hideLoadingScreen = () => {
-  if (!loadingRef.value || isHiding.value) return;
-
-  isHiding.value = true;
-
-  const tl = gsap.timeline({
-    onComplete: () => {
-      shouldShow.value = false;
-    },
-  });
-
-  if (progressBarRef.value) {
-    tl.to(
-      progressBarRef.value,
-      {
-        opacity: 0,
-        y: -20,
-        duration: 0.4,
-        ease: "power2.inOut",
-      },
-      0,
-    );
-  }
-
-  if (loadingTextRef.value) {
-    tl.to(
-      loadingTextRef.value,
-      {
-        opacity: 0,
-        y: 20,
-        duration: 0.4,
-        ease: "power2.inOut",
-      },
-      0.1,
-    );
-  }
-
-  tl.to(
-    loadingRef.value,
-    {
-      opacity: 0,
-      duration: 0.6,
-      ease: "power2.inOut",
-    },
-    0.3,
-  );
-};
-
-watch(loadingProgress, (newValue) => {
-  if (newValue === 100 && !isHiding.value) {
-    setTimeout(hideLoadingScreen, HIDE_DELAY);
-  }
-});
+const progress = ref(0);
+let progressInterval: number;
+const isShow = ref(true)
 
 onMounted(() => {
-  if (loadingRef.value) {
-    gsap.set(loadingRef.value, { opacity: 1, visibility: "visible" });
-  }
-});
+  if (!progressContainerRef.value || !progressIndicatorRef.value)
+    return;
 
-onBeforeUnmount(() => {
-  gsap.killTweensOf("*");
-});
+  progressInterval = setInterval(() => {
+    if (progress.value < 90) {
+      progress.value += Math.round(Math.random() * 10);
+    } else {
+      progress.value = 100;
+      clearInterval(progressInterval)
+    }
+
+    gsap.to(progressIndicatorRef.value, {
+      width: `${progress.value}%`
+    })
+
+    if (progress.value === 100) {
+      const tl = gsap.timeline();
+
+      tl.to(progressIndicatorRef.value, {
+        height: "100vh",
+        position: "absolute",
+        left: 0,
+        bottom: 0,
+        delay: 0.5,
+        ease: "power2.out"
+      }).to(progressContainerRef.value, {
+        yPercent: -100,
+        ease: "power1.inOut",
+        onComplete: () => {
+          isShow.value = false
+          tl.kill()
+        }
+      })
+    }
+  }, 150);
+})
+
 </script>
 
 <template>
-  <div
-    v-if="shouldShow"
-    ref="loadingRef"
-    class="fixed inset-0 z-[9999] flex items-center justify-center bg-default"
-    role="progressbar"
-  >
-    <div class="text-center max-w-xs mx-auto px-8">
-      <div ref="progressBarRef" class="relative w-full h-px mb-8">
-        <div
-          class="absolute top-0 left-0 h-full transition-none bg-inverted"
-          :style="{ width: `${loadingProgress}%` }"
-        />
+  <div v-if="isShow" ref="progressContainerRef" class="bg-default fixed inset-0 z-[9999]">
+    <div class="size-full flex flex-col justify-end items-end gap-2 relative">
+      <div class="px-10 text-4xl font-semibold font-geist flex items-center gap-1">
+        <p class="text-amber-500 text-2xl">%</p>
+        <p>{{ progress }}</p>
       </div>
 
-      <div
-        ref="loadingTextRef"
-        class="text-sm font-mono tracking-wide text-highlighted"
-        aria-live="polite"
-      >
-        INITIALIZING... {{ loadingProgress }}%
+      <div class="w-full bg-muted">
+        <div ref="progressIndicatorRef" class="bg-amber-500 w-0 h-6"></div>
       </div>
     </div>
   </div>
