@@ -320,7 +320,7 @@ onBeforeUnmount(() => {
                       <h3 class="text-xl font-semibold">
                         {{ exp.position }}
                       </h3>
-                      <p class="text-green-500 font-medium">
+                      <p class="text-primary font-medium">
                         {{ exp.company }}
                       </p>
                     </div>
@@ -411,7 +411,7 @@ onBeforeUnmount(() => {
                   class="absolute top-1/2 left-0 right-0 h-0.5 bg-accented"
                 ></div>
                 <div
-                  class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold z-10 shadow-lg"
+                  class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold z-10 shadow-lg"
                 >
                   {{ index + 1 }}
                 </div>
