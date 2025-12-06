@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { gsap } = useGSAP();
+import gsap from "gsap";
 
 const headerRef = useTemplateRef("headerRef");
 const mobileMenuRef = useTemplateRef("mobileMenuRef");

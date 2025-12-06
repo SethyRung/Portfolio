@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import { z } from "zod";
 
 interface FormData {
@@ -26,7 +28,6 @@ const props = defineProps<{
 }>();
 
 const toast = useToast();
-const { gsap, ScrollTrigger } = useGSAP();
 const animateFormStep = (
   stepElement: HTMLElement,
   direction: "next" | "prev",
@@ -39,7 +40,7 @@ const animateFormStep = (
     },
   });
 
-    const mm = gsap.matchMedia();
+  const mm = gsap.matchMedia();
 
   mm.add(
     {
@@ -51,7 +52,7 @@ const animateFormStep = (
       const { desktop, mobile } = context.conditions;
 
       if (desktop) {
-                tl.fromTo(
+        tl.fromTo(
           stepElement,
           {
             opacity: 0,
@@ -67,9 +68,9 @@ const animateFormStep = (
       }
 
       if (mobile) {
-                const form = stepElement.closest('form');
+        const form = stepElement.closest("form");
         if (form) {
-          form.style.overflow = 'hidden';
+          form.style.overflow = "hidden";
         }
 
         tl.fromTo(
@@ -84,15 +85,15 @@ const animateFormStep = (
             duration: 0.5,
             ease: "power3.out",
             onComplete: () => {
-                            if (form) {
-                form.style.overflow = '';
+              if (form) {
+                form.style.overflow = "";
               }
               if (onComplete) onComplete();
             },
           },
         );
       }
-    }
+    },
   );
 
   return tl;
@@ -536,7 +537,7 @@ const initializeFormAnimations = () => {
   try {
     const responseCardEl = responseTimeCardRef.value?.$el as HTMLElement;
 
-        if (responseCardEl && currentStep.value !== 2) {
+    if (responseCardEl && currentStep.value !== 2) {
       animateResponseCard(responseCardEl);
     }
   } catch (error) {

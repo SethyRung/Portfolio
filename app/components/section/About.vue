@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const { gsap, ScrollTrigger } = useGSAP();
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 const sectionRef = useTemplateRef("sectionRef");
 const contentRef = useTemplateRef("contentRef");

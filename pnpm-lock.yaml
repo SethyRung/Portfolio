@@ -63,6 +63,9 @@ importers:
       '@iconify-json/simple-icons':
         specifier: ^1.2.53
         version: 1.2.53
+      '@iconify-json/vscode-icons':
+        specifier: ^1.2.35
+        version: 1.2.35
       '@nuxt/devtools':
         specifier: ^2.6.5
         version: 2.6.5(vite@7.1.7(jiti@2.6.0)(lightningcss@1.30.1)(terser@5.44.0)(yaml@2.8.1))(vue@3.5.21(typescript@5.9.2))
@@ -730,6 +733,9 @@ packages:
 
   '@iconify-json/simple-icons@1.2.53':
     resolution: {integrity: sha512-8GEW5mshsPAZpVAJmkBG/niR2qn8t4U03Wmz6aSD9R4VMZKTECqbOxH3z4inA0JfZOoTvP4qoK9T2VXAx2Xg5g==}
+
+  '@iconify-json/vscode-icons@1.2.35':
+    resolution: {integrity: sha512-LWI0uBk2oZ+tjbLR6NyPWCu+A+alo0xsEU10j/NYMJhcIM4meMBTL10TlTIGJr/tiI5IybdXUKs5woAGjLsbhA==}
 
   '@iconify/collections@1.0.597':
     resolution: {integrity: sha512-itoqOLcEmgoj+4I92R+PUAnSyhDWN7Ez1QjQvp08ww5EMVeAM5x3Zt3Snf1MS7R5SMM9rl3h7kPRY6+m6g4BwQ==}
@@ -6147,6 +6153,10 @@ snapshots:
       '@iconify/types': 2.0.0
 
   '@iconify-json/simple-icons@1.2.53':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/vscode-icons@1.2.35':
     dependencies:
       '@iconify/types': 2.0.0
 
