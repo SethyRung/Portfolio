@@ -2,7 +2,7 @@
 
 A modern, responsive portfolio website showcasing my work as a full-stack developer.
 
-**Live Website:** [sethyrung.vercel.app](https://sethyrung.vercel.app/)
+**Live Website:** [sethyrung.com](https://sethyrung.com/)
 
 ## ✨ Features
 
@@ -46,66 +46,11 @@ A modern, responsive portfolio website showcasing my work as a full-stack develo
 
 ![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?style=flat-square&logo=vercel&logoColor=white)
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 22+ and pnpm
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/SethyRung/Portfolio.git
-cd Portfolio
-
-# Install dependencies
-pnpm install
-
-# Start development server
-pnpm dev
-
-# Build for production
-pnpm build
-
-# Preview production build
-pnpm preview
-```
-
-### Available Scripts
-
-- `pnpm dev` - Start development server on http://localhost:3000
-- `pnpm build` - Build production application
-- `pnpm generate` - Generate static site
-- `pnpm preview` - Preview production build locally
-- `pnpm lint` - Run ESLint checks
-- `pnpm lint:fix` - Fix ESLint issues automatically
-
-## 📁 Project Structure
-
-```
-app/
-├── components/           # Vue components
-│   ├── section/        # Page section components
-│   ├── AppHeader.vue   # Navigation header
-│   └── AppFooter.vue   # Footer component
-├── layouts/            # Layout components
-├── pages/              # Route pages
-├── lib/                # Utility libraries
-└── assets/             # Static assets
-    └── css/
-        └── main.css    # Global styles
-```
-
 ## 📬 Contact
 
 Feel free to connect or collaborate:
 
-- **Website:** [sethyrung.vercel.app](https://sethyrung.vercel.app)
+- **Website:** [sethyrung.com](https://sethyrung.com)
 - **Email:** [rungsethyhk@gmail.com](mailto:rungsethyhk@gmail.com)
 - **Telegram:** [@sethyrung](https://t.me/sethyrung)
 - **GitHub:** [SethyRung](https://github.com/SethyRung)
-
----
-
-Built with ❤️ using modern web technologies
