@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "@vueuse/nuxt",
     "@nuxt/test-utils/module",
+    "@nuxtjs/seo",
   ],
   vite: {
     plugins: [tailwindcss()],
@@ -20,9 +21,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     resendApiKey: "",
     email: "",
-    public: {
-      siteUrl: "",
-    },
   },
   eslint: {
     config: {
@@ -34,8 +32,25 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: "en",
       },
-      charset: "utf-8",
-      viewport: "width=device-width, initial-scale=1",
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    },
+  },
+  site: {
+    name: "Sethy Rung",
+    description:
+      "Portfolio of Sethy Rung, a Full Stack Developer creating beautiful, responsive web applications with modern technologies like Nuxt 4, Vue 3, and Tailwind CSS.",
+    defaultLocale: "en",
+  },
+  seo: {
+    redirectToCanonicalSiteUrl: false,
+  },
+  schemaOrg: {
+    identity: {
+      type: "Person",
+      name: "Sethy Rung",
+      jobTitle: "Full Stack Developer",
+      description:
+        "Full Stack Developer creating beautiful, responsive web applications with modern technologies and clean code practices.",
     },
   },
 });
