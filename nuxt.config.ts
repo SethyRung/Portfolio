@@ -22,11 +22,6 @@ export default defineNuxtConfig({
     resendApiKey: "",
     email: "",
   },
-  eslint: {
-    config: {
-      stylistic: true,
-    },
-  },
   app: {
     head: {
       htmlAttrs: {
